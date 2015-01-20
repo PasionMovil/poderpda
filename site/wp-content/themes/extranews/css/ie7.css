@@ -1,0 +1,42 @@
+@charset "utf-8";
+/* Add ie7 Stuff Here */
+
+.summary, .ratingsummary, .neighbors_link {
+	float:left;
+}
+.post_neighbors_container .next_post,
+.post_neighbors_container .previous_post {
+	width:230px;
+}
+.extended .post_neighbors_container .next_post,
+.extended .post_neighbors_container .previous_post {
+	width:211px;
+}
+.post_neighbors_container {
+	padding:0;
+}
+.reviewbox .ratingsummary, .bottomreview .reviewbox .ratingsummary  {
+	width:auto;
+}
+.summarywrapinner {
+	background: #f3f3f3;
+	min-height:1px;
+}
+.bubblewrap {
+	bottom:5px;
+}
+
+.divider.contact {
+	height: 28px;
+}
+.nivo-caption  {
+	width:634px;	
+}
+.widget li.recentcomments, .darkbubble, .lightbubble {
+	position:static;
+}
+
+.darkbubble {
+	padding: 12px;	
+	margin: 0 0 10px 0;
+}

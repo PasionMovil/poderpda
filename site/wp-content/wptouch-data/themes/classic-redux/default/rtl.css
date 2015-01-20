@@ -1,0 +1,90 @@
+/* @override http://wptp3.local.com/wp-content/wptouch-data/themes/classic-redux/default/classic-redux-rtl.css?ver=3.1.6 */
+
+body {
+	direction: rtl;
+	unicode-bidi: embed;
+}
+
+#slider {
+	direction: ltr;
+}
+
+#slider .featured-title {
+	direction: rtl;
+}
+
+.site-title a {
+	padding-right: 12px !important;
+	padding-left: 0 !important;
+	float: right !important;
+}
+
+#header .menu-drop {
+	right: auto;
+	left: 0;
+}
+
+.tablet #menu {
+	left: 0;
+	border-right-width: 0px;
+	border-left-style: solid;
+	border-left-width: 2px;
+}
+
+.text-expand {
+	float: left !important;
+}
+
+.post img.post-thumbnail, .post .placeholder {
+	float: right;
+	margin-right: 0px !important;
+	margin-left: 10px;
+}
+
+.read-more i {
+	float: left;
+}
+
+.spinner {
+	margin-right: 0px !important;
+	margin-left: 8px;
+}
+
+#content .show-thumbnails h2.post-title {
+	padding-left: 0px;
+	padding-right: 80px;
+}
+
+/* @group Single */
+
+#content #title-area h2.post-title {
+	text-align: right;
+}
+
+.single .post-meta {
+	text-align: right;
+}
+
+
+
+/* @end */
+
+.comment img.avatar {
+	float: right;
+	margin-right: 0px;
+	margin-left: 8px;
+}
+
+
+.related-posts li.has-thumb a, .related-posts .has-thumb p {
+	padding-right: 65px;
+	padding-left: 0;
+}
+
+.related-posts img {
+	right: 0;
+}
+
+.loop-link .date-circle {
+	float: right;
+}
