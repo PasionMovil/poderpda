@@ -1,1 +1,0 @@
-<a href="http://pasionmovil.com/aniv13/" target="_blank"><img src="http://www.poderpda.com/wp-content/uploads/2013/03/BoxBANNER_Aniv13.jpg">
