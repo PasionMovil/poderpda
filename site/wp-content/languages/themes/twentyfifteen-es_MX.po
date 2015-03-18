@@ -1,0 +1,31 @@
+# Translation of Twenty Fifteen in Spanish (Mexico)
+# This file is distributed under the same license as the Twenty Fifteen package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2015-01-13 19:39:17+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/1.0-alpha-1000\n"
+"Project-Id-Version: Twenty Fifteen\n"
+
+#: single.php:34
+msgid "Next post:"
+msgstr "Siguiente entrada:"
+
+#: single.php:37
+msgid "Previous post:"
+msgstr "Entrada anterior:"
+
+#: single.php:33
+msgid "Next"
+msgstr "Siguiente"
+
+#: single.php:36
+msgid "Previous"
+msgstr "Anterior"
+
+#. Author of the plugin/theme
+msgid "the WordPress team"
+msgstr "El equipo de WordPress"

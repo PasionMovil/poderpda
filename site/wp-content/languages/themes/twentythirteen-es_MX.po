@@ -1,0 +1,67 @@
+# Translation of Twenty Thirteen in Spanish (Mexico)
+# This file is distributed under the same license as the Twenty Thirteen package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2014-10-31 22:58:25+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/1.0-alpha-1000\n"
+"Project-Id-Version: Twenty Thirteen\n"
+
+#: 404.php:16
+msgid "Not Found"
+msgstr "No Encontrado"
+
+#. Description of the plugin/theme
+msgid "The 2013 theme for WordPress takes us back to the blog, featuring a full range of post formats, each displayed beautifully in their own unique way. Design details abound, starting with a vibrant color scheme and matching header images, beautiful typography and icons, and a flexible layout that looks great on any device, big or small."
+msgstr "El tema 2013 para WordPress nos regresa a los blogs, presentando un rango completo de formatos para publicar, cada uno se muestra de manera única. Abundan los detalles de diseño, comenzando por el esquema de colores vibrantes que hacen juego con las imágenes de los encabezados, la hermosa tipografía y los íconos, además de un diseño flexible que se ve genial en cualquier dispositivo, grande o pequeño. "
+
+#: functions.php:233
+msgid "Appears in the footer section of the site."
+msgstr "Aparece en el pie de página del sitio. "
+
+#. Theme URI of the plugin/theme
+msgid "http://wordpress.org/themes/twentythirteen"
+msgstr "http://wordpress.org/themes/twentythirteen"
+
+#: image.php:38
+msgid "Link to full-size image"
+msgstr "Vínculo a la imagen de tamaño completo"
+
+#: functions.php:231
+msgid "Main Widget Area"
+msgstr "Área Principal para Widgets"
+
+#: functions.php:241
+msgid "Secondary Widget Area"
+msgstr "Área Secundaria para Widgets"
+
+#: functions.php:243
+msgid "Appears on posts and pages in the sidebar."
+msgstr "Aparece en las publicaciones y páginas en la barra lateral. "
+
+#: image.php:39
+msgid "Full resolution"
+msgstr "Resolución completa"
+
+#: inc/back-compat.php:37 inc/back-compat.php:47 inc/back-compat.php:60
+msgid "Twenty Thirteen requires at least WordPress version 3.6. You are running version %s. Please upgrade and try again."
+msgstr "El tema 2013 requiere al menos la versión 3.6 de WordPress. Tú estás utilizando la versión %s. Por favor, actualiza e intenta de nuevo. "
+
+#: 404.php:21
+msgid "This is somewhat embarrassing, isn&rsquo;t it?"
+msgstr "Esto es vergonzoso, ¿cierto?"
+
+#: 404.php:22
+msgid "It looks like nothing was found at this location. Maybe try a search?"
+msgstr "Parece que no se encontro nada en esta ubicación. ¿Puedes intentar una nueva búsqueda?"
+
+#: archive.php:29
+msgid "Daily Archives: %s"
+msgstr "Archivos Diarios: %s"
+
+#: archive.php:31
+msgid "Monthly Archives: %s"
+msgstr "Archivos Mensuales: %s"

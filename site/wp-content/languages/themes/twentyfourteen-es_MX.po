@@ -1,0 +1,82 @@
+# Translation of Twenty Fourteen in Spanish (Mexico)
+# This file is distributed under the same license as the Twenty Fourteen package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2014-10-31 22:57:04+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/1.0-alpha-1000\n"
+"Project-Id-Version: Twenty Fourteen\n"
+
+#: inc/widgets.php:59
+msgid "More videos"
+msgstr "Más videos"
+
+#: inc/widgets.php:63
+msgid "More audio"
+msgstr "Más audios"
+
+#: inc/widgets.php:67
+msgid "More quotes"
+msgstr "Más citas "
+
+#: inc/widgets.php:71
+msgid "More links"
+msgstr "Más links"
+
+#: inc/widgets.php:75
+msgid "More galleries"
+msgstr "Más galerías"
+
+#: inc/widgets.php:80
+msgid "More asides"
+msgstr "Más apartados"
+
+#. translators: used with More archives link
+#: inc/widgets.php:206
+msgid "%s <span class=\"meta-nav\">&rarr;</span>"
+msgstr "%s <span class=\"meta-nav\">&rarr;</span>"
+
+#: inc/widgets.php:36
+msgid "Use this widget to list your recent Aside, Quote, Video, Audio, Image, Gallery, and Link posts."
+msgstr "Utiliza este widget para enlistar tus Apartados, Citas, Videos, Audios, Imágenes, Galerías y Vínculos más recientes. "
+
+#: inc/customizer.php:42 inc/customizer.php:108 inc/featured-content.php:405
+#: inc/featured-content.php:414 inc/featured-content.php:474
+msgctxt "featured content default tag slug"
+msgid "featured"
+msgstr "destacados"
+
+#. Theme URI of the plugin/theme
+msgid "http://wordpress.org/themes/twentyfourteen"
+msgstr "http://wordpress.org/themes/twentyfourteen"
+
+#: inc/customizer.php:41 inc/featured-content.php:404
+msgid "Use a <a href=\"%1$s\">tag</a> to feature your posts. If no posts match the tag, <a href=\"%2$s\">sticky posts</a> will be displayed instead."
+msgstr "Utiliza una <a href=\"%1$s\">etiqueta</a> para destacar tus publicaciones. Si las publicaciones no concuerdan con la etiqueta, se mostrará el siguiente mensaje <a href=\"%2$s\">sticky posts</a>."
+
+#: 404.php:17
+msgid "Not Found"
+msgstr "No encontrado"
+
+#: inc/customizer.php:27
+msgid "Display Site Title &amp; Tagline"
+msgstr "Mostrar el Título del Sitio &amp; Etiquetas"
+
+#: inc/customizer.php:110
+msgid "For an in-depth tutorial, and more tips and tricks, visit the <a href=\"%s\">Twenty Fourteen documentation</a>."
+msgstr "Para un tutorial más especializado, más consejos y trucos, visita la <a href=\"%s\">documentción de Twenty Fourteen</a>."
+
+#: inc/customizer.php:24
+msgid "Site Title Color"
+msgstr "Color del Título del Sitio"
+
+#: inc/featured-content.php:426
+msgid "Tag Name"
+msgstr "Nombre de la Etiqueta"
+
+#: inc/featured-content.php:431
+msgid "Don&rsquo;t display tag on front end."
+msgstr "No mostrar la etiqueta en la parte frontal. "

@@ -3,7 +3,7 @@
 Plugin Name: All in One SEO Pack Pro
 Plugin URI: http://semperfiwebdesign.com
 Description: Out-of-the-box SEO for your WordPress blog. <a href="admin.php?page=all-in-one-seo-pack-pro/aioseop_class.php">Options configuration panel</a> | <a href="http://semperplugins.com/support/" target="_blank">Support Forum</a>
-Version: 2.3.3
+Version: 2.3.5.1
 Author: Michael Torbert
 Author URI: http://michaeltorbert.com
 */
@@ -30,16 +30,17 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * @package All-in-One-SEO-Pack-Pro
- * @version 2.3.3
+ * @version 2.3.5.1
  */
 
 global $aioseop_plugin_name;
-$aioseop_plugin_name = __( 'All in One SEO Pack Pro', 'all_in_one_seo_pack' );
+$aioseop_plugin_name = 'All in One SEO Pack Pro';
+
 if ( ! defined( 'AIOSEOP_PLUGIN_NAME' ) )
     define( 'AIOSEOP_PLUGIN_NAME', $aioseop_plugin_name );
 
 if ( ! defined( 'AIOSEOP_VERSION' ) )
-    define( 'AIOSEOP_VERSION', '2.3.3' );
+    define( 'AIOSEOP_VERSION', '2.3.5.1' );
 
 if ( ! defined( 'AIOSEOP_PLUGIN_DIR' ) ) {
     define( 'AIOSEOP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -85,15 +86,18 @@ $aioseop_mem_limit = @ini_get( 'memory_limit' );
 
 if ( !function_exists( 'aioseop_convert_bytestring' ) ) {
 	function aioseop_convert_bytestring( $byteString ) {
+		$num = 0;
 		preg_match( '/^\s*([0-9.]+)\s*([KMGTPE])B?\s*$/i', $byteString, $matches );
-		$num = ( float )$matches[1];
-		switch ( strtoupper( $matches[2] ) ) {
-			case 'E': $num = $num * 1024;
-			case 'P': $num = $num * 1024;
-			case 'T': $num = $num * 1024;
-			case 'G': $num = $num * 1024;
-			case 'M': $num = $num * 1024;
-			case 'K': $num = $num * 1024;
+		if ( !empty( $matches ) ) {
+			$num = ( float )$matches[1];
+			switch ( strtoupper( $matches[2] ) ) {
+				case 'E': $num = $num * 1024;
+				case 'P': $num = $num * 1024;
+				case 'T': $num = $num * 1024;
+				case 'G': $num = $num * 1024;
+				case 'M': $num = $num * 1024;
+				case 'K': $num = $num * 1024;
+			}
 		}
 		return intval( $num );
 	}
@@ -190,7 +194,6 @@ if ( !function_exists( 'aioseop_init_class' ) ) {
 
 add_action( 'init', 'aioseop_load_modules', 1 );
 //add_action( 'after_setup_theme', 'aioseop_load_modules' );
-
 
 if ( is_admin() ) {
 	add_action( 'wp_ajax_aioseop_ajax_save_meta',	'aioseop_ajax_save_meta' );

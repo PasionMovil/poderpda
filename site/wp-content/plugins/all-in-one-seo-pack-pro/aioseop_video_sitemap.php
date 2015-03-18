@@ -16,13 +16,26 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
 			$this->file = __FILE__;									// the current file
 			parent::__construct();
 			$this->default_options['filename']['default'] = 'video-sitemap';
-			$this->default_options['videos_only'] = Array( 'name' => __( 'Show Only Posts With Videos', 'all_in_one_seo_pack' ), 'default' => 'On', 'help_text' => __( 'If checked, only posts that have videos in them will be displayed on the sitemap.', 'all_in_one_seo_pack' ) );
-			$this->default_options['video_scan'] = Array( 'name' => __( 'Scan Posts For Videos', 'all_in_one_seo_pack' ), 'type' => 'custom', 'save' => false, 'nowrap' => false, 'help_text' => __( 'Press the Scan button to scan your posts for videos! Do this if video content from a post or posts is not showing up in your sitemap.', 'all_in_one_seo_pack' ) );
-			$this->default_options['restrict_access'] = Array( 'name' => __( 'Restrict Access to Video Sitemap', 'all_in_one_seo_pack' ), 'help_text' => __( 'Enable this option to only allow access to your sitemap by site administrators and major search engines.', 'all_in_one_seo_pack' ),
+			$this->default_options['videos_only'] = Array( 'name' => __( 'Show Only Posts With Videos', 'all_in_one_seo_pack' ), 'default' => 'On' );
+			$this->default_options['video_scan'] = Array( 'name' => __( 'Scan Posts For Videos', 'all_in_one_seo_pack' ), 'type' => 'custom', 'save' => false, 'nowrap' => false );
+			$this->default_options['restrict_access'] = Array( 'name' => __( 'Restrict Access to Video Sitemap', 'all_in_one_seo_pack' ),
 															   'condshow'  => Array( "{$this->prefix}rewrite" => 'on' ) );
 			$this->layout['default']['options'][] = 'videos_only';
 			$this->layout['default']['options'][] = 'restrict_access';
 			$this->layout['status']['options'][] = 'video_scan';
+			
+			$this->layout['status']['help_link'] = 'http://semperplugins.com/documentation/video-sitemap/';
+			
+			$this->help_text['video_scan']		= __( 'Press the Scan button to scan your posts for videos! Do this if video content from a post or posts is not showing up in your sitemap.', 'all_in_one_seo_pack' );
+			$this->help_text['videos_only']		= __( 'If checked, only posts that have videos in them will be displayed on the sitemap.', 'all_in_one_seo_pack' );
+			$this->help_text['restrict_access'] = __( 'Enable this option to only allow access to your sitemap by site administrators and major search engines.', 'all_in_one_seo_pack' );
+			
+			$this->help_anchors['video_scan']		= '#scan-posts-for-videos';
+			$this->help_anchors['videos_only']		= 'http://semperplugins.com/documentation/video-sitemap/#show-only-posts-with-videos';
+			$this->help_anchors['restrict_access']	= 'http://semperplugins.com/documentation/video-sitemap/#restrict-access-to-video-sitemap';
+			
+			$this->add_help_text_links();
+			
 			add_filter( $this->prefix . 'prio_item_filter', Array( $this, 'do_post_video'), 10, 3 );
 			add_filter( 'embed_oembed_html', Array( $this, 'oembed_discovery' ), 10, 4 );
 			add_filter( 'save_post', Array( $this, 'oembed_cache' ) );

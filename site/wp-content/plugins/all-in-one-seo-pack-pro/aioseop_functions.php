@@ -117,13 +117,13 @@ if ( !function_exists( 'aioseop_addmycolumns' ) ) {
 		}
 		if ( !empty( $pagenow ) && ( $pagenow == 'upload.php' ) )
 			$post_type = 'attachment';
-		elseif ( !isset( $_GET['post_type'] ) )
+		elseif ( !isset( $_REQUEST['post_type'] ) )
 			$post_type = 'post';
 		else
-			$post_type = $_GET['post_type'];
-		add_action( 'admin_head', 'aioseop_admin_head' );
+			$post_type = $_REQUEST['post_type'];
 		
 		if( is_array( $aiosp_posttypecolumns ) && in_array( $post_type, $aiosp_posttypecolumns ) ) {
+			add_action( 'admin_head', 'aioseop_admin_head' );
 			if ( $post_type == 'page' )
 				add_filter( 'manage_pages_columns', 'aioseop_mrt_pcolumns' );
 			elseif ( $post_type == 'attachment' )
@@ -190,6 +190,50 @@ if ( !function_exists( 'aioseop_admin_head' ) ) {
 		//]]>
 		</script>
 		<?php
+	}
+}
+
+if ( !function_exists( 'aioseop_handle_ignore_notice' ) ) {
+	function aioseop_handle_ignore_notice() {
+		if ( !empty( $_GET ) ) {
+			global $current_user;
+			$user_id = $current_user->ID;
+			if ( !empty( $_GET["aioseop_reset_notices"] ) ) {
+				delete_user_meta( $user_id, 'aioseop_ignore_notice' );
+			}
+		    if ( !empty($_GET['aioseop_ignore_notice'] ) ) {
+				add_user_meta( $user_id, 'aioseop_ignore_notice', $_GET['aioseop_ignore_notice'], false );
+			}
+		}
+	}
+}
+
+if ( !function_exists( 'aioseop_output_notice' ) ) {
+	function aioseop_output_notice( $message, $id = '', $class = "updated fade" ) {
+		if ( !empty( $class ) )	$class = ' class="' . esc_attr( $class ) . '"';
+		if ( !empty( $id ) )	$class .= ' id="' . esc_attr( $id ) . '"';
+		$dismiss = ' ';
+		echo "<div{$class}>" . wp_kses_post( $message ) . "</div>";
+		return true;
+	}
+}
+
+if ( !function_exists( 'aioseop_output_dismissable_notice' ) ) {
+	function aioseop_output_dismissable_notice( $message, $id = "", $class = "updated fade") {
+		global $current_user;
+		if ( !empty( $current_user ) ) {
+			$user_id = $current_user->ID;
+			$msgid = md5( $message );
+			$ignore = get_user_meta( $user_id, 'aioseop_ignore_notice' );
+			if ( !empty( $ignore ) && in_array( $msgid, $ignore ) ) return false;
+			global $wp;
+			$qa = Array();
+			wp_parse_str( $_SERVER["QUERY_STRING"], $qa );
+			$qa['aioseop_ignore_notice'] = $msgid;
+			$url = '?' . build_query( $qa );
+			$message .= '  <a class="alignright" href="' . $url . '">Dismiss</a>';			
+		}
+		return aioseop_output_notice( $message, $id, $class );
 	}
 }
 
@@ -376,9 +420,6 @@ if ( !function_exists( 'aioseop_ajax_scan_header' ) ) {
 		do_action('wp');
 		global $aioseop_modules;
 		$module = $aioseop_modules->return_module( "All_in_One_SEO_Pack_Opengraph" );
-		if ( !empty( $module ) )
-			if ( $module->option_isset( 'disable_jetpack' ) )
-				remove_action( 'wp_head', 'jetpack_og_tags' );
 		wp_head();
 		$output = ob_get_clean();
 		global $aiosp;

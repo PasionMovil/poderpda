@@ -1,9 +1,9 @@
 === Varnish HTTP Purge ===
 Contributors: techpriester, Ipstenu, DH-Shredder
 Tags: varnish, purge, cache
-Requires at least: 3.4
-Tested up to: 3.9
-Stable tag: 3.5.1
+Requires at least: 4.0
+Tested up to: 4.2
+Stable tag: 3.7
 
 Purge Varnish Cache when post content on your site is modified.
 
@@ -56,7 +56,7 @@ Until the WordPress Language Pack system is deployable, I'm storing them <a href
 
 = What version of Varnish is supported? =
 
-This was built and tested on Varnish 3.x, however it is reported to work on 2.x. It is only supported on v3 at this time.
+This was built and tested on Varnish 3.x, however it is reported to work on 2.x and 4.x. It is only supported on v3 at this time.
 
 = Why doesn't every page flush when I make a new post? =
 
@@ -94,11 +94,11 @@ If you're using nginx, it's `pagespeed ModifyCachingHeaders off;`
 
 = Can I use this with a proxy service like CloudFlare? =
 
-Yes, but you'll need to make some additonal changes (see "Why aren't my changes showing when I use CloudFlare or another proxy?" below).
+Yes, but you'll need to make some additional changes (see "Why aren't my changes showing when I use CloudFlare or another proxy?" below).
 
 = Why aren't my changes showing when I use CloudFlare or another proxy? =
 
-When you use CloudFlare or any other similar servive, you've got a proxy in front of the Varnish proxy. In general this isn't a bad thing. The problem arises when the DNS shenanigans send the purge request to your domainname. When you've got an additional proxy like CloudFlare, you don't want the request to go to the proxy, you want it to go to Varnish server.
+When you use CloudFlare or any other similar service, you've got a proxy in front of the Varnish proxy. In general this isn't a bad thing. The problem arises when the DNS shenanigans send the purge request to your domain name. When you've got an additional proxy like CloudFlare, you don't want the request to go to the proxy, you want it to go to Varnish server.
 
 To fix this, add the following to your wp-config.php file:
 
@@ -121,12 +121,12 @@ Your Varnish IP must be one of the IPs that Varnish is listening on. If you use 
 If your webhost set up Varnish for you, you may need to ask them for the specifics if they don't have it documented. I've listed the ones I know about here, however you should still check with them if you're not sure.
 
 <ul>
-    <li><strong>DreamHost</strong> - If you're using DreamPress and Cloudflare, go into the Panel and click on the DNS settings for the domain. The entry for <em>resolve-to.domain</em> is your varnish server: `resolve-to.www A 208.97.157.172` -- If you're <em>NOT</em> using Cloudflare, you don't need it, but it's just your normal IP.</li>
+    <li><strong>DreamHost</strong> - If you're using DreamPress and CloudFlare, go into the Panel and click on the DNS settings for the domain. The entry for <em>resolve-to.domain</em> is your varnish server: `resolve-to.www A 208.97.157.172` -- If you're <em>NOT</em> using CloudFlare, you don't need it, but it's just your normal IP.</li>
 </ul>
 
 = What if I have multiple varnish IPs? =
 
-Right now it's not supported. I have a major issue with writing code I don't use, which means that since I'm only using one IP right now, I don't want to be on the ball for supporting multiple IPs. I don't even have a place to test is, which is just insane to attempt to code if you think about it. Yes, I could accept pull requests, but that means everyone's at some other person's discretion. So no, I won't be doing that at this time.
+Right now it's not supported. I have a major issue with writing code I don't use, which means that since I'm only using one IP right now, I don't want to be on the ball for supporting multiple IPs. I don't even have a place to test is, which is just insane to attempt to code if you think about it. Yes, I could accept pull requests, but that means everyone's at some other person's discretion. So no, I won't be doing that at this time. Please stop asking. WHEN we get a chance to refactor the code entirely, this will be on the plate to consider, but not before. Asking me over and over doesn't magically give me more time to sit and do this when I have to work out Varnish 4 anyway :)
 
 = Why don't my gzip'd pages flush? =
 
@@ -134,7 +134,7 @@ Make sure your Varnish VCL is configured correctly to purge all the right pages.
 
 = Why isn't the whole cache purge working? =
 
-The plugin sends a PURGE command of <code>/.*</code> and `X-Purge-Method` in the header with a value of regex. If your Varnish server doesn't doesn't understand the wildcard, you can configure it to check for the header.
+The plugin sends a PURGE command of <code>/.*</code> and `X-Purge-Method` in the header with a value of regex. If your Varnish server doesn't doesn't understand the wildcard or that specific method, you can configure it to check for the header.
 
 = How do I configure my VCL? =
 
@@ -145,6 +145,14 @@ This is a question beyond the support of plugin. I don't offer any Varnish Confi
 All of these VCLs work with this plugin.
 
 == Changelog ==
+
+= 3.7 = 
+* Optimizing flushes.
+* Add filter to allow other people to hook in when 3rd party plugins are abjectly weird (props jnachtigall)
+
+= 3.6 =
+* Making purge be http only, since Varnish doesn't support https. This will prevent other issues for people using SSL with Varnish (though goodness knows why...)
+* Forcing backslash on home_url. Why WP doesn't, I have no idea, but this will help sites not running regex.
 
 = 3.5.1 =
 * Language fix
@@ -216,5 +224,3 @@ All of these VCLs work with this plugin.
 1. What the button looks like
 
 == Upgrade Notice ==
-
-3.3.1 is just a language pack fix. Enjoy!
