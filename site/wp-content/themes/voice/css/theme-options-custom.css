@@ -1,0 +1,110 @@
+.redux-container { max-width: 1000px; }
+#toplevel_page_vce_theme_options .wp-first-item{
+	display: none;
+}
+.rtl .switch_wrap input[type="checkbox"]{
+	left: 0;
+}
+.redux-container-image_select .redux-image-select span{
+	max-width: 100px;
+}
+#redux-header .display_header{
+	width: 99%;
+}
+#redux-header .display_header h2{
+	float: left;
+}
+#redux-header .display_header span{
+	float: right;
+	margin: 13px 0 0;
+}
+#redux-intro-text{
+	display: none;
+}
+.redux-container .redux-section-field h3,
+.redux-group-tab > h3{
+	background: #ECECEC;
+	padding: 10px;
+	margin: 20px 0 0;
+	border: none !important;	
+}
+.redux_field_th span{
+	max-width: 250px;
+	line-height: 1.4em;
+}
+.redux_field_th{
+	max-width: 250px;
+}
+.redux-main{
+	padding: 20px 30px;
+}
+.redux-container .redux-group-tab .redux-section-desc{
+	background: #f2f2f2;
+	padding: 10px;
+	position: relative;
+}
+.redux-container .redux-group-tab .redux-section-desc:before{
+	font-family: 'Elusive-Icons';
+	content: "\e699";
+	font-size: 18px;
+	margin: 0 5px 0 0;
+	color: #999;
+	float: left;
+}
+.redux-container-image_select ul.redux-image-select li{
+	vertical-align: top;
+}
+.redux-container-image_select .redux-image-select span span{
+	font-size: 80%;
+	display: block;
+}
+.redux-container .expand_options { display: none; }
+
+.form-table>tbody>tr>th {
+	width: 45%;
+}
+
+.redux-container #redux-header .display_header h2 {
+	width: 100%;
+	text-align: left;
+}
+
+.redux-container #redux-header .display_header h2 a{
+	float: right;
+	font-size: 14px;
+	margin-right: 10px;
+}
+
+.redux-container-image_select .redux-image-select span{
+	font-size: 13px;
+	
+}
+.redux-container-image_select .redux-image-select label {
+	width: 80px;
+}
+
+.redux-container-image_select ul.redux-image-select li {
+	padding: 0 0 10px 10px;
+}
+
+.redux-section-field h3 img{
+	vertical-align: middle;
+	margin-right: 10px;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 2px;
+}
+
+.redux-container-slider .redux-slider-input {
+	vertical-align: bottom;
+}
+
+.select2-container { min-width: 300px; }
+
+.redux-container-sortable .checkbox-container .drag { cursor: move; }
+
+.redux-multi-text input {max-width: 200px;}
+
+.redux-sidebar .redux-group-menu li a:focus{
+	box-shadow: none;
+}
