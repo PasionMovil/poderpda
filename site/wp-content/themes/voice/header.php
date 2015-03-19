@@ -29,4 +29,16 @@
 <?php get_template_part('sections/headers/header-'.vce_get_option('header_layout')); ?>
 </header>
 
+<center style="margin:10px">
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- PoderPDA Inmense Banner 970px 2015 -->
+    <ins class="adsbygoogle"
+        style="display:inline-block;width:970px;height:90px"
+        data-ad-client="ca-pub-0579069280875606"
+        data-ad-slot="8660785074"></ins>
+    <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</center>
+
 <div id="main-wrapper">

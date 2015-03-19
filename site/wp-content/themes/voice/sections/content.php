@@ -16,12 +16,12 @@
 
 		<?php if ( vce_get_option('show_fimg') && has_post_thumbnail() ) : ?>
 			<?php if ( !vce_is_paginated_post() || (vce_is_paginated_post() && vce_get_option('show_paginated_fimg')) && $page <= 1) : ?>
-			 	
+
 			 	<?php global $vce_sidebar_opts; $img_size = $vce_sidebar_opts['use_sidebar'] == 'none' ? 'vce-lay-a-nosid' : 'vce-lay-a'; ?>
-			 	
+
 			 	<div class="meta-image">
 					<?php the_post_thumbnail( $img_size ); ?>
-					
+
 					<?php if(vce_get_option('show_fimg_cap') && $caption = get_post(get_post_thumbnail_id())->post_excerpt) : ?>
 						<div class="vce-photo-caption"><?php echo $caption;  ?></div>
 					<?php endif; ?>
@@ -45,10 +45,35 @@
 			<?php endif; ?>
 	    <?php endif; ?>
 
+    <center>
+        <script type="text/javascript">
+            google_ad_client = "ca-pub-0579069280875606";
+            google_ad_slot = "6169720579";
+            google_ad_width = 468;
+            google_ad_height = 60;
+        </script>
+        <!-- Foro Mini Header -->
+        <script type="text/javascript"
+        src="//pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+    </center>
+
 	<div class="entry-content">
 		<?php the_content(); ?>
-		
 	</div>
+
+    <center>
+        <script type="text/javascript">
+            google_ad_client = "ca-pub-0579069280875606";
+            google_ad_slot = "8101546434";
+            google_ad_width = 336;
+            google_ad_height = 280;
+        </script>
+        <!-- PoderPDA BIG BoxBanner -->
+        <script type="text/javascript"
+        src="//pagead2.googlesyndication.com/pagead/show_ads.js">
+        </script>
+    </center>
 
 	<?php if( vce_is_paginated_post() && vce_get_option('show_paginated') == 'below') : ?>
 		<?php get_template_part('sections/paginated-nav'); ?>
