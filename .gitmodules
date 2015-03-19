@@ -1,4 +1,0 @@
-[submodule "site/wp-content/themes/voice"]
-	path = site/wp-content/themes/voice
-	url = https://github.com/PasionMovil/voice.git
-	branch = master
