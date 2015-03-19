@@ -247,7 +247,27 @@ function wptouch_render_general_page( $page_options ) {
 		__( 'Shortcodes', 'wptouch-pro' ),
 		'shortcodes-compatibility',
 		array(
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
+				'checkbox',
+				'enable_shortcode_compatibility',
+				wptouchize_it( __( 'Enable shortcode handling', 'wptouch-pro' ) ),
+				__( 'For shortcodes registered by your desktop theme', 'wptouch-pro' ),
+				WPTOUCH_SETTING_BASIC,
+				'3.7'
+			),
+			wptouch_add_pro_setting(
+				'radiolist',
+				'shortcode_compatibility_method',
+				__( 'Shortcode handling', 'wptouch-pro'),
+				'',
+				WPTOUCH_SETTING_BASIC,
+				'3.7',
+				array(
+					'load_content_by_ajax' => wptouchize_it( __( 'Load content as output by desktop theme (you may need to load CSS/JavaScript)', 'wptouch-pro' ) ),
+					'remove_shortcodes' => wptouchize_it( __( 'Remove selected shortcodes from content', 'wptouch-pro' ) ),
+				)
+			),
+			wptouch_add_pro_setting(
 				'text',
 				'remove_shortcodes',
 				wptouchize_it( __( 'Remove these shortcodes when WPtouch Pro is active', 'wptouch-pro' ) ),

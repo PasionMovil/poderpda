@@ -774,6 +774,13 @@ function wptouchRefreshScrollers(){
 	}, 0 );
 }
 
+function toggle_remove_shortcodes( myTarget ) {
+	if ( jQuery( '#enable_shortcode_compatibility' ).attr( 'checked' ) && jQuery( '#setting-shortcode_compatibility_method input:checked' ).val() == 'remove_shortcodes' ) {
+		jQuery( '#setting-remove_shortcodes' ).show();
+	} else {
+		jQuery( '#setting-remove_shortcodes' ).hide();
+	}
+}
 
 function wptouchSetupAdminToggles() {
 	// Enable iOS Web-App Mode
@@ -788,7 +795,14 @@ function wptouchSetupAdminToggles() {
 	wptouchCheckToggle( '#show_share', '#setting-share_location, #setting-share_colour_scheme' );
 	wptouchCheckToggle( '#automatically_backup_settings', '#setting-backup' );
 
+	wptouchCheckToggle( '#enable_shortcode_compatibility', '#setting-shortcode_compatibility_method' );
+
+	var shortcode_method = jQuery( '#setting-shortcode_compatibility_method' );
+	jQuery( 'input', shortcode_method ).on( 'change', function() { toggle_remove_shortcodes(); } );
+	jQuery( '#enable_shortcode_compatibility' ).on( 'change', function() { toggle_remove_shortcodes(); } );
+	jQuery( 'input[checked]', shortcode_method ).trigger( 'change' );
 }
+
 
 function wptouchHandleDownloadSettings() {
 	var downloadSettingsButton = jQuery( 'button#backup' );
@@ -1187,6 +1201,14 @@ function wptouchShowProItems() {
 	jQuery( '.wptouch-free .pro-setting input, .wptouch-free .pro-setting select, .wptouch-free .pro-setting button, .wptouch-free .pro-setting textarea' ).prop( 'disabled', 'disabled' );
 }
 
+function wptouchSetupUpgradePage() {
+	wrapper_height = jQuery( window ).height();
+	jQuery( 'iframe#upgrade-license-area' ).height( wrapper_height - 150);
+}
+
+jQuery( window ).resize( function() {
+	wptouchSetupUpgradePage();
+});
 
 function wptouchAdminReady() {
 
@@ -1222,6 +1244,8 @@ function wptouchAdminReady() {
 	wptouchHandleThemePreview();
 
 	wptouchShowProItems();
+
+	wptouchSetupUpgradePage()
 }
 
 jQuery( document ).ready( function() {

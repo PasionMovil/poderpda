@@ -63,7 +63,10 @@ class WPtouchDefaultSettings30 extends WPtouchSettings {
 		$this->include_functions_from_desktop_theme = false;
 		$this->functions_php_loading_method = 'translate';
 
+		$this->enable_shortcode_compatibility = false;
+		$this->shortcode_compatibility_method = 'remove_shortcodes';
 		$this->remove_shortcodes = '';
+
 		if ( isset( $this->ignore_urls ) ) {
 			$this->enable_url_filter = true;
 			$this->filtered_urls = $this->ignore_urls;

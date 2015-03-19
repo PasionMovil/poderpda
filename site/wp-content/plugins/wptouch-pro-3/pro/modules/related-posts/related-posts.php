@@ -136,7 +136,11 @@ function wptouch_related_posts() {
 
 				if ( function_exists( 'foundation_disable_sharing_links' ) ) { foundation_disable_sharing_links(); }
 
-				$this_post->excerpt = wp_trim_words( apply_filters( 'the_content', $post->post_content ), 20 );
+				if( !empty( $post->post_excerpt ) ) {
+					$this_post->excerpt = wp_trim_words( $post->post_excerpt, 20 );
+				} else {
+					$this_post->excerpt = wp_trim_words( apply_filters( 'the_content', $post->post_content ), 20 );
+				}
 
 				if ( function_exists( 'foundation_enable_sharing_links' ) ) { foundation_enable_sharing_links(); }
 

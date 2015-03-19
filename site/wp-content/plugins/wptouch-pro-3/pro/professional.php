@@ -4,6 +4,7 @@ add_action( 'wptouch_admin_ajax_intercept', 'wptouch_pro_admin_ajax_intercept' )
 add_filter( 'wptouch_theme_directories', 'wptouch_pro_theme_directories' );
 add_filter( 'wptouch_addon_directories', 'wptouch_pro_addon_directories' );
 add_filter( 'wptouch_settings_compat', 'wptouch_pro_add_compat_settings' );
+add_action( 'admin_enqueue_scripts', 'wptouch_pro_pointers', 1000 );
 
 function wptouch_pro_add_compat_settings( $page_options ) {
 	if ( function_exists( 'icl_get_languages' ) ) {
@@ -194,7 +195,7 @@ function wptouch_add_pro_notifications() {
 			'WPtouch 1.x',
 			__( 'WPtouch Pro 3 cannot co-exist with WPtouch 1.x. Disable it first in the WordPress Plugins settings.', 'wptouch-pro' ),
 			'error',
-			'http://www.wptouch.com/support/knowledgebase/known-incompatibilities/#wptouchfree'
+			'https://support.wptouch.com/support/solutions/articles/5000525434-known-incompatibilities'
 		);
 	}
 
@@ -204,8 +205,86 @@ function wptouch_add_pro_notifications() {
 			'WPtouch 2.x',
 			__( 'WPtouch Pro 3 cannot co-exist with WPtouch Pro 2.x. Disable it first in the WordPress Plugins settings.', 'wptouch-pro' ),
 			'error',
-			'http://www.wptouch.com/support/knowledgebase/known-incompatibilities/#wptouch2'
+			'https://support.wptouch.com/support/solutions/articles/5000525434-known-incompatibilities'
 		);
+	}
+}
+
+function wptouch_pro_pointers( $hook_suffix ) {
+	global $wptouch_pro;
+
+    // Don't run on WP < 3.3
+    if ( get_bloginfo( 'version' ) < '3.3' )
+        return;
+
+    $screen = get_current_screen();
+    $screen_id = $screen->id;
+
+    $theme_update = false;
+    $addon_update = false;
+
+    // Theme upgrade available
+	$available_themes = $wptouch_pro->get_available_themes( true );
+	foreach( $available_themes as $name => $theme ) {
+		if ( isset( $theme->upgrade_available ) && $theme->upgrade_available ) {
+			$theme_update = true;
+			break;
+		}
+	}
+
+	// Add-on upgrade available
+	$available_addons = $wptouch_pro->get_available_addons( true );
+	foreach( $available_addons as $name => $addons ) {
+		if ( isset( $addons->upgrade_available ) && $addons->upgrade_available ) {
+			$addon_update = true;
+			break;
+		}
+	}
+
+	if ( $theme_update && $addon_update ) {
+		$pointer_title = __( 'WPtouch Pro: Theme &amp; Extension Updates Available', 'wptouch-pro' );
+		$pointer_content = __( 'One or more updates are available for your installed themes and extensions.', 'wptouch-pro' );
+	} elseif( $theme_update ) {
+		$pointer_title = __( 'WPtouch Pro: Theme Updates Available', 'wptouch-pro' );
+		$pointer_content = __( 'One or more updates are available for your installed themes.', 'wptouch-pro' );
+	} else {
+		$pointer_title = __( 'WPtouch Pro: Extension Updates Available', 'wptouch-pro' );
+		$pointer_content = __( 'One or more updates are available for your installed extensions.', 'wptouch-pro' );
+	}
+
+   	$target = '#toplevel_page_wptouch-admin-touchboard';
+
+    if ( $theme_update || $addon_update ) {
+	    // Get dismissed pointers
+	    $dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
+
+	    $pointer_id = 'wptouch_theme_addon_updates_' . date( 'y_W' );
+
+		$pointers['pointers'][] = array(
+			'id' => $pointer_id,
+	        'target' => $target,
+	        'options' => array(
+	            'content' => sprintf( '<h3> %s </h3> <p> %s </p>',
+	                $pointer_title,
+	                $pointer_content
+	            ),
+	            'position' => array( 'edge' => 'left', 'align' => 'middle' )
+	        )
+	    );
+
+        // Sanity check
+        if ( in_array( $pointer_id, $dismissed ) ) {
+        	return;
+        }
+
+	    // Add pointers style to queue.
+	    wp_enqueue_style( 'wp-pointer' );
+
+	    // Add pointers script to queue. Add custom script.
+	    wp_enqueue_script( 'wptouch-pointer', WPTOUCH_URL . '/admin/js/wptouch-admin-pointer.js', array( 'wp-pointer' ) );
+
+	    // Add pointer options to script.
+	    wp_localize_script( 'wptouch-pointer', 'wptouchpointer', $pointers );
 	}
 }
 
@@ -341,20 +420,7 @@ function wptouch_pro_handle_admin_command() {
 				switch( $wptouch_pro->get['admin_command'] ) {
 					case 'activate_theme':
 						WPTOUCH_DEBUG( WPTOUCH_INFO, 'Activating theme [' . $wptouch_pro->get['theme_name'] . ']' );
-						$theme_to_activate = $wptouch_pro->get['theme_name'];
-						if ( $theme_to_activate ) {
-							$settings = $wptouch_pro->get_settings();
-
-							$paths = explode( '/', ltrim( rtrim( $wptouch_pro->get['theme_location'], '/' ), '/' ) );
-
-							$settings->current_theme_name = $paths[ count( $paths ) - 1 ];
-							unset( $paths[ count( $paths ) - 1 ] );
-
-							$settings->current_theme_location = '/' . implode( '/', $paths );
-							$settings->current_theme_friendly_name = $wptouch_pro->get['theme_name'];
-
-							$settings->save();
-						}
+						wptouch_pro_activate_theme( $wptouch_pro->get['theme_name'], $wptouch_pro->get[ 'theme_location' ] );
 						break;
 					case 'activate_addon':
 						WPTOUCH_DEBUG( WPTOUCH_INFO, 'Activating add-on [' . $wptouch_pro->get['addon_name'] . ']' );
@@ -391,32 +457,7 @@ function wptouch_pro_handle_admin_command() {
 						break;
 					case 'copy_theme':
 						WPTOUCH_DEBUG( WPTOUCH_INFO, 'Copying theme [' . $wptouch_pro->get['theme_name'] . ']' );
-						require_once( WPTOUCH_DIR . '/core/file-operations.php' );
-
-						$copy_src = WP_CONTENT_DIR . $wptouch_pro->get['theme_location'];
-						$theme_name = wptouch_convert_to_class_name( $wptouch_pro->get[ 'theme_name' ] );
-
-						$num = $wptouch_pro->get_theme_copy_num( $theme_name );
-						$copy_dest = WPTOUCH_CUSTOM_THEME_DIRECTORY . '/' . $theme_name . '-copy-' . $num;
-
-						wptouch_create_directory_if_not_exist( $copy_dest );
-
-						$wptouch_pro->recursive_copy( $copy_src, $copy_dest );
-
-						$readme_file = $copy_dest . '/readme.txt';
-						$readme_info = $wptouch_pro->load_file( $readme_file );
-						if ( $readme_info ) {
-							if ( preg_match( '#Theme Name: (.*)#', $readme_info, $matches ) ) {
-								$readme_info = str_replace( $matches[0], 'Theme Name: ' . $matches[1] . ' Copy #' . $num, $readme_info );
-								$f = fopen( $readme_file, "w+t" );
-								if ( $f ) {
-									fwrite( $f, $readme_info );
-									fclose( $f );
-								}
-							}
-						} else {
-							WPTOUCH_DEBUG( WPTOUCH_ERROR, "Unable to modify readme.txt file after copy" );
-						}
+						wptouch_pro_copy_theme( $wptouch_pro->get[ 'theme_name' ], $wptouch_pro->get['theme_location'] );
 						break;
 					case 'delete_theme':
 						WPTOUCH_DEBUG( WPTOUCH_INFO, 'Deleting theme [' . $wptouch_pro->get['theme_location'] . ']' );
@@ -434,6 +475,56 @@ function wptouch_pro_handle_admin_command() {
 
 		header( 'Location: ' . remove_query_arg( $used_query_args ) );
 		die;
+	}
+}
+
+function wptouch_pro_activate_theme( $theme_name, $theme_location ) {
+	global $wptouch_pro;
+
+	if ( $theme_name ) {
+		$settings = $wptouch_pro->get_settings();
+
+		$paths = explode( '/', ltrim( rtrim( $theme_location, '/' ), '/' ) );
+
+		$settings->current_theme_name = $paths[ count( $paths ) - 1 ];
+		unset( $paths[ count( $paths ) - 1 ] );
+
+		$settings->current_theme_location = '/' . implode( '/', $paths );
+		$settings->current_theme_friendly_name = $theme_name;
+
+		$settings->save();
+	}
+}
+
+function wptouch_pro_copy_theme( $theme_name, $theme_location ) {
+	global $wptouch_pro;
+
+	require_once( WPTOUCH_DIR . '/core/file-operations.php' );
+	$theme_location = WP_CONTENT_DIR . $theme_location;
+	$theme_name = wptouch_convert_to_class_name( $theme_name );
+
+	$num = $wptouch_pro->get_theme_copy_num( $theme_name );
+	$copy_dest = WPTOUCH_CUSTOM_THEME_DIRECTORY . '/' . $theme_name . '-copy-' . $num;
+	wptouch_create_directory_if_not_exist( $copy_dest );
+
+	$wptouch_pro->recursive_copy( $theme_location, $copy_dest );
+
+	$readme_file = $copy_dest . '/readme.txt';
+	$readme_info = $wptouch_pro->load_file( $readme_file );
+	if ( $readme_info ) {
+		if ( preg_match( '#Theme Name: (.*)#', $readme_info, $matches ) ) {
+			$new_name = $matches[1] . ' Copy #' . $num;
+			$readme_info = str_replace( $matches[0], 'Theme Name: ' . $new_name, $readme_info );
+			$f = fopen( $readme_file, "w+t" );
+			if ( $f ) {
+				fwrite( $f, $readme_info );
+				fclose( $f );
+			}
+		}
+		return array( 'name' => $new_name, 'location' => $copy_dest );
+	} else {
+		WPTOUCH_DEBUG( WPTOUCH_ERROR, "Unable to modify readme.txt file after copy" );
+		return false;
 	}
 }
 
@@ -577,4 +668,115 @@ function mwp_wptouch_pro_get_latest_info() {
 	}
 
 	return $latest_info;
+}
+
+add_action( 'wptouch_version_update', 'wptouch_auto_update_themes_addons' );
+
+function md5_dir($dir)
+{
+    if (!is_dir($dir))
+    {
+        return false;
+    }
+
+    $filemd5s = array();
+    $d = dir($dir);
+
+    while (false !== ($entry = $d->read()))
+    {
+        if ($entry != '.' && $entry != '..')
+        {
+             if (is_dir($dir.'/'.$entry))
+             {
+                 $filemd5s[] = md5_dir($dir.'/'.$entry);
+             }
+             else
+             {
+             	if ( $entry != '.DS_Store' ) {
+                 $filemd5s[] = md5_file($dir.'/'.$entry);
+             	}
+             }
+         }
+    }
+    $d->close();
+    return md5(implode('', $filemd5s));
+}
+
+function wptouch_auto_update_themes_addons() {
+	global $wptouch_pro;
+	if ( !isset( $wptouch_pro->post ) ) {
+		require_once( WPTOUCH_DIR . '/core/theme-hashes.php' );
+		$theme_hashes = wptouch_get_hashes();
+
+		if ( current_user_can( 'manage_options' ) ) {
+			$current_theme = $wptouch_pro->get_current_theme_info();
+
+			$available_themes = $wptouch_pro->get_available_themes( true );
+			$available_addons = $wptouch_pro->get_available_addons( true );
+			$updates = 0;
+			$backed_up = false;
+			$errors = array();
+
+			if ( count( $available_themes ) > 0 || count( $available_addons ) > 0 ) {
+
+				require_once( WPTOUCH_DIR . '/core/addon-theme-installer.php' );
+
+				foreach( $available_themes as $name => $theme ) {
+					$hash = false;
+					$safe_to_install_theme = false;
+
+					if ( isset( $theme->upgrade_available ) && $theme->upgrade_available ) {
+						if ( !is_object( $current_theme ) || $name != $current_theme->name ) {
+							$safe_to_install_theme = true;
+						} else {
+							$hash = md5_dir( WP_CONTENT_DIR . $current_theme->location );
+							if ( in_array( $theme->version, $theme_hashes[ $theme->base ] ) && $hash == $theme_hashes[ $theme->base ][ $theme->version] ) {
+								// OK to upgrade the active theme (it's the same as when it shipped)
+								$safe_to_install_theme = true;
+							}
+						}
+
+						// Hashes didn't match.
+						if ( $safe_to_install_theme === false ) {
+							$copied_theme = wptouch_pro_copy_theme( $theme->name, $theme->location );
+							if ( is_array( $copied_theme ) ) {
+								wptouch_pro_activate_theme( $copied_theme[ 'name' ], $copied_theme[ 'location' ] );
+								$backed_up = $theme->name;
+							}
+						}
+
+						$installer = new WPtouchAddonThemeInstaller;
+						$installer->install( $theme->base , $theme->download_url, 'themes' );
+						if ( $installer->had_error() ) {
+							$errors[] = $installer->error_text();
+						} else {
+							$updates++;
+						}
+					}
+				}
+
+				foreach( $available_addons as $name => $addon ) {
+					if ( isset( $addon->upgrade_available ) && $addon->upgrade_available ) {
+						$installer = new WPtouchAddonThemeInstaller;
+						$installer->install( $addon->base , $addon->download_url, 'extensions' );
+						if ( $installer->had_error() ) {
+							$errors[] = $installer->error_text();
+						} else {
+							$updates++;
+						}
+					}
+				}
+
+				if ( $backed_up ) {
+					$backed_up = sprintf( __( '%sYour customizations to %s have been saved as a new theme and the original reinstalled for your reference.', 'wptouch-pro' ), '</p><p>', $backed_up );
+				}
+
+				if ( $updates && count( $errors ) > 0 ) {
+					echo '<div id="message" class="error"><p>' . __( 'WPtouch Pro: Some themes or extensions could not be auto-updated. Please check the WPtouch Pro Themes &amp; Extensions page to manually update them.', 'wptouch-pro' ) . $backed_up . '</p></div>';
+				} elseif ( $updates ) {
+					echo '<div id="message" class="updated"><p>' . __( 'WPtouch Pro: Your themes and extensions have been automatically updated. Thank you for updating WPtouch Pro!', 'wptouch-pro' ) . $backed_up . '</p></div>';
+				}
+			}
+		}
+	}
 }

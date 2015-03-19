@@ -1,5 +1,4 @@
 <?php
-
 add_action( 'foundation_module_init_mobile', 'foundation_webapp_init' );
 add_action( 'wptouch_post_head', 'foundation_setup_meta_area' );
 
@@ -9,6 +8,11 @@ add_filter( 'login_enqueue_scripts', 'foundation_webapp_inject_login_screen_comp
 
 define( 'WPTOUCH_WEBAPP_COOKIE', 'wptouch-webapp' );
 define( 'WPTOUCH_WEBAPP_PERSIST_COOKIE', 'wptouch-webapp-persist' );
+
+function foundation_webapp_mode_enabled() {
+	$settings = foundation_get_settings();
+	return apply_filters( 'wptouch_allow_wam', $settings->webapp_mode_enabled );
+}
 
 function foundation_webapp_inject_login_screen_components() {
 	if ( function_exists( 'wptouch_is_showing_mobile_theme_on_mobile_device' ) && wptouch_is_showing_mobile_theme_on_mobile_device() ) {
@@ -60,7 +64,7 @@ function foundation_webapp_init() {
 		}
 	}
 
-	if ( $settings->webapp_mode_enabled && $settings->webapp_show_notice == true && !wptouch_fdn_is_web_app_mode() ) {
+	if ( foundation_webapp_mode_enabled() && $settings->webapp_show_notice == true && !wptouch_fdn_is_web_app_mode() ) {
 
 		wp_enqueue_script(
 			'foundation_add2home',
@@ -87,7 +91,7 @@ function foundation_webapp_init() {
 
 	}
 
-	if ( $settings->webapp_mode_enabled ) {
+	if ( foundation_webapp_mode_enabled() ) {
 
 		wp_enqueue_script(
 			'foundation_webapp',
@@ -140,7 +144,7 @@ function foundation_setup_meta_area() {
 
 	echo '<meta name="apple-mobile-web-app-title" content="' . $settings->homescreen_icon_title . '">' . "\n";
 
-	if ( $settings->webapp_mode_enabled ) {
+	if ( foundation_webapp_mode_enabled() ) {
 
 		// We're web-app capable
 		echo '<meta name="apple-mobile-web-app-capable" content="yes">' . "\n";
@@ -194,6 +198,7 @@ function foundation_setup_meta_area() {
 			// iPhone 6
 			if ( $settings->startup_screen_iphone_6 ) {
 				echo '<link href="' . WPTOUCH_BASE_CONTENT_URL . $settings->startup_screen_iphone_6 . '"  media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image">' . "\n";
+				echo '<style>html{background-image:url("' . WPTOUCH_BASE_CONTENT_URL . $settings->startup_screen_iphone_6 . '") no-repeat top left;}</style>';
 			}
 
 			// iPhone 6+

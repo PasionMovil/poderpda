@@ -1,10 +1,92 @@
 === Plugin Name ===
-Requires at least: 3.6
-Stable tag: 3.6
+Requires at least: 3.8
+Stable tag: 3.7.4.1
 
 == Changelog ==
 
-= Version 3.6 (October, 2014) =
+= Version 3.7.4.1 (March 6, 2015) =
+
+* Added: Backwards compatibility for icons.
+
+= Version 3.7.4 (March 5, 2015) =
+
+* Added: wptouch-icons-old module for compatibility with custom themes that haven't migrated their icon classnames.
+
+= Version 3.7.3 (March 5, 2015) =
+
+* Changed: Further refinement of icon sets, ensuring compatibility with Simple Social Icons plugin and other sources of icon fonts.
+* Fixed: Reply link was being displayed beside comments with nested comments enabled, even when comments were closed.
+
+= Version 3.7.2 (February 25, 2015) =
+
+* Added: Desktop shortcode support now applies to content after WPtouch Pro's shortcodes have been processed and now also supports desktop theme shortcodes used inside alternate content added via the Mobile Content Extension.
+* Added: Where categories are listed using the wptouch_fdn_ordered_cat_list() function, they can now be sorted prior to display using the 'wptouch_ordered_cat_list_categories' filter.
+
+= Version 3.7.1 (February 24, 2015) =
+
+* Added: Content processed for desktop shortcodes no longer cached on cart, checkout, and account pages.
+
+= Version 3.7 (February 12, 2015) =
+
+* Added: Overhauled support for shortcodes provided by desktop themes. WPtouch Pro can now optionally load content from WordPress with shortcodes processed.
+* Fixed: Bug in URL-based filtering
+* Fixed: Possible hidden redirect exploit on mobile/desktop switcher
+
+= Version 3.6.6 (January 29, 2015) =
+
+* Added: The ability for themes and extensions to disable Web-App Mode.
+* Added: If you set a custom excerpt for your posts, WPtouch will use it when it displays related posts.
+* Added: Support for category hierarchy in MobileStore
+* Changed: More localization updates (German, Greek, Hindi, and Indonesian)
+* Changed: More robust category listing
+* Changed: We moved support to the Freshdesk platform. All links have been updated to point to our new ticket & knowledgebase and the new My Account page.
+* Changed: Web-App Mode is not compatible with off-site payment gateways. MobileStore no longer allows Web-App Mode to be used when no compatible gateways are found.
+* Changed: MobileStore now allows selecting a custom latest posts page.
+* Fixed: Bug in MobileStore where it was not possible to completely disable product filters once any had been selected.
+* Fixed: Layout bug in menu on sites with sequential nested menu items.
+
+= Version 3.6.5 (January 9, 2015) =
+
+* Added: Better support for Nextgen Gallery for sites using the Responsive Images extension.
+* Changed: Updated localizations – Arabic, Chinese (Simplified & Traditional), Danish, Dutch, French, German, Greek, Hindi, Indonesian, Italian, Japanese, Korean, Russian, Swedish, Thai, Turkish, Vietnamese
+* Changed: Change spaces in uploaded logo & startup image filenames to dashes to prevent display issues
+* Changed: Removed festive icons
+* Fixed: Spelling of devanagari in Advanced Type
+
+= Version 3.6.4 (December 19, 2014) =
+
+* Fixed: Bug in copy theme action.
+
+= Version 3.6.3 (December 18, 2014) =
+
+* Added: WPtouch Pro now auto-updates installed themes and extensions, ensuring your site is always completely up-to-date. Changes made to the theme will be saved (WPtouch Pro will create a new child theme with your changes) and custom themes are left unchanged.
+
+= Version 3.6.2 (December 11, 2014) =
+
+* Added: You can now upgrade your WPtouch Pro license from inside the plugin (if you allow 3rd-party cookies/have visited wptouch.com recently) with instant upgrade activation if your site is web-accessible.
+* Added: A little festive spirit!
+* Changed: Slimmed down plugin by moving screenshots out of the package.
+* Changed: MobileStore - geolocating customers (to prefill location) relies on url_fopen being enabled - if it is disabled, no longer try to process the location.
+* Fixed: Typo in our URL - oops!
+* Fixed: Updated icon font with new icon & a new name to avoid conflicts with another plugin
+* Fixed: Pagination glitch in MobileStore search
+
+= Version 3.6.1 (November 20, 2014) =
+
+* Added: Automatically disable WPtouch when activating WPtouch Pro (from WPtouch v3.6.1 on)
+* Added: Highlight available theme & extension updates
+* Added: Better support for Shortcodes Ultimate
+* Added: Back-to-top links, and multilingual improvements in MobileStore
+* Added: Minimum character count for mid-content ads in MultiAds
+* Added: Pass along the querystring when redirecting to your custom landing page. (for ads compatibility)
+* Changed: Improved Custom Latest Posts pagination handling
+* Changed: Switch from WP_CONTENT_URL to content_url(), fixing menu icons for domain-mapped multisite installations
+* Fixed: PHP error on WPEngine when debug mode was enabled
+* Fixed: Eliminated some warnings and notices
+* Fixed: Arrow directions for next/previous posts in RTL mode
+* Fixed: Custom Latest Posts page now uses WPtouch posts-per-page setting
+
+= Version 3.6 (November 6, 2014) =
 
 * Added: New extension: Advanced Type (select custom Google fonts or use your Typekit & Fontdeck sets in WPtouch Pro)
 * Added: Ability to ignore tags when identifying related content
