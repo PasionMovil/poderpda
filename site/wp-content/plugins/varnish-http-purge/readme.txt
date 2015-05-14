@@ -3,7 +3,7 @@ Contributors: techpriester, Ipstenu, DH-Shredder
 Tags: varnish, purge, cache
 Requires at least: 4.0
 Tested up to: 4.2
-Stable tag: 3.7
+Stable tag: 3.7.2
 
 Purge Varnish Cache when post content on your site is modified.
 
@@ -60,7 +60,7 @@ This was built and tested on Varnish 3.x, however it is reported to work on 2.x 
 
 = Why doesn't every page flush when I make a new post? =
 
-The only pages that should purge are the post's page, the front page, categories, and tags. The reason why is a little philosophical. 
+The only pages that should purge are the post's page, the front page, categories, and tags. The reason why is a little philosophical.
 
 When building out this plugin, there were a couple pathways on how best to handle purging caches and they boiled down to two: Decisions (the plugin purges what it purges when it purges) and Options (you decide what to purge, when and why). It's entirely possible to make this plugin purge everything, every time a 'trigger' happens, have it purge some things, or have it be so you can pick that purges.
 
@@ -68,7 +68,7 @@ In the interests of design, we decided that the KISS principle was key. Since yo
 
 = Why doesn't my cache purge when I edit my theme? =
 
-Because the plugin only purges your <em>content</em> when you edit it. That means if you edit a page/post, or someone leaves a comment, it'll change. Otherwise, you have to purge the whole cache. The plugin will do this for you if you ''change'' your theme, but not when you edit your theme. 
+Because the plugin only purges your <em>content</em> when you edit it. That means if you edit a page/post, or someone leaves a comment, it'll change. Otherwise, you have to purge the whole cache. The plugin will do this for you if you ''change'' your theme, but not when you edit your theme.
 
 That said, if you use Jetpack's CSS editor, it will purge the whole cache for your site on save.
 
@@ -94,11 +94,11 @@ If you're using nginx, it's `pagespeed ModifyCachingHeaders off;`
 
 = Can I use this with a proxy service like CloudFlare? =
 
-Yes, but you'll need to make some additional changes (see "Why aren't my changes showing when I use CloudFlare or another proxy?" below).
+Yes, but you'll need to make some additonal changes (see "Why aren't my changes showing when I use CloudFlare or another proxy?" below).
 
 = Why aren't my changes showing when I use CloudFlare or another proxy? =
 
-When you use CloudFlare or any other similar service, you've got a proxy in front of the Varnish proxy. In general this isn't a bad thing. The problem arises when the DNS shenanigans send the purge request to your domain name. When you've got an additional proxy like CloudFlare, you don't want the request to go to the proxy, you want it to go to Varnish server.
+When you use CloudFlare or any other similar servive, you've got a proxy in front of the Varnish proxy. In general this isn't a bad thing. The problem arises when the DNS shenanigans send the purge request to your domainname. When you've got an additional proxy like CloudFlare, you don't want the request to go to the proxy, you want it to go to Varnish server.
 
 To fix this, add the following to your wp-config.php file:
 
@@ -121,12 +121,12 @@ Your Varnish IP must be one of the IPs that Varnish is listening on. If you use 
 If your webhost set up Varnish for you, you may need to ask them for the specifics if they don't have it documented. I've listed the ones I know about here, however you should still check with them if you're not sure.
 
 <ul>
-    <li><strong>DreamHost</strong> - If you're using DreamPress and CloudFlare, go into the Panel and click on the DNS settings for the domain. The entry for <em>resolve-to.domain</em> is your varnish server: `resolve-to.www A 208.97.157.172` -- If you're <em>NOT</em> using CloudFlare, you don't need it, but it's just your normal IP.</li>
+    <li><strong>DreamHost</strong> - If you're using DreamPress and Cloudflare, go into the Panel and click on the DNS settings for the domain. The entry for <em>resolve-to.domain</em> is your varnish server: `resolve-to.www A 208.97.157.172` -- If you're <em>NOT</em> using Cloudflare, you don't need it, but it's just your normal IP.</li>
 </ul>
 
 = What if I have multiple varnish IPs? =
 
-Right now it's not supported. I have a major issue with writing code I don't use, which means that since I'm only using one IP right now, I don't want to be on the ball for supporting multiple IPs. I don't even have a place to test is, which is just insane to attempt to code if you think about it. Yes, I could accept pull requests, but that means everyone's at some other person's discretion. So no, I won't be doing that at this time. Please stop asking. WHEN we get a chance to refactor the code entirely, this will be on the plate to consider, but not before. Asking me over and over doesn't magically give me more time to sit and do this when I have to work out Varnish 4 anyway :)
+Right now it's not supported. I have a major issue with writing code I don't use, which means that since I'm only using one IP right now, I don't want to be on the ball for supporting multiple IPs. I don't even have a place to test is, which is just insane to attempt to code if you think about it. Yes, I could accept pull requests, but that means everyone's at some other person's discretion. So no, I won't be doing that at this time.
 
 = Why don't my gzip'd pages flush? =
 
@@ -134,7 +134,7 @@ Make sure your Varnish VCL is configured correctly to purge all the right pages.
 
 = Why isn't the whole cache purge working? =
 
-The plugin sends a PURGE command of <code>/.*</code> and `X-Purge-Method` in the header with a value of regex. If your Varnish server doesn't doesn't understand the wildcard or that specific method, you can configure it to check for the header.
+The plugin sends a PURGE command of <code>/.*</code> and `X-Purge-Method` in the header with a value of regex. If your Varnish server doesn't doesn't understand the wildcard, you can configure it to check for the header.
 
 = How do I configure my VCL? =
 
@@ -146,7 +146,13 @@ All of these VCLs work with this plugin.
 
 == Changelog ==
 
-= 3.7 = 
+= 3.7.2 = 
+* Revisions were being mishandled and purging all inappropriately. (props Cha0sgr)
+
+= 3.7.1 =
+* Archives weren't purging. (props Ingraye)
+
+= 3.7 =
 * Optimizing flushes.
 * Add filter to allow other people to hook in when 3rd party plugins are abjectly weird (props jnachtigall)
 
@@ -201,7 +207,7 @@ All of these VCLs work with this plugin.
 * Purge images on deletion
 * Fix for a VarnishIP when behind proxy servers not working on all hosts (props Berler)
 
-= 2.2.1 = 
+= 2.2.1 =
 * typo (hit . instead of / - Props John B. Manos)
 
 = 2.2 =
@@ -224,3 +230,5 @@ All of these VCLs work with this plugin.
 1. What the button looks like
 
 == Upgrade Notice ==
+
+Version 3.7.2 fixes a performance issue that would cause the purge-all to run when creating a new post.
