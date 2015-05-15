@@ -128,7 +128,7 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 		function convert_case( $str, $mode = 'upper' ) {
 			static $charset = null;
 			if ( $charset == null ) $charset = get_bloginfo( 'charset' );
-
+			$str = (string)$str;
 			if ( $mode == 'title' ) {
 				if ( function_exists( 'mb_convert_case' ) )
 					return mb_convert_case( $str, MB_CASE_TITLE, $charset );
@@ -350,7 +350,7 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Module' ) ) {
 					<?php
 					foreach ( $tabs as $k => $v ) {
 					?>
-						<a class="aioseop_head_nav_tab aioseop_head_nav_<?php if ( $this->current_tab != $k ) echo "in"; ?>active" href="<?php echo add_query_arg( 'tab', $k ); ?>"><?php echo $v['name']; ?></a>
+						<a class="aioseop_head_nav_tab aioseop_head_nav_<?php if ( $this->current_tab != $k ) echo "in"; ?>active" href="<?php echo esc_url( add_query_arg( 'tab', $k ) ); ?>"><?php echo $v['name']; ?></a>
 					<?php
 					}
 					?>

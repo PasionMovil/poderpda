@@ -121,9 +121,10 @@ function jd_update_oauth_settings( $auth = false, $post = false ) {
 							$error_information = __( "WP to Twitter was unable to establish a connection to Twitter.", 'wp-to-twitter' );
 							update_option( 'wpt_curl_error', "$error_information" );
 						} else {
+							$status = ( isset( $connection->http_header['status'] ) ) ? $connection->http_header['status'] : '404';
 							$error_information = array(
 								"http_code" => $connection->http_code,
-								"status"    => $connection->http_header['status']
+								"status"    => $status
 							);
 							$error_code        = __( "Twitter response: http_code $error_information[http_code] - $error_information[status]", 'wp-to-twitter' );
 							update_option( 'wpt_curl_error', $error_code );
@@ -180,27 +181,7 @@ function wtt_connect_oauth( $auth = false ) {
 		echo '<div class="ui-sortable meta-box-sortables">';
 		echo '<div class="postbox">';
 	}
-	$server_time = date( DATE_COOKIE );
-	$response    = wp_remote_get( "https://twitter.com/", array( 'timeout' => 1, 'redirection' => 1 ) );
-	if ( is_wp_error( $response ) ) {
-		$warning = '';
-		$error   = $response->errors;
-		if ( is_array( $error ) ) {
-			$warning = "<ul>";
-			foreach ( $error as $k => $e ) {
-				foreach ( $e as $v ) {
-					$warning .= "<li>" . $v . "</li>";
-				}
-			}
-			$warning .= "</ul>";
-		}
-		$ssl    = __( "Connection Problems? If you're getting an SSL related error, you'll need to contact your host.", 'wp-to-twitter' );
-		$date   = __( "There was an error querying Twitter's servers", 'wp-to-twitter' );
-		$errors = "<p>" . $ssl . "</p>" . $warning;
-	} else {
-		$date   = date( DATE_COOKIE, strtotime( $response['headers']['date'] ) );
-		$errors = '';
-	}
+
 	$class = ( $auth ) ? 'wpt-profile' : 'wpt-settings';
 	$form  = ( ! $auth ) ? '<form action="" method="post">' : '';
 	$nonce = ( ! $auth ) ? wp_nonce_field( 'wp-to-twitter-nonce', '_wpnonce', true, false ) . wp_referer_field( false ) . '</form>' : '';
@@ -226,9 +207,6 @@ function wtt_connect_oauth( $auth = false ) {
 			<div class="inside ' . $class . '">
 			<div class="notes">
 			<h4>' . __( 'WP to Twitter Set-up', 'wp-to-twitter' ) . '</h4>
-			<p>' . __( 'Your server time:', 'wp-to-twitter' ) . ' <code>' . $server_time . '</code> ' . __( "Twitter's time:" ) . ' <code>' . $date . '</code>. ' . __( 'If these timestamps are not within 5 minutes of each other, your server will not connect to Twitter.', 'wp-to-twitter' ) . '</p>
-			' . $errors . '
-			<p>' . __( 'Your server timezone (should be UTC,GMT,Europe/London or equivalent):', 'wp-to-twitter' ) . ' ' . date_default_timezone_get() . '</p>
 			</div>
 					<h4>' . __( '1. Register this site as an application on ', 'wp-to-twitter' ) . '<a href="https://apps.twitter.com/app/new/" target="_blank">' . __( 'Twitter\'s application registration page', 'wp-to-twitter' ) . '</a></h4>
 						<ul>
@@ -237,16 +215,16 @@ function wtt_connect_oauth( $auth = false ) {
 						<li>' . __( 'Your Application Description can be anything.', 'wp-to-twitter' ) . '</li>
 						<li>' . __( 'The WebSite and Callback URL should be ', 'wp-to-twitter' ) . '<strong>' . get_bloginfo( 'url' ) . '</strong></li>
 						</ul>
-					<p><em>' . __( 'Agree to the Developer Rules of the Road and continue.', 'wp-to-twitter' ) . '</em></p>
+					<p><em>' . __( 'Agree to the Twitter Developer Agreement and continue.', 'wp-to-twitter' ) . '</em></p>
 					<h4>' . __( '2. Switch to the "Permissions" tab in Twitter apps', 'wp-to-twitter' ) . '</h4>
 						<ul>
 						<li>' . __( 'Select "Read and Write" for the Application Type', 'wp-to-twitter' ) . '</li>
 						<li>' . __( 'Update the application settings', 'wp-to-twitter' ) . '</li>
 						</ul>
-					<h4>' . __( '3. Switch to the API Keys tab and regenerate your API keys, then create your access token.', 'wp-to-twitter' ) . '</h4>
+					<h4>' . __( '3. Switch to the Keys and Access Tokens tab and regenerate your consumer key and secret, then create your access token.', 'wp-to-twitter' ) . '</h4>
 						<ul>
-						<li>' . __( 'Copy your API key and API secret from the top section.', 'wp-to-twitter' ) . '</li>
-						<li>' . __( 'Copy your Access token and Access token secret from the bottom section.', 'wp-to-twitter' ) . '</li>
+						<li>' . __( 'Copy your API key and API secret from the "Application Settings" section.', 'wp-to-twitter' ) . '</li>
+						<li>' . __( 'Copy your Access token and Access token secret from the "Your Access Token" section.', 'wp-to-twitter' ) . '</li>
 						</ul>
 			' . $form . '
 				<fieldset class="options">						
@@ -261,7 +239,7 @@ function wtt_connect_oauth( $auth = false ) {
 					</p>
 					</div>
 					<h4>' . __( '4. Copy and paste your Access Token and Access Token Secret into the fields below', 'wp-to-twitter' ) . '</h4>
-					<p>' . __( 'If the Access level for your Access Token is not "<em>Read and write</em>", you must return to step 2 and generate a new Access Token.', 'wp-to-twitter' ) . '</p>
+					<p>' . __( 'If the Access Level for your Access Token is not "<em>Read and write</em>", you must return to step 2 and generate a new Access Token.', 'wp-to-twitter' ) . '</p>
 					<div class="tokens">
 					<p>
 						<label for="wtt_oauth_token">' . __( 'Access Token', 'wp-to-twitter' ) . '</label>
@@ -287,16 +265,11 @@ function wtt_connect_oauth( $auth = false ) {
 		$nonce = ( ! $auth ) ? wp_nonce_field( 'wp-to-twitter-nonce', '_wpnonce', true, false ) . wp_referer_field( false ) . '</form>' : '';
 		if ( ! $auth ) {
 			$submit = '
-					<input type="submit" name="submit" class="button-primary" value="' . __( 'Disconnect Your WordPress and Twitter Account', 'wp-to-twitter' ) . '" />
+					<input type="submit" name="submit" class="button-primary" value="' . __( 'Disconnect your WordPress and Twitter Account', 'wp-to-twitter' ) . '" />
 					<input type="hidden" name="oauth_settings" value="wtt_twitter_disconnect" class="hidden" />
 				';
 		} else {
 			$submit = '<input type="checkbox" name="oauth_settings" value="wtt_twitter_disconnect" id="disconnect" /> <label for="disconnect">' . __( 'Disconnect your WordPress and Twitter Account', 'wp-to-twitter' ) . '</label>';
-		}
-		if ( ! is_wp_error( $response ) ) {
-			$diff = ( abs( time() - strtotime( $response['headers']['date'] ) ) > 300 ) ? '<p> ' . __( 'Your time stamps are more than 5 minutes apart. Your server could lose its connection with Twitter.', 'wp-to-twitter' ) . '</p>' : '';
-		} else {
-			$diff = __( 'WP to Twitter could not contact Twitter\'s remote server. Here is the error triggered: ', 'wp-to-twitter' ) . $errors;
 		}
 
 		print( '
@@ -308,8 +281,8 @@ function wtt_connect_oauth( $auth = false ) {
 					<fieldset class="options">
 					<ul>
 						<li><strong class="auth_label">' . __( 'Twitter Username ', 'wp-to-twitter' ) . '</strong> <code class="auth_code">' . $uname . '</code></li>
-						<li><strong class="auth_label">' . __( 'Consumer Key ', 'wp-to-twitter' ) . '</strong> <code class="auth_code">' . $ack . '</code></li>
-						<li><strong class="auth_label">' . __( 'Consumer Secret ', 'wp-to-twitter' ) . '</strong> <code class="auth_code">' . $acs . '</code></li>
+						<li><strong class="auth_label">' . __( 'API Key ', 'wp-to-twitter' ) . '</strong> <code class="auth_code">' . $ack . '</code></li>
+						<li><strong class="auth_label">' . __( 'API Secret ', 'wp-to-twitter' ) . '</strong> <code class="auth_code">' . $acs . '</code></li>
 						<li><strong class="auth_label">' . __( 'Access Token ', 'wp-to-twitter' ) . '</strong> <code class="auth_code">' . $ot . '</code></li>
 						<li><strong class="auth_label">' . __( 'Access Token Secret ', 'wp-to-twitter' ) . '</strong> <code class="auth_code">' . $ots . '</code></li>
 					</ul>
@@ -319,14 +292,8 @@ function wtt_connect_oauth( $auth = false ) {
 					</div>
 				</div>		
 				' . $nonce . '
-			<p>' . __( 'Your server time:', 'wp-to-twitter' ) . ' <code>' . $server_time . '</code>.<br />' . __( 'Twitter\'s server time: ', 'wp-to-twitter' ) . '<code>' . $date . '</code>.</p>
-			' . $errors . $diff . '</div>' );
-		// sent as debugging
-		global $wpt_server_string;
-		$wpt_server_string =
-			__( 'Your server time:', 'wp-to-twitter' ) . ' <code>' . $server_time . '</code>
-			' . __( 'Twitter\'s server time: ', 'wp-to-twitter' ) . '<code>' . $date . '</code>
-			' . $errors . $diff;
+			</div>' );
+
 	}
 	if ( ! $auth ) {
 		echo "</div>";

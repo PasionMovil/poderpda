@@ -12,12 +12,13 @@
     border: none;
 }
 
-legend {
+#wp-to-twitter legend, #wpt-settings_page legend {
     padding: 6px;
     background: #f3f3f3;
     width: 100%;
     border-radius: 3px 0 0 3px;
     color: #000;
+	margin-top: 4px;
 }
 
 #wp-to-twitter .resources {
@@ -52,6 +53,12 @@ legend {
     display: block;
     float: left;
     margin-top: 5px;
+}
+
+#wp-to-twitter .wpt-terms p {
+	text-align: right;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #ddd;
 }
 
 #wp-to-twitter .wpt-terms ul {
@@ -126,6 +133,7 @@ label[for="wpt_license_key"] {
     padding: 0 4px;
     position: relative;
     top: 1px;
+	font-size: 1.2em;
 }
 
 #wpt_settings_page .tabs li {
@@ -136,7 +144,7 @@ label[for="wpt_license_key"] {
 
 #wpt_settings_page .tabs a {
     display: inline-block;
-    padding: 4px 8px;
+    padding: 6px 12px;
     border-radius: 4px 4px 0 0;
     border: 1px solid #ccc;
     background: #f3f3f3;
@@ -145,6 +153,9 @@ label[for="wpt_license_key"] {
 #wpt_settings_page .tabs a.active {
     border-bottom: 1px solid #fefefe;
     background: #fefefe;
+	text-decoration: none;
+	color: #333;
+	font-weight: 700;
 }
 
 #wpt_settings_page .wptab {
@@ -196,6 +207,48 @@ label[for="wpt_license_key"] {
 
 .jcd-narrow {
     width: 20%;
+}
+
+label[for='wpt_prepend_rt'], label[for='wpt_prepend_rt2'], label[for='wpt_prepend_rt3'] {
+	display: block;
+}
+
+.wpt-truncate {
+	display: inline-block;
+	padding: 4px;
+}
+
+.wpt-button {
+	text-align: center;
+	margin: 1em 0 !important;
+}
+
+.nav-tab-wrapper {
+	padding-left: 10px;
+	border-bottom: 1px solid #ccc;
+}
+
+.nav-tab-wrapper .nav-tab {
+	font-weight: 700;
+	font-size: 1.1em;
+}
+
+.wpt-button .cta a {
+	padding: 1em;
+	font-size: 1.2em;
+	background: #5993c1;
+	color: #fff;
+	text-decoration: none;
+	display: inline-block;
+}
+
+#wpt_settings_page iframe {
+	margin:10px auto!important;
+}
+
+.wpt-button .cta a:hover, .wpt-button .cta a:focus {
+	text-decoration: underline;
+	background: #233c7f;
 }
 
 @media (max-width: 782px) {

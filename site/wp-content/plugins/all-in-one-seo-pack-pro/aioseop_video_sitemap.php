@@ -240,7 +240,7 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
 						$opts[$v] = ent2ncr( esc_attr( $data[$k] ) );
 				if ( !empty( $data['html'] ) && empty( $opts['video:description'] ) ) {
 					$opts['video:description'] = "Video ";
-					if ( !empty($opts['title']) ) $opts['video:description'] .= $opts['title'];
+					if ( !empty($opts['video:title']) ) $opts['video:description'] .= $opts['video:title'];
 					if ( !empty( $opts['video:uploader'] ) )
 						$opts['video:description'] .= ' by ' . $opts['video:uploader'];
 				}
