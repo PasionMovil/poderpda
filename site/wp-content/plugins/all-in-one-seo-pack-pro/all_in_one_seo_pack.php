@@ -2,8 +2,8 @@
 /*
 Plugin Name: All in One SEO Pack Pro
 Plugin URI: http://semperfiwebdesign.com
-Description: Out-of-the-box SEO for your WordPress blog. <a href="admin.php?page=all-in-one-seo-pack-pro/aioseop_class.php">Options configuration panel</a> | <a href="http://semperplugins.com/support/" target="_blank">Support Forum</a>
-Version: 2.3.6.2
+Description: Out-of-the-box SEO for your WordPress blog. <a href="admin.php?page=all-in-one-seo-pack-pro/aioseop_class.php">Options configuration panel</a> | <a href="http://semper.plugins.com/support/" target="_blank">Support Forum</a>
+Version: 2.3.7.1
 Author: Michael Torbert
 Author URI: http://michaeltorbert.com
 */
@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * @package All-in-One-SEO-Pack-Pro
- * @version 2.3.6.2
+ * @version 2.3.7.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) return;
@@ -42,7 +42,7 @@ if ( ! defined( 'AIOSEOP_PLUGIN_NAME' ) )
     define( 'AIOSEOP_PLUGIN_NAME', $aioseop_plugin_name );
 
 if ( ! defined( 'AIOSEOP_VERSION' ) )
-    define( 'AIOSEOP_VERSION', '2.3.6.2' );
+    define( 'AIOSEOP_VERSION', '2.3.7.1' );
 
 if ( ! defined( 'AIOSEOP_PLUGIN_DIR' ) ) {
     define( 'AIOSEOP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
@@ -127,7 +127,7 @@ if ( !empty( $aioseop_mem_limit ) ) {
 }
 
 $aiosp_activation = false;
-$aioseop_module_list = Array( 'sitemap', 'opengraph', 'robots', 'file_editor', 'importer_exporter', 'video_sitemap', 'performance' ); // list all available modules here
+$aioseop_module_list = Array( 'sitemap', 'opengraph', 'robots', 'file_editor', 'importer_exporter', 'video_sitemap', 'bad_robots', 'performance' ); // list all available modules here
 
 if ( class_exists( 'All_in_One_SEO_Pack' ) ) {
 	add_action( 'admin_notices', create_function( '', 'echo "<div class=\'error\'>The All in One SEO Pack Pro class is already defined";'
@@ -202,6 +202,7 @@ if ( is_admin() ) {
 	add_action( 'wp_ajax_aioseop_ajax_save_url',	'aioseop_ajax_save_url' );
 	add_action( 'wp_ajax_aioseop_ajax_delete_url',	'aioseop_ajax_delete_url' );
 	add_action( 'wp_ajax_aioseop_ajax_scan_header',	'aioseop_ajax_scan_header' );
+	add_action( 'wp_ajax_aioseop_ajax_facebook_debug', 'aioseop_ajax_facebook_debug' );
 	add_action( 'wp_ajax_aioseop_ajax_save_settings', 'aioseop_ajax_save_settings');
 	add_action( 'wp_ajax_aioseop_ajax_get_menu_links', 'aioseop_ajax_get_menu_links');
 	add_action( 'wp_ajax_aioseop_ajax_update_oembed',	'aioseop_ajax_update_oembed' );

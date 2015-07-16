@@ -10,7 +10,7 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Feature_Manager' ) ) {
 
 		protected $module_info = Array( );
 
-		function All_in_One_SEO_Pack_Feature_Manager( $mod ) {
+		function __construct( $mod ) {
 			$this->name = __('Feature Manager', 'all_in_one_seo_pack');		// Human-readable name of the plugin
 			$this->prefix = 'aiosp_feature_manager_';						// option prefix
 			$this->file = __FILE__;									// the current file
@@ -27,6 +27,8 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Feature_Manager' ) ) {
 															  'description' => __( 'Exports and imports your All in One SEO Pack plugin settings.', 'all_in_one_seo_pack' ) ),
 										'video_sitemap'         => Array( 'name' => __( 'Video Sitemap', 'all_in_one_seo_pack' ),
 															  'description' => __( 'Create and manage your Video Sitemap using this feature and submit your Video Sitemap to Google, Bing/Yahoo and Ask.com.', 'all_in_one_seo_pack' ) ),
+										'bad_robots'=> Array( 'name' => __( 'Bad Bot Blocker', 'all_in_one_seo_pack' ),
+															  'description' => __( 'Stop badly behaving bots from slowing down your website.', 'all_in_one_seo_pack' ) ),										
 										'performance' => Array( 'name'			=> __( 'Performance', 'all_in_one_seo_pack' ),
 					 											'description'	=> __( 'Optimize performance related to SEO and check your system status.', 'all_in_one_seo_pack' ),
 																'default'	=> 'on'),

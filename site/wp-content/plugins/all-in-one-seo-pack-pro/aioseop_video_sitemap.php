@@ -10,7 +10,7 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Sitemap' ) ) {
 }
 if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_One_SEO_Pack_Video_Sitemap' ) ) ) {
 	class All_in_One_SEO_Pack_Video_Sitemap extends All_in_One_SEO_Pack_Sitemap {
-		function All_in_One_SEO_Pack_Video_Sitemap( ) {
+		function __construct( ) {
 			$this->name = __( 'Video Sitemap', 'all_in_one_seo_pack' );	// Human-readable name of the plugin
 			$this->prefix = 'aiosp_video_sitemap_';						// option prefix
 			$this->file = __FILE__;									// the current file
@@ -297,10 +297,14 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
 			delete_post_meta( (int)$id, '_aioseop_oembed_info' );
 		//	$wp_embed->cache_oembed( (int)$id );
 			$post = get_post( (int)$id );
-			if ( !empty( $post ) && !empty($post->post_content) ) {
+			if ( !empty( $post ) && ( !empty($post->post_content) || !empty( $post->post_excerpt ) ) ) {
 				$wp_embed->post_ID = (int)$post->ID;
 				$wp_embed->usecache = false;
-				$content = $wp_embed->run_shortcode( $post->post_content );
+				$content = '';
+				if ( !empty( $post->post_content ) )
+					$content .= $wp_embed->run_shortcode( $post->post_content );
+				if ( !empty( $post->post_excerpt ) )
+					$content .= $wp_embed->run_shortcode( $post->post_excerpt );
 				$wp_embed->autoembed( $content );
 				$wp_embed->usecache = true;
 			}

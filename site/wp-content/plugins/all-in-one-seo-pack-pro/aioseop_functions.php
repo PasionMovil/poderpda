@@ -189,7 +189,12 @@ if ( !function_exists( 'aioseop_admin_head' ) ) {
 		td.seodesc.column-seodesc,
 		td.seokeywords.column-seokeywords {
 			overflow: visible;
-		}		
+		}
+		@media screen and (max-width: 782px) {
+			body.wp-admin th.column-seotitle, th.column-seodesc, th.column-seokeywords, td.seotitle.column-seotitle, td.seodesc.column-seodesc, td.seokeywords.column-seokeywords {
+			  display: none;
+			}
+		}
 		</style>
 		<?php wp_print_scripts( Array( 'sack' ) );
 		?><script type="text/javascript">
@@ -286,12 +291,13 @@ if ( !function_exists( 'aioseop_ajax_save_meta' ) ) {
 
 if ( !function_exists( 'aioseop_ajax_init' ) ) {
 	function aioseop_ajax_init() {
-		if ( !empty( $_POST ) && !empty( $_POST['settings'] ) && !empty( $_POST['nonce-aioseop']) && !empty( $_POST['options'] ) ) {
+		if ( !empty( $_POST ) && !empty( $_POST['settings'] ) && (!empty( $_POST['nonce-aioseop'])||(!empty( $_POST['nonce-aioseop-edit']))) && !empty( $_POST['options'] ) ) {
 			$_POST = stripslashes_deep( $_POST );
 			$settings = esc_attr( $_POST['settings'] );
 			if ( ! defined( 'AIOSEOP_AJAX_MSG_TMPL' ) )
 			    define( 'AIOSEOP_AJAX_MSG_TMPL', "jQuery('div#aiosp_$settings').fadeOut('fast', function(){jQuery('div#aiosp_$settings').html('%s').fadeIn('fast');});" );
-			if ( !wp_verify_nonce($_POST['nonce-aioseop'], 'aioseop-nonce') ) die( sprintf( AIOSEOP_AJAX_MSG_TMPL, __( "Unauthorized access; try reloading the page.", 'all_in_one_seo_pack' ) ) );
+			if ( !wp_verify_nonce($_POST['nonce-aioseop'], 'aioseop-nonce') )
+				die( sprintf( AIOSEOP_AJAX_MSG_TMPL, __( "Unauthorized access; try reloading the page.", 'all_in_one_seo_pack' ) ) );				
 		} else {
 			die(0);
 		}
@@ -340,16 +346,12 @@ if ( !function_exists( 'aioseop_ajax_update_oembed' ) ) {
 				if ( !empty( $post ) ) {
 					$parse = $module->parse_video_opts( Array( 'html' => $post->post_content ) ); // try to detect manual embed codes
 					if ( !empty( $parse ) && !empty( $parse['video:player_loc'] ) )	{
-						// delete_post_meta( (int)$id, '_aioseop_oembed_info' );
 						$module->oembed_discovery( $post->post_content, $parse['video:player_loc'], null, $id );
 					}
 				}
-				//$wp_embed->autoembed( $post->post_content );
 			}	
 		}
-//		$output .= sprintf( __( "Processed batch of %s posts.", 'all_in_one_seo_pack' ), $_POST['options'] . ' ' . join( ',', $ids ) . ' ' . $adhoc_log );
 		$output .= sprintf( __( "Finished scanning posts.", 'all_in_one_seo_pack' ) );
-		
 		$output = str_replace( "'", "\'", $output );
 		$output = str_replace( "\n", '\n', $output );
 		die( sprintf( AIOSEOP_AJAX_MSG_TMPL, $output ) );
@@ -495,8 +497,6 @@ if ( !function_exists( 'aioseop_ajax_scan_header' ) ) {
 		$output = $meta;
 		$output = str_replace( "'", "\'", $output );
 		$output = str_replace( "\n", '\n', $output );
-//		$output = str_replace( "<", '&lt;', $output );
-//		$output = str_replace( ">", '&gt;', $output );
 		die( sprintf( AIOSEOP_AJAX_MSG_TMPL, $output ) );
 	}
 }
@@ -516,7 +516,6 @@ if (!function_exists('aioseop_ajax_save_settings')) {
 		if ( empty( $_POST['location'] ) ) $_POST['location'] = null;
 		$_POST['Submit'] = 'ajax';
 		$module->add_page_hooks();
-//		$_POST = $module->get_current_options( $_POST, $_POST['location'] );
 		$output = $module->handle_settings_updates( $_POST['location'] );
 		$output = '<div id="aioseop_settings_header"><div id="message" class="updated fade"><p>' . $output . '</p></div></div><style>body.all-in-one-seo_page_all-in-one-seo-pack-pro-aioseop_feature_manager .aioseop_settings_left { margin-top: 45px !important; }</style>';
 		die( sprintf( AIOSEOP_AJAX_MSG_TMPL, $output ) );
@@ -535,9 +534,6 @@ if (!function_exists('aioseop_ajax_get_menu_links')) {
 		$aiosp->admin_menu();
 		if ( empty( $_POST['location'] ) ) $_POST['location'] = null;
 		$_POST['Submit'] = 'ajax';
-//		$module->add_page_hooks();
-		
-//		include_once( ABSPATH . "/wp-admin/admin.php" );
 		
 		$modlist = $aioseop_modules->get_loaded_module_list();
 		$links = Array();

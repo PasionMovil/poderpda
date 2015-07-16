@@ -229,6 +229,7 @@ function aioseop_handle_ajax_call( action, settings, options, success) {
 		aioseop_sack.onCompletion = success;
 	}
 	aioseop_sack.setVar( "nonce-aioseop", jQuery('input[name="nonce-aioseop"]').val() );
+	aioseop_sack.setVar( "nonce-aioseop-edit", jQuery('input[name="nonce-aioseop-edit"]').val() );
 	
 	aioseop_sack.onError = function() {alert('Ajax error on saving.'); };
 	aioseop_sack.runAJAX();
@@ -285,12 +286,6 @@ jQuery(document).ready(function() {
 			}
 		});
 	}
-	/*
-	jQuery("#aiosp_settings_form").delegate("input[name='Submit']", "click", function() {
-		aioseop_handle_post_url('aioseop_ajax_save_settings', 'ajax_settings_message', jQuery('form#aiosp_settings_form').serialize() );
-		return false;
-	});
-	*/
 	jQuery(".all-in-one-seo_page_all-in-one-seo-pack-pro-aioseop_feature_manager #aiosp_settings_form .aioseop_settings_left").delegate("input[name='Submit']", "click", function(e) {
 		e.preventDefault();
 		return false;
@@ -306,18 +301,6 @@ jQuery(document).ready(function() {
 		return false;
 	});
 	var selectors = "div.aioseop_multicheckbox_type div.aioseop_option_div, #aiosp_sitemap_debug div.aioseop_option_div, #aiosp_performance_status div.aioseop_option_div";
-	/*
-	jQuery(selectors).each(function() {
-		aioseop_overflow_border(this);
-	});
-	var resizeTimer;
-	jQuery(window).resize(function() {
-		clearTimeout(resizeTimer);
-		resizeTimer = setTimeout(jQuery(selectors).each(function() {
-			aioseop_overflow_border(this);
-		}), 250);
-	});
-	*/
 	jQuery("div#aiosp_sitemap_addl_pages_metabox").delegate("input[name='Submit']", "click", function() {
 		aioseop_handle_post_url('aioseop_ajax_save_url', 'sitemap_addl_pages', jQuery('div#aiosp_sitemap_addl_pages_metabox input, div#aiosp_sitemap_addl_pages_metabox select').serialize() );
 		return false;

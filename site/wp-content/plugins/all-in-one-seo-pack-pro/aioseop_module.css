@@ -466,10 +466,10 @@ div.aioseop_feature#aioseop_opengraph .aioseop_featured_image {
 div.aioseop_feature#aioseop_opengraph .aioseop_featured_image.active {
 	background-image: url(images/SocialMeta-Color-Standard.png);
 }
-div.aioseop_feature#aioseop_robots .aioseop_featured_image {
+div.aioseop_feature#aioseop_robots .aioseop_featured_image, div.aioseop_feature#aioseop_bad_robots .aioseop_featured_image {
 	background-image: url(images/Robots-BW-Standard.png);
 }
-div.aioseop_feature#aioseop_robots .aioseop_featured_image.active {
+div.aioseop_feature#aioseop_robots .aioseop_featured_image.active, div.aioseop_feature#aioseop_bad_robots .aioseop_featured_image.active {
 	background-image: url(images/Robots-Color-Standard.png);
 }
 div.aioseop_feature#aioseop_file_editor .aioseop_featured_image {
@@ -548,10 +548,10 @@ only screen and (                min-resolution: 1.5dppx) {
 	div.aioseop_feature#aioseop_opengraph .aioseop_featured_image.active {
 		background-image: url(images/SocialMeta-Color-Retina.png);
 	}
-	div.aioseop_feature#aioseop_robots .aioseop_featured_image {
+	div.aioseop_feature#aioseop_robots .aioseop_featured_image, div.aioseop_feature#aioseop_bad_robots .aioseop_featured_image {
 		background-image: url(images/Robots-BW-Retina.png);
 	}
-	div.aioseop_feature#aioseop_robots .aioseop_featured_image.active {
+	div.aioseop_feature#aioseop_robots .aioseop_featured_image.active, div.aioseop_feature#aioseop_bad_robots .aioseop_featured_image.active {
 		background-image: url(images/Robots-Color-Retina.png);
 	}
 	div.aioseop_feature#aioseop_file_editor .aioseop_featured_image {
@@ -717,6 +717,17 @@ table.aioseop_table td {
 .All_in_One_SEO_Pack_Opengraph table.aioseop_table td {
 	border-right: 1px solid #dfdfdf;
 	border-bottom: 1px solid #dfdfdf;
+}
+#aioseop_opengraph_settings_facebook_debug_result li.aioseop_opengraph_settings_facebook_debug_item {
+  display: inline-block;
+  width: 30%;
+  vertical-align: top;
+}
+#aioseop_opengraph_settings_facebook_debug_result li.aioseop_opengraph_settings_facebook_debug_item:nth-child(even) {
+  font-weight: bold;
+}
+#aioseop_opengraph_settings_facebook_debug_result li.aioseop_opengraph_settings_facebook_debug_item:nth-child(odd) {
+  width: 70%;
 }
 #aiosp_sitemap_addl_pages_metabox table.aioseop_table td,
 #aiosp_video_sitemap_addl_pages_metabox table.aioseop_table td {
@@ -890,8 +901,8 @@ div.aioseop_notice a.aioseop_dismiss_link {
 .aioseop_tabs {
 	padding-top: 6px;
 }
-.aioseop_tabs.hide {
-	display: block;
+.aioseop_tabs.hide, .aioseop_header_tabs.hide {
+	display: block !important;
 }
 .aioseop_header_tabs li {
 	display: inline;
