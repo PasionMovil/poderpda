@@ -1,6 +1,6 @@
 body {
   direction: rtl;
-  unicode-bidi: embed;	
+  unicode-bidi: embed;
 }
 
 a.toggle-button {
@@ -49,8 +49,22 @@ h3#responses:before {
 }
 
 .homepage-menu a:after {
-	content: '\f053';
+	content: '\e810';
 }
 .rtl .menu-tree li.menu-item a {
 	padding-right: 5px;
+}
+
+
+.related-posts li.has-thumb a, .related-posts .has-thumb p {
+	padding-right: 65px;
+	padding-left: 0;
+}
+
+.related-posts img {
+	right: 0;
+}
+
+.loop-link .date-circle {
+	float: right;
 }

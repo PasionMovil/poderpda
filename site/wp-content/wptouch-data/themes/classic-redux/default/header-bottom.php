@@ -1,5 +1,5 @@
 <!-- Back Button for Web-App Mode -->
-<div class="icon-reply back-button tappable"><!-- css-button --></div>
+<div class="wptouch-icon-reply back-button tappable"><!-- css-button --></div>
 
 <div class="page-wrapper <?php classic_css_noise(); ?> clearfix"><!-- tag closed in foundation's footer.php -->
 
@@ -18,7 +18,7 @@
 		<?php } ?>
 
 		<?php if ( wptouch_has_menu( 'primary_menu' ) ) { ?>
-			<div class="<?php if ( !classic_show_menu_button_text() ) echo 'icon-list-ul'; ?> tappable menu-drop show-hide-toggle" data-effect-target="menu">
+			<div class="<?php if ( !classic_show_menu_button_text() ) echo 'wptouch-icon-list-ul'; ?> tappable menu-drop show-hide-toggle" data-effect-target="menu">
 				<?php if ( classic_show_menu_button_text() ) { ?>
 					<span><?php _e( 'Menu', 'wptouch-pro' ); ?></span>
 				<?php } ?>
@@ -31,28 +31,28 @@
 		<div id="menu" class="default-menu show-hide-menu <?php classic_css_noise(); ?>">
 			<?php if ( $settings->show_tab_bar ) { ?>
 				<ul class="tab-menu clearfix <?php classic_css_noise(); ?>">
-					<li><a href="#" class="icon-list-ul no-ajax" data-section="menu" title="<?php _e( 'Menu', 'wptouch-pro' ); ?>"></a></li>
+					<li><a href="#" class="wptouch-icon-list-ul no-ajax" data-section="menu" title="<?php _e( 'Menu', 'wptouch-pro' ); ?>"></a></li>
 
 					<?php if ( $settings->tab_bar_cat_tags == 'categories' || $settings->tab_bar_cat_tags == 'categories_and_tags' ) { ?>
-						<li><a href="#" class="icon-th no-ajax" data-section="categories" title="<?php _e( 'Categories', 'wptouch-pro' ); ?>"></a></li>
+						<li><a href="#" class="wptouch-icon-th no-ajax" data-section="categories" title="<?php _e( 'Categories', 'wptouch-pro' ); ?>"></a></li>
 					<?php } ?>
 
 					<?php if ( $settings->tab_bar_cat_tags == 'tags' || $settings->tab_bar_cat_tags == 'categories_and_tags' ) { ?>
-						<li><a href="#" class="icon-tags no-ajax" data-section="tags" title="<?php _e( 'Tags', 'wptouch-pro' ); ?>"></a></li>
+						<li><a href="#" class="wptouch-icon-tags no-ajax" data-section="tags" title="<?php _e( 'Tags', 'wptouch-pro' ); ?>"></a></li>
 					<?php } ?>
 
 					<?php if ( $foundation_settings->twitter_account != 'none' && defined( 'WORDTWIT_WPTOUCH_PRO_EXT' ) ) { ?>
-					<li><a href="#" class="icon-twitter no-ajax" data-section="twitter" title="<?php _e( 'Tweets', 'wptouch-pro' ); ?>"></a></li>
+					<li><a href="#" class="wptouch-icon-twitter no-ajax" data-section="twitter" title="<?php _e( 'Tweets', 'wptouch-pro' ); ?>"></a></li>
 					<?php } ?>
 
-					<li><a href="#" class="icon-search no-ajax needsclick" data-section="search" title="<?php _e( 'Search', 'wptouch-pro' ); ?>"></a></li>
+					<li><a href="#" class="wptouch-icon-search no-ajax needsclick" data-section="search" title="<?php _e( 'Search', 'wptouch-pro' ); ?>"></a></li>
 
 					<?php if ( function_exists( 'wptouch_fdn_show_login' ) ) { ?>
 						<?php if (  wptouch_fdn_show_login() ) { ?>
 							<?php if ( !is_user_logged_in() ) { ?>
-								<li><a href="#" class="login-button login-toggle icon-key no-ajax" title="<?php _e( 'Login', 'wptouch-pro' ); ?>"></a></li>
+								<li><a href="#" class="login-button login-toggle wptouch-icon-key no-ajax" title="<?php _e( 'Login', 'wptouch-pro' ); ?>"></a></li>
 							<?php } else { ?>
-								<li><a href="<?php echo wp_logout_url( $_SERVER['REQUEST_URI'] ); ?>" class="login-button icon-user" title="<?php _e( 'Logout', 'wptouch-pro' ); ?>"></a></li>
+								<li><a href="<?php echo wp_logout_url( esc_url_raw( $_SERVER['REQUEST_URI'] ) ); ?>" class="login-button wptouch-icon-user" title="<?php _e( 'Logout', 'wptouch-pro' ); ?>"></a></li>
 							<?php } ?>
 						<?php } ?>
 					<?php } ?>

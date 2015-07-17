@@ -1,5 +1,5 @@
-body {   
-	direction: rtl; 
+body {
+	direction: rtl;
 	unicode-bidi: embed;
 }
 
@@ -7,7 +7,7 @@ body {
 	direction: ltr;
 }
 
-#header-buttons i.icon-play {
+#header-buttons i.wptouch-icon-play {
 	margin-left: 0px;
 	margin-right: 3px; /* RTL */
 }
@@ -71,4 +71,18 @@ h3#responses {
 .sharing-options {
 	margin-right: -15px; /* RTL */
 	margin-left: -15px; /* RTL */
+}
+
+
+.related-posts li.has-thumb a, .related-posts .has-thumb p {
+	padding-right: 65px;
+	padding-left: 0;
+}
+
+.related-posts img {
+	right: 0;
+}
+
+.loop-link .date-circle {
+	float: right;
 }

@@ -31,9 +31,14 @@ body {
 	color: rgba(0,0,0,.7);
 }
 
+#content .wptouch-ad img {
+	max-width: none !important;
+	width: auto !important;
+}
+
 .ios.portrait .post .wptouch-ad {
-	-webkit-transform: scale(.95);
-	margin-left: -19px;
+	margin-left: -10px;
+	margin-right: -10px;
 }
 
 /* @end */
@@ -74,18 +79,18 @@ a.login-button {
 }
 
 a.login-button:after {
-	content: "\f084";
-	font-family: 'FontAwesome';
+	content: "\e804";
+	font-family: 'wptouch-icons';
 }
 
 a.login-button.logout:after {
-	content: "\f007";
-	font-family: 'FontAwesome';
+	content: "\e806";
+	font-family: 'wptouch-icons';
 }
 
 a.toggle-button:after {
-	content: "\f078";
-	font-family: 'FontAwesome';
+	content: "\e80f";
+	font-family: 'wptouch-icons';
 }
 
 a.toggle-button.toggle-open {
@@ -141,7 +146,7 @@ a.toggle-button.toggle-open {
 }
 
 #map.hide {
-	
+
 	visibility: visible;
 	display: none;
 	height: auto;
@@ -195,6 +200,10 @@ a.toggle-button.toggle-open {
 	display: none;
 }
 
+.homepage-menu ul ul {
+	display: none;
+}
+
 #homepage-menu-list > ul > li.no-icon {
 	padding-left: 0;
 }
@@ -224,8 +233,8 @@ a.toggle-button.toggle-open {
 
 .homepage-menu a:after {
 	border-radius: 25px;
-	font-family: 'FontAwesome';
-	content: '\f054';
+	font-family: 'wptouch-icons';
+	content: '\e811';
 	position: absolute;
 	z-index: 999;
 	right: 2%;
@@ -242,7 +251,7 @@ a.toggle-button.toggle-open {
 }
 
 .homepage-menu span.touched {
-	color: #fff;	
+	color: #fff;
 }
 
 #homepage-menu-list .open-tree {
@@ -259,44 +268,199 @@ a.toggle-button.toggle-open {
 }
 
 .homepage-menu a.phone-number:after {
-	content: "\f095";
+	content: "\e849";
 }
 
 .homepage-menu a.map-address:after {
-	content: "\f041";
+	content: "\e837";
 }
 
 /* @end */
 
 /* @end */
+
 
 /* @group Blog */
 
-#content .post {
-	padding-top: 20px;
-	font-size: 95%;
-	padding-bottom: 10px;
-	margin-bottom: 0;
+/* @group Index */
+
+.blog #content {
+	background: transparent;
+	box-shadow: none;
+	margin: 0;
+	padding: 0;
 }
 
-#content .post:first-child {
+.blog .post {
+	background-color: #fff;
+	border-radius: 4px;
+	-webkit-box-shadow: 0px 1px 0px rgba(0,0,0,.1);
+	box-shadow: rgba(0,0,0,.1) 0px 1px 1px;
+	padding: 3px;
+	margin: 12px 12px 30px;
+}
+
+.blog .post:first-child {
+	border: none;
+}
+
+.blog #content .post h2 {
+	margin: 0 0 10px;
+}
+
+.blog .post-meta {
+	opacity: .6;
+}
+
+.blog .post-excerpt {
 	padding-top: 10px;
 }
 
-.post .post-meta,.post .post-head-area span {
-	color: #999;
-	font-size: 90%;
+.post .post-head {
+	display: block;
+	text-align: center;
+	padding: 5%;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+	position: relative;
+	margin-right: -3px;
+	margin-top: -3px;
+	margin-left: -3px;
 }
 
-.not-single.not-page {
-	border-bottom: 1px dashed #999;
-	margin-bottom: 25px;
+.post .post-head:after {
+	content: '';
+	background-color: rgba( 0, 0, 0, 0.3 );
+	border-radius: 4px 4px 0 0;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
-.post-meta {
-	color: #999;
+.post .post-head p {
+	color: rgba( 255, 255, 255, 0.6 );
+	text-transform: uppercase;
+	font-weight: 700;
+	font-size: 11px;
+	letter-spacing: 1px;
+	margin-top: -40px;
+	padding-bottom: 40px;
+	position: relative;
+	z-index: 1;
+}
+
+.post .post-head h2, .single .post .post-head h2 {
+	display: block;
+	font-size: 22px;
+	font-weight: 500;
+	color: #fff;
+	text-shadow: rgba(0,0,0,.5) 1px 0px 4px;
+	max-width: 500px;
+	line-height: 130%;
+	margin: 50px auto !important;
+	position: relative;
+	z-index: 1;
+}
+
+.post .content {
+	line-height: 150%;
+	padding: 0 15px;
+}
+
+/* @end */
+
+/* @group Single */
+
+.single a#blog-back {
+	color: #fff;
+	display: block;
 	font-size: 80%;
+	text-align: center;
+	opacity: .6;
+	padding: 15px 0 15px;
+	text-transform: uppercase;
 }
+
+.single #content {
+	padding: 0 0 20px;
+}
+
+.single .content {
+	background-color: #fff;
+	padding: 6px 12px;
+	margin: 12px;
+}
+
+.single .post-date, .single .post-author {
+	opacity: .6;
+}
+
+.single #content p {
+	line-height: 145%;
+	font-size: 95%;
+}
+	.single #content p:first-child {
+		margin-top: 4px;
+	}
+
+.single .nav-controls {
+	margin: 15px 0;
+}
+
+/* @end */
+
+/* @group Comments */
+
+.single #comments {
+	padding: 0 12px 20px;
+	margin: 10px;
+	border-radius: 4px;
+	background: rgba( 255, 255, 255, 0.9 );
+}
+
+.single #comments h3 {
+	margin-top: 0;
+}
+
+.single #comments label {
+	display: block;
+	text-transform: uppercase;
+}
+
+.comment .comment-avatar {
+	float: left;
+	height: 40px;
+}
+
+.comment .comment-avatar img {
+	height: 40px;
+	margin-right: 15px;
+	width: auto;
+}
+
+.comment .meta {
+	opacity: .6;
+}
+
+.comment .comment-time {
+	font-size: 80%;
+	margin-top: 3px;
+}
+
+.comment .comment-body {
+	line-height: 140%;
+}
+
+.single button#submit {
+	border-radius: 3px !important;
+	text-transform: uppercase;
+}
+
+/* @end */
+
 
 a.load-more-link {
 	text-transform: capitalize;
@@ -340,7 +504,7 @@ a.load-more-link {
 }
 
 .related-posts ul {
-	
+
 }
 
 .related-posts ul li {
@@ -416,8 +580,8 @@ a.load-more-link {
 }
 
 #content.search li a:after {
-	font-family: 'FontAwesome';
-	content: "\f0a9";
+	font-family: 'wptouch-icons';
+	content: "\e815";
 	margin-left: 5px;
 }
 
@@ -450,10 +614,10 @@ h3#responses {
 }
 
 h3#responses:before {
-	content: "\f086";
+	content: "\e813";
 	margin-right: 5px;
 	font-style: normal;
-	font-family: 'FontAwesome';
+	font-family: 'wptouch-icons';
 	font-variant: normal;
 	margin-bottom: 0;
 }
@@ -517,11 +681,11 @@ ol.commentlist ul {
 
 .dark-header .wptouch-login-wrap, .dark-header .wptouch-login-wrap a {
 	color: rgba(255,255,255,.8);
-	text-shadow: rgba(0,0,0,.2) 0 -1px 0;	
+	text-shadow: rgba(0,0,0,.2) 0 -1px 0;
 }
 
 .dark-header .wptouch-login-wrap #wp-submit {
-	color: rgba(255,255,255,.8);	
+	color: rgba(255,255,255,.8);
 	border: 1px solid rgba(0,0,0,.2);
 	background-color: rgba(0,0,0,.1);
 }
@@ -600,16 +764,6 @@ ol.commentlist ul {
 
 .ios7.web-app-mode.smartphone .menu-bumper a.toggle-button, .ios7.web-app-mode.smartphone .menu-bumper a.login-button {
 	top: 22px;
-}
-
-
-
-/* @end */
-
-/* @group Slider */
-
-#slider {
-	margin-bottom: 30px;
 }
 
 

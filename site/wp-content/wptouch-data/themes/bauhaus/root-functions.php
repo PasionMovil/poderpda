@@ -1,6 +1,6 @@
 <?php
 
-define( 'BAUHAUS_THEME_VERSION', '1.1' );
+define( 'BAUHAUS_THEME_VERSION', '1.4.9' );
 define( 'BAUHAUS_SETTING_DOMAIN', 'bauhaus' );
 define( 'BAUHAUS_DIR', wptouch_get_bloginfo( 'theme_root_directory' ) );
 define( 'BAUHAUS_URL', wptouch_get_bloginfo( 'theme_root_url' ) );
@@ -13,6 +13,7 @@ add_action( 'admin_enqueue_scripts', 'bauhaus_enqueue_admin_scripts' );
 // Bauhaus filters
 add_filter( 'wptouch_registered_setting_domains', 'bauhaus_setting_domain' );
 add_filter( 'wptouch_setting_defaults_bauhaus', 'bauhaus_setting_defaults' );
+add_filter( 'wptouch_setting_defaults_foundation', 'bauhaus_foundation_setting_defaults' );
 
 add_filter( 'wptouch_body_classes', 'bauhaus_body_classes' );
 add_filter( 'wptouch_post_classes', 'bauhaus_post_classes' );
@@ -20,7 +21,6 @@ add_filter( 'wptouch_post_classes', 'bauhaus_post_classes' );
 // Bauhaus GUI Settings
 add_filter( 'wptouch_admin_page_render_wptouch-admin-theme-settings', 'bauhaus_render_theme_settings' );
 add_filter( 'foundation_settings_blog', 'bauhaus_blog_settings' );
-// add_filter( 'foundation_settings_pages', 'bauhaus_page_settings' );
 add_filter( 'wptouch_post_footer', 'bauhaus_footer_version' );
 
 add_filter( 'wptouch_has_post_thumbnail', 'bauhaus_handle_has_thumbnail' );
@@ -52,6 +52,8 @@ function bauhaus_setting_defaults( $settings ) {
 
 	// Bauhaus menu default
 	$settings->primary_menu = 'wp';
+	$settings->bauhaus_menu_style = 'off-canvas';
+
 
 	// Theme colors
 	$settings->bauhaus_background_color = '#f9f9f8';
@@ -77,14 +79,19 @@ function bauhaus_setting_defaults( $settings ) {
 	return $settings;
 }
 
-function bauhaus_theme_init() {
+function bauhaus_foundation_setting_defaults( $settings ) {
+	$settings->typography_sets = 'lato_roboto';
+	return $settings;
+}
 
+function bauhaus_theme_init() {
 	// Foundation modules this theme should load
 	foundation_add_theme_support(
 		array(
 			// Modules w/ settings
 			'webapp',
 			'advertising',
+			'wptouch-icons',
 			'custom-posts',
 			'custom-latest-posts',
 			'related-posts',
@@ -100,31 +107,32 @@ function bauhaus_theme_init() {
 			'spinjs',
 			'tappable',
 			'fastclick',
-			'tappable',
-			'font-awesome',
 			'concat'
 		)
 	);
 
-	// If enable in Bauhaus settings, load up infinite scrolling
+	// If enabled in Bauhaus settings, load up infinite scrolling
 	bauhaus_if_infinite_scroll_enabled();
+
+	// If enabled in Bauhaus settings, load up PushIt off-canvas menu (default)
+	bauhaus_if_off_canvas_enabled();
 
 	// Example of how to register a theme menu
 	wptouch_register_theme_menu(
 		array(
-			'name' => 'primary_menu',	// this is the name of the setting
-			'friendly_name' => __( 'Header Menu', 'wptouch-pro' ),	// the friendly name, shows as a section heading
-			'settings_domain' => BAUHAUS_SETTING_DOMAIN,	// the setting domain (should be the same for the whole theme)
-			'description' => __( 'Choose a menu', 'wptouch-pro' ),	 	// the description
-			'tooltip' => __( 'Main menu selection', 'wptouch-pro' ), // Extra help info about this menu, perhaps?
-			'can_be_disabled' => false
+			'name' => 'primary_menu',									// this is the name of the setting
+			'friendly_name' => __( 'Header Menu', 'wptouch-pro' ),		// the friendly name, shows as a section heading
+			'settings_domain' => BAUHAUS_SETTING_DOMAIN,				// the setting domain (should be the same for the whole theme)
+			'description' => __( 'Choose a menu', 'wptouch-pro' ),		// the description
+			'tooltip' => __( 'Main menu selection', 'wptouch-pro' ),	// Extra help info about this menu, perhaps?
+			'can_be_disabled' => false									// Typically this is always false
 		)
 	);
 
 	// Example of how to register theme colors
 	// (Name, element to add color to, element to add background-color to, settings domain)
 	foundation_register_theme_color( 'bauhaus_background_color', __( 'Theme background', 'wptouch-pro' ), '', '.page-wrapper', BAUHAUS_SETTING_DOMAIN );
-	foundation_register_theme_color( 'bauhaus_header_color', __( 'Header & Menu', 'wptouch-pro' ), 'a', 'body, header, .wptouch-menu, #search-dropper, .date-circle', BAUHAUS_SETTING_DOMAIN );
+	foundation_register_theme_color( 'bauhaus_header_color', __( 'Header & Menu', 'wptouch-pro' ), 'a', 'body, header, .wptouch-menu, .pushit, #search-dropper, .date-circle', BAUHAUS_SETTING_DOMAIN );
 	foundation_register_theme_color( 'bauhaus_link_color', __( 'Links', 'wptouch-pro' ), 'a, #slider a p:after', '.dots li.active, #switch .active', BAUHAUS_SETTING_DOMAIN );
 	foundation_register_theme_color( 'bauhaus_post_page_header_color', __( 'Post/Page Headers', 'wptouch-pro' ), '', '.bauhaus, .wptouch-login-wrap, form#commentform button#submit', BAUHAUS_SETTING_DOMAIN );
 }
@@ -205,6 +213,12 @@ function bauhaus_body_classes( $classes ) {
 		$classes[] = 'no-com-bubbles';
 	}
 
+	if ( $settings->bauhaus_menu_style == 'drop-down' ) {
+		$classes[] = 'drop-down';
+	} else {
+		$classes[] = 'off-canvas';
+	}
+
 	return $classes;
 }
 
@@ -239,7 +253,7 @@ function bauhaus_render_theme_settings( $page_options ) {
 		__( 'Theme Shapes', 'wptouch-pro' ),
 		'theme-shapes',
 		array(
-			wptouch_add_setting(
+			wptouch_add_pro_setting(
 				'radiolist',
 				'bauhaus_shape_type',
 				__( 'Theme shape style', 'wptouch-pro' ),
@@ -254,7 +268,28 @@ function bauhaus_render_theme_settings( $page_options ) {
 		),
 		$page_options,
 		BAUHAUS_SETTING_DOMAIN
+	);
 
+	wptouch_add_page_section(
+		FOUNDATION_PAGE_BRANDING,
+		__( 'Menu Style', 'wptouch-pro' ),
+		'menu-style',
+		array(
+			wptouch_add_pro_setting(
+				'radiolist',
+				'bauhaus_menu_style',
+				__( 'Menu animation style', 'wptouch-pro' ),
+				__( 'Bauhaus can show your menu off-canvas or in a drop-down.', 'wptouch-pro' ),
+				WPTOUCH_SETTING_ADVANCED,
+				'1.3',
+				array(
+					'off-canvas' => __( 'Off-canvas', 'wptouch-pro' ),
+					'drop-down' => __( 'Drop-down', 'wptouch-pro' )
+				)
+			)
+		),
+		$page_options,
+		BAUHAUS_SETTING_DOMAIN
 	);
 
 	return $page_options;
@@ -265,7 +300,7 @@ function bauhaus_render_theme_settings( $page_options ) {
 function bauhaus_blog_settings( $blog_settings ) {
 
 	$blog_settings[] = wptouch_add_setting(
-		'radiolist',
+		'list',
 		'bauhaus_use_thumbnails',
 		__( 'Post thumbnails', 'wptouch-pro' ),
 		'',
@@ -361,7 +396,7 @@ function bauhaus_blog_settings( $blog_settings ) {
 		BAUHAUS_SETTING_DOMAIN
 	);
 
-	$blog_settings[] = wptouch_add_setting(
+	$blog_settings[] = wptouch_add_pro_setting(
 		'checkbox',
 		'bauhaus_use_infinite_scroll',
 		__( 'Use infinite scrolling for blog', 'wptouch-pro' ),
@@ -373,23 +408,6 @@ function bauhaus_blog_settings( $blog_settings ) {
 	);
 
 	return $blog_settings;
-}
-
-// Hook into Foundation page section for Blog and add settings
-function bauhaus_page_settings( $page_settings ) {
-
-	$page_settings[] = wptouch_add_setting(
-		'checkbox',
-		'bauhaus_show_featured_slider_on_front',
-		__( 'Show featured slider on front page', 'wptouch-pro' ),
-		'',
-		WPTOUCH_SETTING_BASIC,
-		'1.0',
-		'',
-		BAUHAUS_SETTING_DOMAIN
-	);
-
-	return $page_settings;
 }
 
 function bauhaus_handle_has_thumbnail( $does_have_it ) {
@@ -425,5 +443,13 @@ function bauhaus_if_infinite_scroll_enabled(){
 
 	if ( $settings->bauhaus_use_infinite_scroll ) {
 		foundation_add_theme_support( 'infinite-scroll' );
+	}
+}
+
+function bauhaus_if_off_canvas_enabled(){
+	$settings = bauhaus_get_settings();
+
+	if ( $settings->bauhaus_menu_style == 'off-canvas' ) {
+		foundation_add_theme_support( 'pushit' );
 	}
 }

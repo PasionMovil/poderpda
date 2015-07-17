@@ -1,4 +1,4 @@
-/* @override http://wptp3.local.com/wp-content/wptouch-data/themes/bauhaus/default/style.css?ver=3.1.7 */
+/* @override http://wptp3.local.com/wp-content/wptouch-data/themes/bauhaus/default/style.css?ver=3.8 */
 
 /* Bauhaus CSS */
 
@@ -14,6 +14,11 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
 	letter-spacing: -1px;
+}
+
+.page-wrapper {
+	left: 0;
+	right: 0;
 }
 
 /* @group Header */
@@ -60,6 +65,15 @@ header img {
 	top: 4px;
 }
 
+.drop-down #menu {
+	display: none;
+	position: absolute;
+	top: 54px;
+	z-index: 3;
+	right: 0;
+	left: 0;
+}
+
 #menu-toggle {
 	position: absolute;
 	right: 0;
@@ -67,9 +81,9 @@ header img {
 }
 
 #menu-toggle:after {
-	content: "\f0c9";
+	content: "\e80a";
 	display: block;
-	font: 110% 'FontAwesome', sans-serif;
+	font: 110% 'wptouch-icons', sans-serif;
 	padding: 18px;
 }
 
@@ -80,9 +94,9 @@ header img {
 }
 
 #search-toggle:after {
-	content: "\f002";
+	content: "\e809";
 	display: block;
-	font: 110% 'FontAwesome', sans-serif;
+	font: 110% 'wptouch-icons', sans-serif;
 	padding: 18px;
 }
 
@@ -96,16 +110,6 @@ header img {
 
 .login-link i {
 	margin-right: 5px;
-}
-
-#menu {
-	display: none;
-	position: absolute;
-	top: 54px;
-	z-index: 3;
-	right: 0;
-	left: 0;
-	display: none;
 }
 
 #wptouch-search-inner {
@@ -210,11 +214,11 @@ header img {
 }
 
 #slider a p.heading-font:after {
-	content: "\f105";
+	content: "\e80c";
 	margin-left: 8px;
 	top: 2px;
 	position: relative;
-	font-family: FontAwesome;
+	font-family: 'wptouch-icons';
 }
 
 .landscape #slider a p.heading-font, .landscape #slider a p.featured-date {
@@ -238,13 +242,13 @@ header img {
 	font-size: 95%;
 	font-weight: bold;
 	margin-left: -25%;
-	top: 6px;
+	top: 10px;
 }
 
 #slider .comments-number:after {
-	content: "\f075";
+	content: "\e812";
 	display: block;
-	font: 36px 'FontAwesome', sans-serif;
+	font: 36px 'wptouch-icons', sans-serif;
 	position: absolute;
 	top: 0;
 	left: -60%;
@@ -333,7 +337,8 @@ ul.dots {
 	position: relative;
 }
 
-.loop-link .date-circle {
+.loop-link .date-circle,
+.related .date-circle {
 	position: relative;
 	font-size: 215%;
 	line-height: 110%;
@@ -349,8 +354,19 @@ ul.dots {
 	overflow: hidden;
 	color: rgba(0,0,0,.7);
 }
+	.related .date-circle {
+		font-size: 175%;
+		height: 36px;
+		float: none;
+		margin: 0;
+		line-height: 100%;
+		position: absolute;
+		top: 3px;
+		width: 50px;
+	}
 
-.loop-link .date-circle .month {
+.loop-link .date-circle .month,
+.related .date-circle .month {
 	text-transform: uppercase;
 	font-size: 40%;
 	position: absolute;
@@ -360,7 +376,8 @@ ul.dots {
 	letter-spacing: -1px;
 }
 
-.loop-link .date-circle .day {
+.loop-link .date-circle .day,
+.related .date-circle .day {
 	position: absolute;
 	top: 18px;
 	right: 0;
@@ -408,13 +425,13 @@ ul.dots {
 	position: relative;
 	font-size: 70%;
 	font-weight: bold;
-	vertical-align: -2px;
+	vertical-align: -5px;
 }
 
 .loop-link .comments:after {
-	content: "\f075";
+	content: "\e812";
 	display: block;
-	font: 30px 'FontAwesome', sans-serif;
+	font: 30px 'wptouch-icons', sans-serif;
 	position: absolute;
 	left: 50%;
 	margin-left: -15px;
@@ -422,10 +439,12 @@ ul.dots {
 }
 
 .no-thumbs.loop-link .comments:after {
-	-moz-transform: scaleX(-1);
 	-o-transform: scaleX(-1);
 	-webkit-transform: scaleX(-1);
+	-ms-transform: scaleX(-1);
+	-moz-transform: scaleX(-1);
 	transform: scaleX(-1);
+	-webkit-filter: FlipH;
 	filter: FlipH;
 	-ms-filter: "FlipH";
 }
@@ -539,7 +558,19 @@ ul.dots {
 	font-size: 100%;
 	line-height: 165%;
 	padding-bottom: 50px;
+	padding-left: 20px;
+	padding-right: 20px;
 	overflow: hidden;
+}
+	.post-page-content .post-page-thumbnail,
+	.post-page-content .sharing-options {
+		margin-left: -20px;
+		margin-right: -20px;
+	}
+
+.post-page-content .wp-caption {
+	max-width: 300px !important;
+	width: auto !important;
 }
 
 .post-page-content img.aligncenter {
@@ -550,20 +581,13 @@ ul.dots {
 }
 
 .post-page-content table {
-	margin-left: 20px;
-	margin-right: 20px;
 	max-width: 100%;
 	overflow: scroll;
 }
 
-.post-page-content h1, .post-page-content h2, .post-page-content h3, .post-page-content h4, .post-page-content h5, .post-page-content h6, .post-page-content dl, .post-page-content address {
-	margin-left: 20px;
-	margin-right: 20px;
-}
-
 .post-page-content ul, .post-page-content ol {
-	margin-left: 15px;
-	margin-right: 15px;
+	margin-left: -5px;
+	margin-right: -5px;
 	list-style-type: circle;
 }
 
@@ -572,11 +596,6 @@ ul.dots {
 	margin-right: 10;
 	padding-right: 0;
 	padding-left: 0;
-}
-
-.post-page-content > p, .post-page-content > div > p {
-	padding-left: 20px;
-	padding-right: 20px;
 }
 
 .wptouch-shortcode-webapp-mobile, .wptouch-shortcode-webapp-only, .wptouch-shortcode-webapp-only {
@@ -643,6 +662,13 @@ ul.dots {
 	padding: 0;
 }
 
+.top-content-ad .wptouch-ad,
+.bottom-content-ad .wptouch-ad,
+#content .wptouch-ad {
+	margin-left: -15px;
+	margin-right: -15px;
+}
+
 /* @end */
 
 /* @group Related Posts */
@@ -668,14 +694,16 @@ ul.dots {
 	font-size: 1.6em;
 }
 
-.related-posts li.has-thumb  p {
+.related-posts li  p {
 	margin-top: 5px;
-	font-size: .9em;
+	font-size: 95%;
+	line-height: 140%;
 }
 
-.related-posts li.has-thumb  a, .related-posts .has-thumb p {
+.related-posts li.has-thumb  a, .related-posts p {
 	padding-left: 60px;
 	display: block;
+	overflow: hidden;
 }
 
 .related-posts .has-thumb img {
@@ -683,12 +711,14 @@ ul.dots {
 	width: 50px;
 	height: 50px;
 	top: 3px;
-	border: 1px solid rgba(0,0,0,.1);
+	-webkit-border-radius: 25px;
+	-moz-border-radius: 25px;
 	border-radius: 25px;
 }
 
-.rtl .related-posts img {
-	left: 0;
+.related-posts li a {
+	display: block;
+	padding-left: 62px;
 }
 
 /* @end */
@@ -738,6 +768,7 @@ ul.dots {
 #comments .comment-avatar {
 	width: 54px;
 	height: 54px;
+	-webkit-border-radius: 150px;
 	border-radius: 150px;
 	border: 1px solid rgba(255,255,255,.5);
 	float: left;
@@ -776,12 +807,19 @@ ul.dots {
 /* @group Commentform */
 
 form#commentform input, form#commentform textarea {
+	-webkit-border-radius: 4px;
 	border-radius: 4px;
+	-webkit-border-top-left-radius: 12px;
 	border-top-left-radius: 12px;
+}
+
+form#commentform input {
+	margin-right: 5px;
 }
 
 .dark-post-head form#commentform button#submit {
 	color: rgba(255,255,255,.8);
+	-webkit-border-radius: 4px;
 	border-radius: 4px;
 }
 
@@ -807,9 +845,9 @@ form#commentform input, form#commentform textarea {
 	font-size: 100%;
 }
 
-.search span.select-wrap i.icon-caret-down {
-	content: "\f063";
-	font: 110% 'FontAwesome', sans-serif;
+.search span.select-wrap i.wptouch-icon-caret-down {
+	content: "\e844";
+	font: 110% 'wptouch-icons', sans-serif;
 	position: relative;
 	z-index: 2;
 	top: 1px;
@@ -871,20 +909,25 @@ form#commentform input, form#commentform textarea {
 /* @group Circles */
 
 .circles #slider img.clone {
+	-webkit-border-radius: 225px;
 	border-radius: 225px;
 }
 
-.circles .loop-link .date-circle {
+.circles .loop-link .date-circle,
+.circles .related .date-circle {
+	-webkit-border-radius: 100px;
 	border-radius: 100px;
 }
 
 .circles .loop-link img.post-thumbnail {
+	-webkit-border-radius: 150px;
 	border-radius: 150px;
 }
 
 .landscape.circles #slider img.clone {
 	width: 250px;
 	height: 250px;
+	-webkit-border-radius: 225px;
 	border-radius: 225px;
 	left: -30px;
 	top: 12px;
@@ -906,6 +949,7 @@ form#commentform input, form#commentform textarea {
 
 .roundsquares #slider img.clone {
 	left: -85px;
+	-webkit-border-radius: 30px;
 	border-radius: 30px;
 }
 
@@ -918,10 +962,12 @@ form#commentform input, form#commentform textarea {
 }
 
 .roundsquares .loop-link .date-circle {
+	-webkit-border-radius: 14px;
 	border-radius: 14px;
 }
 
 .roundsquares .loop-link img.post-thumbnail, .roundsquares .related img.wp-post-image, .roundsquares .comment-avatar {
+	-webkit-border-radius: 14px;
 	border-radius: 14px;
 }
 
@@ -941,7 +987,8 @@ form#commentform input, form#commentform textarea {
 	color: rgba(255,255,255,.9);
 }
 
-.dark-header .loop-link .date-circle {
+.dark-header .loop-link .date-circle,
+.dark-header .related .date-circle {
 	color: rgba(255,255,255,.8);
 }
 
@@ -1005,6 +1052,18 @@ form#commentform input, form#commentform textarea {
 
 /* @group Web App Mode */
 
+.ios7.smartphone.web-app-mode #menu {
+	padding-top: 20px;
+}
+
+.drop-down.ios7.smartphone.web-app-mode #menu {
+	position: fixed;
+	top: 74px;
+	overflow: auto;
+	padding-top: 0;
+	-webkit-overflow-scrolling: touch;
+}
+
 .ios7.web-app-mode.has-fixed header {
 	position: -webkit-sticky;
 	opacity: 0.97;
@@ -1017,17 +1076,21 @@ form#commentform input, form#commentform textarea {
 	top: 74px;
 }
 
-.ios7.smartphone.web-app-mode #menu {
-	position: fixed;
-	top: 74px;
-	overflow: auto;
-	-webkit-overflow-scrolling: touch;
-}
-
 .ios7.web-app-mode #search-dropper {
 	position: -webkit-sticky;
 	top: 74px;
 	z-index: 3;
 }
+
+/* @end */
+
+/* @group Off-Canvas Login */
+
+.off-canvas .wptouch-login-wrap {
+	text-align: center;
+	font-size: 70%;
+}
+
+
 
 /* @end */

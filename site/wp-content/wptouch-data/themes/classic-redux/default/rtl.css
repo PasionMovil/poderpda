@@ -88,3 +88,11 @@ body {
 .loop-link .date-circle {
 	float: right;
 }
+
+.nav-controls a.next-post::after {
+	content: '\e810';
+}
+
+.nav-controls a.prev-post::before {
+	content: '\e811';
+}

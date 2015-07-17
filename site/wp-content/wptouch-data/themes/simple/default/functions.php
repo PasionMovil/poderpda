@@ -5,13 +5,20 @@ add_action( 'foundation_enqueue_scripts', 'simple_enqueue_scripts' );
 function simple_enqueue_scripts() {
 	wp_enqueue_script( 'simple', SIMPLE_URL . '/default/simple.js', array( 'jquery' ), SIMPLE_THEME_VERSION, true );
 }
-	
+
+function simple_full_image_url() {
+	if ( has_post_thumbnail() ) {
+		$full_image_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'full' );
+		echo $full_image_url[0];
+	}
+}
+
 function simple_homepage_content() {
 	$simple_settings = simple_get_settings();
 
 	if ( $simple_settings->homepage_message ) {
 		echo '<p class="message">';
-		echo $simple_settings->homepage_message;
+		echo do_shortcode( $simple_settings->homepage_message );
 		echo '</p>';
 	}
 }

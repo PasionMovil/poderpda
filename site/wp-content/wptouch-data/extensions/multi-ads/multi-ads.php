@@ -1,6 +1,6 @@
 <?php
 
-define( 'MULTIADS_VERSION', '1.0.2' );
+define( 'MULTIADS_VERSION', '1.0.6' );
 
 add_filter( 'wptouch_setting_defaults_addons', 'wptouch_addon_advertising_settings_defaults' );
 add_filter( 'wptouch_founction_advertising_enabled', 'wptouch_addon_advertising_disable_default' );
@@ -59,6 +59,22 @@ function wptouch_addon_check_and_render_ad( $name, $code1, $ab_enabled, $code2, 
 
 	global $wptouch_pro;
 	$is_mobile = ( $wptouch_pro->is_mobile_device && $wptouch_pro->showing_mobile_theme );
+
+	$settings = wptouch_get_settings( ADDON_SETTING_DOMAIN );
+	if ( $settings->advertising_exclude_urls ) {
+		$server_url = strtolower( $_SERVER['REQUEST_URI'] );
+		$url_list = explode( "\n", trim( strtolower( $settings->advertising_exclude_urls ) ) );
+		foreach( $url_list as $url ) {
+			if ( !strpos( $url, '%' ) && strpos( $server_url, '%' ) ) {
+				$url = strtolower( urlencode( substr( $url, 1) ) );
+				$server_url = substr( strtolower( $server_url ), 1 );
+			}
+			if ( strpos( $server_url, trim( $url ) ) !== false ) {
+				$should_show_ad = false;
+				break;
+			}
+		}
+	}
 
 	if ( $should_show_ad && $is_mobile ) {
 		// Check for A/B testing
@@ -152,15 +168,22 @@ function wptouch_addon_advertising_render_content_ads( $content ) {
 			$settings->advertising_mid_content_show_search
 		);
 
-		// Find paragraphs
-		$expanded_content = explode( '</p>', $content );
-		$total_paragraphs = count( $expanded_content );
-		if ( $total_paragraphs > 2 ) {
-			$where_to_insert = floor( $total_paragraphs / 2 );
+		if ( $settings->advertising_mid_content_minimum_characters < 1 || ( strlen( wp_strip_all_tags( $content ) ) >= $settings->advertising_mid_content_minimum_characters ) ) {
+			// Find paragraphs
+			$expanded_content = explode( '</p>', $content );
+			$total_paragraphs = count( $expanded_content );
+			if ( $total_paragraphs > 2 ) {
+				$where_to_insert = floor( $total_paragraphs / 2 );
 
-			$content = str_replace( $expanded_content[ $where_to_insert - 1 ] . '</p>', $ad_content . $expanded_content[ $where_to_insert - 1 ] . '</p>', $content );
+				// If we've detected three elements to content, but the first is an ad or the sharing tools, skip the first element before injecting the ad.
+				if ( $where_to_insert == 1 && ( strstr( $expanded_content[ 0 ], 'wptouch-ad' ) || strstr( $expanded_content[ 0 ], 'sharing-options' ) ) ) {
+					$where_to_insert = 2;
+				}
+
+				$content = str_replace( $expanded_content[ $where_to_insert ] . '</p>', $ad_content . $expanded_content[ $where_to_insert ] . '</p>', $content );
+			}
 		}
-	}	
+	}
 
 	if ( $settings->advertising_post_content_enabled ) {
 		$content = $content . wptouch_addon_check_and_render_ad(
@@ -180,6 +203,8 @@ function wptouch_addon_advertising_render_content_ads( $content ) {
 }
 
 function wptouch_addon_advertising_settings_defaults( $settings ) {
+	$settings->advertising_exclude_urls = false;
+
 	$units = wptouch_addon_advertising_get_units();
 
 	foreach( $units as $unit ) {
@@ -210,6 +235,8 @@ function wptouch_addon_advertising_settings_defaults( $settings ) {
 		$settings->$name8 = true;
 	}
 
+	$settings->advertising_mid_content_minimum_characters = 0;
+
 	return $settings;
 }
 
@@ -237,6 +264,24 @@ function wptouch_addon_advertising_render_settings( $page_options ) {
 		ADDON_MULTI_ADS_PAGENAME,
 		'wptouch-addon-multi-ads',
 		$page_options
+	);
+
+	wptouch_add_page_section(
+		ADDON_MULTI_ADS_PAGENAME,
+		__( 'Ignored URLs', 'wptouch-pro' ),
+		'addon-ad-exclude',
+		array(
+			wptouch_add_pro_setting(
+				'textarea',
+				'advertising_exclude_urls',
+				__( 'Do not show ads on these URLs', 'wptouch-pro' ),
+				__( 'Each permalink URL fragment should be on its own line and relative, e.g. "/about" or "/products/store"', 'wptouch-pro' ),
+				WPTOUCH_SETTING_BASIC,
+				'1.0'
+			),
+		),
+		$page_options,
+		ADDON_SETTING_DOMAIN
 	);
 
 	$units = wptouch_addon_advertising_get_units();
@@ -279,7 +324,7 @@ function wptouch_addon_advertising_render_settings( $page_options ) {
 					'1.0'
 				),
 				wptouch_add_pro_setting(
-					'checkbox',
+					( $unit != 'pre_content' && $unit != 'mid_content' && $unit != 'post_content' ) ? 'checkbox' : 'hidden',
 					'advertising_' . $unit . '_show_blog',
 					__( 'Display on archive/post listings', 'wptouch-pro' ),
 					'',
@@ -303,18 +348,26 @@ function wptouch_addon_advertising_render_settings( $page_options ) {
 					'1.0'
 				),
 				wptouch_add_pro_setting(
-					'checkbox',
+					( $unit != 'pre_content' && $unit != 'mid_content' && $unit != 'post_content' ) ? 'checkbox' : 'hidden',
 					'advertising_' . $unit . '_show_taxonomy',
 					__( 'Display on taxonomy listings', 'wptouch-pro' ),
 					'', WPTOUCH_SETTING_BASIC,
 					'1.0'
 				),
 				wptouch_add_pro_setting(
-					'checkbox',
+					( $unit != 'pre_content' && $unit != 'mid_content' && $unit != 'post_content' ) ? 'checkbox' : 'hidden',
 					'advertising_' . $unit . '_show_search',
 					__( 'Display in search results', 'wptouch-pro' ),
 					'',
 					WPTOUCH_SETTING_BASIC,
+					'1.0'
+				),
+				wptouch_add_pro_setting(
+					( $unit != 'mid_content' ) ? 'hidden' : 'text',
+					'advertising_' . $unit . '_minimum_characters',
+					__( 'Minimum characters in post/page to show ad.', 'wptouch-pro' ),
+					'',
+					WPTOUCH_SETTING_ADVANCED,
 					'1.0'
 				)
 			),

@@ -1,18 +1,25 @@
 <?php
 
-define( 'INFINITY_CACHE_VERSION', '1.0.2' );
+define( 'INFINITY_CACHE_VERSION', '1.2.2' );
+define( 'INFINTY_CACHE_PAGENAME', 'Infinity Cache' );
 define( 'INFINITY_CACHE_DIR', WPTOUCH_CUSTOM_ADDON_DIRECTORY . '/infinity-cache' );
 define( 'INFINITY_CACHE_CONTENT_DIR', WPTOUCH_BASE_CONTENT_DIR . '/infinity-cache' );
 define( 'INFINITY_CACHE_MAX_CDN_URL', 4 );
+
 // Experimental
 define( 'INFINITY_ALLOW_BROWSER_CACHE', true );
 define( 'INFINITY_CACHE_DEBUG', false );
 define( 'INFINITY_CACHE_ENABLE_GZIP', false );
 
+if ( strncasecmp( PHP_OS, 'WIN', 3 ) == 0 ) {
+	define( 'INFINITY_CACHE_WINDOWS', true );
+}
+
 add_action( 'init', 'wptouch_cache_admin_bar' );
 add_action( 'wptouch_cache_page', 'wptouch_addon_cache_do_cache' );
 add_action( 'wptouch_addon_cache_cleanup_event', 'wptouch_addon_cache_do_scheduled_cleanup' );
 add_filter( 'admin_init', 'wptouch_addon_cache_add_directory' );
+add_filter( 'wptouch_body_classes', 'wptouch_addon_cache_add_slug_to_body' );
 
 add_action( 'create_category', 'wptouch_addon_cache_flush' );
 add_action( 'edit_category', 'wptouch_addon_cache_flush' );
@@ -24,11 +31,29 @@ add_action( 'publish_future_post', 'wptouch_addon_cache_flush' );
 add_action( 'edit_post', 'wptouch_addon_cache_flush' );
 add_action( 'deleted_post', 'wptouch_addon_cache_flush' );
 
+add_action( 'wptouch_admin_save_settings_completed', 'wptouch_addon_cache_flush' );
+add_action( 'wptouch_version_update', 'wptouch_addon_cache_flush' );
+
 add_filter( 'wptouch_setting_defaults_addons', 'wptouch_addon_cache_settings_defaults' );
 add_filter( 'wptouch_addon_options', 'wptouch_cache_addon_options' );
 add_action( 'wptouch_admin_ajax_infinity-cache-reset', 'wptouch_addon_cache_handle_ajax_reset' );
 
 add_action( 'wptouch_update_settings_domain_' . ADDON_SETTING_DOMAIN, 'wptouch_addon_update_cron' );
+
+add_action( 'wptouch_admin_render_setting', 'wptouch_infinity_cache_render_setting' );
+
+function wptouch_infinity_debug( $message ) {
+	if ( !INFINITY_CACHE_DEBUG ) {
+		return;
+	}
+
+	$debug_file = INFINITY_CACHE_CONTENT_DIR . '/debug.txt';
+	$f = fopen( $debug_file, 'a+t' );
+	if ( $f ) {
+		fwrite( $f, time() . '  ' . $message . "\n" );
+		fclose( $f );
+	}
+}
 
 function wptouch_cache_admin_bar() {
 	add_action( 'admin_bar_menu', 'wptouch_cache_admin_bar_links', 999 );
@@ -36,35 +61,44 @@ function wptouch_cache_admin_bar() {
 
 function wptouch_cache_admin_bar_links() {
 	global $wp_admin_bar;
-	if ( !is_super_admin() || ! is_admin_bar_showing() ) {
+	if ( !is_super_admin() || !is_admin_bar_showing() ) {
 		return;
 	}
 
-	if ( isset( $_GET[ 'wptouch_infinity_purge' ] ) ) {
-		$nonce = $_GET[ 'purge_nonce' ];
-		if ( wp_verify_nonce( $nonce, 'infinity_cache' ) ) {
-			wptouch_addon_cache_handle_ajax_reset();
+	if ( wptouch_addon_cache_is_enabled() ) {
+		if ( isset( $_GET[ 'wptouch_infinity_purge' ] ) ) {
+			$nonce = $_GET[ 'purge_nonce' ];
+			if ( wp_verify_nonce( $nonce, 'infinity_cache' ) ) {
+				wptouch_addon_cache_handle_ajax_reset();
+			}
 		}
+
+		$wp_admin_bar->add_node(
+			array(
+				'id'   => 'infinity_cache',
+				'meta' => array(),
+				'title' => 'Infinity Cache',
+				'href' => false
+			)
+		);
+
+		$wp_admin_bar->add_node(
+			array(
+				'id' => 'infinity_cache_purge',
+				'meta' => array(),
+				'title' => __( 'Purge Page Cache', 'wptouch-pro' ),
+				'parent' => 'infinity_cache',
+				'href' => esc_url( add_query_arg( array( 'wptouch_infinity_purge' => '1', 'purge_nonce' => wp_create_nonce( 'infinity_cache' ) ), $_SERVER[ 'REQUEST_URI' ] ) )
+			)
+		);
 	}
+}
 
-	$wp_admin_bar->add_node(
-		array(
-			'id'   => 'infinity_cache',
-			'meta' => array(),
-			'title' => 'Infinity Cache',
-			'href' => false
-		)
-	);
-
-	$wp_admin_bar->add_node(
-		array(
-			'id' => 'infinity_cache_purge',
-			'meta' => array(),
-			'title' => __( 'Purge Page Cache', 'wptouch-pro' ),
-			'parent' => 'infinity_cache',
-			'href' => add_query_arg( array( 'wptouch_infinity_purge' => '1', 'purge_nonce' => wp_create_nonce( 'infinity_cache' ) ), $_SERVER[ 'REQUEST_URI' ] )
-		)
-	);
+function wptouch_addon_cache_add_slug_to_body( $classes ) {
+	if ( wptouch_addon_cache_is_enabled() ) {
+		$classes[] = 'infinity-cache-active';
+	}
+	return $classes;
 }
 
 function wptouch_addon_update_cron() {
@@ -116,6 +150,12 @@ function wptouch_addon_cache_is_cdn_enabled() {
 }
 
 function wptouch_cache_addon_options( $page_options ) {
+	wptouch_add_sub_page(
+        INFINTY_CACHE_PAGENAME,
+        'wptouch-addon-infinity-cache',
+        $page_options
+    );
+
 	$settings_array = array(
 		wptouch_add_setting(
 			'checkbox',
@@ -204,7 +244,7 @@ function wptouch_cache_addon_options( $page_options ) {
 		'3.1',
 		array(
 			'none' => __( 'None', 'wptouch-pro' ),
-			'maxcdn' => sprintf( 'MaxCDN (<a href="http://tracking.maxcdn.com/c/65997/6272/378" target="_blank">%s</a>)', __( 'Sign-up', 'wptouch-pro' ) )
+			'maxcdn' => __( 'Custom', 'wptouch-pro' )
 		)
 	);
 
@@ -213,9 +253,14 @@ function wptouch_cache_addon_options( $page_options ) {
 			'text',
 			'media_optimize_cdn_prefix_' . $i,
 			sprintf( __( 'URL %d', 'wptouch-pro' ), $i ),
-			sprintf( __( 'Add the URLs you have configured for your CDN, for example http://cdn%d.mysite.com', 'wptouch-pro' ), $i ),
+			sprintf( __( 'Add the URLs you have configured for your CDN, for example http://cdn%d.mysite.com. Add your domain for multisite as well.', 'wptouch-pro' ), $i ),
 			WPTOUCH_SETTING_BASIC,
 			'3.1'
+		);
+
+		$settings_array[] = wptouch_add_setting(
+			'cdn_show',
+			'media_optimize_cdn_prefix_' . $i
 		);
 	}
 
@@ -229,7 +274,7 @@ function wptouch_cache_addon_options( $page_options ) {
 	);
 
 	wptouch_add_page_section(
-		WPTOUCH_PRO_ADMIN_ADDON_OPTIONS,
+		INFINTY_CACHE_PAGENAME,
 		__( 'Infinity Cache', 'wptouch-pro' ),
 		'addons-infinity-cache',
 		$settings_array,
@@ -252,37 +297,54 @@ function wptouch_addon_cache_get_valid_time() {
 
 function wptouch_addon_cache_should_cache_page() {
 	// Check if cache has been disabled
-	if ( !wptouch_addon_cache_is_enabled() ) {
-		return false;
-	}
+	wptouch_infinity_debug( 'Checking to see if CACHE is enabled' );
 
-	// Don't cache any page requests, either GET or POST
-	if ( count( $_GET ) || count( $_POST ) ) {
+	if ( !wptouch_addon_cache_is_enabled() ) {
+		wptouch_infinity_debug( '...CACHE is disabled' );
 		return false;
 	}
 
 	// Don't cache AJAX requests
 	if ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) {
+		wptouch_infinity_debug( '...Disabling CACHE due to AJAX request' );
 		return false;
 	}
 
 	// Make sure our magic cookie is set
 	if ( !isset( $_COOKIE[ WPTOUCH_CACHE_COOKIE ] ) ) {
+		wptouch_infinity_debug( '...Disabling due to lack of magic cookie' );
 		return false;
 	}
 
 	// Don't cache comment forms that have cookies set
 	if ( isset( $_COOKIE[ 'comment_author' ] ) || isset( $_COOKIE[ 'comment_author_email' ] ) || isset( $_COOKIE[ 'comment_author_url'] ) ) {
+		wptouch_infinity_debug( '...Disabling CACHE due to COMMENT cookies being set' );
 		return false;
 	}
 
 	$settings = wptouch_get_settings( ADDON_SETTING_DOMAIN );
+	// Don't cache any page requests, either GET or POST
+	if ( count( $_GET ) || count( $_POST ) ) {
+		wptouch_infinity_debug( '...Disabling CACHE due to GET or POST' );
+		return false;
+	}
+
 	// See if we can cache desktop users
 	if ( $_COOKIE[ WPTOUCH_CACHE_COOKIE ] == 'desktop' ) {
 		if ( !$settings->cache_enable_desktop ) {
+			wptouch_infinity_debug( '...Disabling CACHE due to DESKTOP theme and disabled setting' );
 			return false;
 		}
 	}
+
+	// Check for password protected pages
+	foreach( $_COOKIE as $cookie_name => $cookie_value ) {
+  		if ( strncmp( $cookie_name, "wp-postpass_", 12 ) == 0 ) {
+  			// Page has a password
+  			wptouch_infinity_debug( '...Disabling CACHE due to Password Protected post' );
+  			return false;
+  		}
+  	}
 
 	// Check for ignored pages
 	if ( $settings->cache_ignored_urls ) {
@@ -290,9 +352,12 @@ function wptouch_addon_cache_should_cache_page() {
 		if ( is_array( $urls ) && count( $urls ) ) {
 			$page_uri = strtolower( $_SERVER[ 'REQUEST_URI' ] );
 			foreach( $urls as $url ) {
-				if ( strpos( $page_uri, $url ) !== false ) {
-					// Don't cache this page
-					return false;
+				if ( $url != '' ) {
+					if ( strpos( $page_uri, $url ) !== false ) {
+						// Don't cache this page
+						wptouch_infinity_debug( '...Disabling CACHE due to matched URL fragment' );
+						return false;
+					}
 				}
 			}
 		}
@@ -300,10 +365,12 @@ function wptouch_addon_cache_should_cache_page() {
 
 	// Don't cache pages of logged in users
 	if ( is_user_logged_in() ) {
+		wptouch_infinity_debug( '...Disabling CACHE due to logged in user' );
 		return false;
 	}
 
-	return true;
+	wptouch_infinity_debug( '...CACHE is ENABLED' );
+	return apply_filters( 'wptouch_addon_cache_current_page', true );
 }
 
 function wptouch_addon_get_cache_filename() {
@@ -344,9 +411,12 @@ function wptouch_addon_cache_do_cache() {
 	// Check for caching
 	if ( wptouch_addon_cache_should_cache_page() ) {
 		$cache_file = wptouch_addon_get_cache_filename();
+		wptouch_infinity_debug( 'CACHE file is ' . $cache_file );
 		if ( file_exists( $cache_file ) ) {
+			wptouch_infinity_debug( '...found CACHE file; checking modification time' );
 			$last_modify_time = filemtime( $cache_file );
-			if ( !wptouch_addon_cache_is_file_expired( $last_modify_time ) && !INFINITY_CACHE_DEBUG ) {
+			if ( !wptouch_addon_cache_is_file_expired( $last_modify_time ) ) {
+				wptouch_infinity_debug( '...file is still valid, serving' );
 				// Serve cache file
 				global $wptouch_pro;
 
@@ -354,21 +424,26 @@ function wptouch_addon_cache_do_cache() {
 
 				$etag = 0;
 				if ( wptouch_addon_cache_can_use_gzip() && isset( $_SERVER[ 'HTTP_ACCEPT_ENCODING'] ) && strpos( $_SERVER[ 'HTTP_ACCEPT_ENCODING'], 'gzip' ) !== false && function_exists( 'gzcompress' ) && file_exists( $cache_file  . '.gz' ) ) {
-
+					wptouch_infinity_debug( '......Serving GZIP version of CACHE' );
 					// Check for browsing cache
 					if ( wptouch_addon_cache_browser_cache_enabled() ) {
 						$etag = md5( filemtime( $cache_file  . '.gz' ) . wptouch_addon_cache_expiry_time() );
 						wptouch_addon_cache_check_modified( $etag );
 					}
 
+					// Load file (with gzip encoding)
+					$cache_data = $wptouch_pro->load_file( $cache_file  . '.gz' );
 
-					// gzip encoding
-					$cache_data = unserialize( $wptouch_pro->load_file( $cache_file  . '.gz' ) );
+					// Fix Windows newlines in PHP
+					if ( defined( 'INFINITY_CACHE_WINDOWS' ) ) {
+						$cache_data = str_replace( "\r\n", "\n", $cache_data );
+					}
+
+					// Unserialize
+					$cache_data = unserialize( $cache_data );
 
 					header( 'Content-Encoding: gzip' );
 					header( 'Content-Length: ' . strlen( $cache_data->body ) );
-
-
 				} else {
 					// Check for browsing cache
 					if ( wptouch_addon_cache_browser_cache_enabled() ) {
@@ -376,7 +451,14 @@ function wptouch_addon_cache_do_cache() {
 						wptouch_addon_cache_check_modified( $etag );
 					}
 
-					$cache_data = unserialize( $wptouch_pro->load_file( $cache_file ) );
+					// Load file
+					$cache_data = $wptouch_pro->load_file( $cache_file );
+
+					// Fix Windows newlines
+					if ( defined( 'INFINITY_CACHE_WINDOWS' ) ) { $cache_data = str_replace( "\r\n", "\n", $cache_data ); }
+
+					// Unserialize
+					$cache_data = unserialize( $cache_data );
 				}
 
 				$skip_items = array( 'X-Infinity-Cache' );
@@ -396,22 +478,21 @@ function wptouch_addon_cache_do_cache() {
 						continue;
 					}
 
+					wptouch_infinity_debug( '......Adding CACHE Header ' . $header );
 					header( $header );
 				}
 
 				if ( wptouch_addon_cache_browser_cache_enabled() ) {
+					wptouch_infinity_debug( '......Adding CACHE-CONTROL headers' );
 					header( 'ETag: ' . $etag );
 					header( 'Cache-Control: max-age=3600, must-revalidate' );
 				}
 
-				// header( 'X-Infinity-Cache ' . INFINITY_CACHE_VERSION . ': Hit' );
-
+				wptouch_infinity_debug( '...Serving CACHE data' );
 				echo $cache_data->body;
 				die;
 			}
 		}
-
-		//header( 'X-Infinity-Cache ' . INFINITY_CACHE_VERSION . ': Miss' );
 
 		global $infinity_cache_info;
 
@@ -419,6 +500,7 @@ function wptouch_addon_cache_do_cache() {
 		$infinity_cache_info->cookies = $_COOKIE;
 		$infinity_cache_info->generation_time = time();
 
+		wptouch_infinity_debug( 'Starting to generate CACHE file' );
 		ob_start( 'wptouch_addon_handle_cache_done' );
 	} else {
 		// header( 'X-Infinity-Cache: Should Not Cache' );
@@ -438,60 +520,52 @@ function wptouch_addon_cdn_get_urls() {
 	return $urls;
 }
 
-global $wptouch_cache_cur;
-global $wptouch_cdn_handled;
-
-$wptouch_cache_cur = 0;
-$wptouch_cdn_handled = array();
-
-function wptouch_addon_cache_replace_cdn_url( $url, $cdn_urls ) {
-	if ( count( $cdn_urls ) == 0 ) {
-		return $url;
-	}
-
-	global $wptouch_cdn_handled;
-
-	$key = md5( $url );
-	if ( isset( $wptouch_cdn_handled[ $key ] ) ) {
-		return false;
-	}
-
-	global $wptouch_cache_cur;
-	$cur_choice = $wptouch_cache_cur % count( $cdn_urls );
-	$wptouch_cache_cur++;
-
-	$result = str_replace( home_url(), rtrim( $cdn_urls[ $cur_choice ], '/' ), $url );
-	$wptouch_cdn_handled[ $key ] = $result;
-
-	return $result;
-}
-
 function wptouch_addon_cache_cdnize( $content ) {
+	wptouch_infinity_debug( '...Checking for CDN' );
 	if ( !wptouch_addon_cache_is_cdn_enabled() ) {
+		wptouch_infinity_debug( '......CDN is disabled' );
 		return $content;
 	}
 
-	$match_string = '#([\'"]' . content_url() . '/(.*)\.(jpg|png|js|gif|ico)(.*)[\'"])#iU';
+	$match_string = '#(href|src)=([\'"](.*)\.(jpg|css|png|js|gif|ico)[\'"\?])#iU';
 	$result = preg_match_all( $match_string, $content, $matches );
 	if ( $result ) {
+		wptouch_infinity_debug( '...found ' . count( $matches[0] ) . ' URLS' );
+
 		$find = array();
 		$replace = array();
 		$cdn_urls = wptouch_addon_cdn_get_urls();
 
-		for( $i = 0; $i < count( $matches[0] ); $i++ ) {
-			$url = trim( $matches[0][$i], '\'"' );
+		$count = 0;
+		foreach( $matches[0] as $find_url ) {
+			$count++;
 
-			$new_match = wptouch_addon_cache_replace_cdn_url( $url, $cdn_urls );
-			if ( $new_match === false ) {
-				continue;
+			$cdn_url = $cdn_urls[ $count % count( $cdn_urls ) ];
+
+			if ( !preg_match( '#(http|https|\/\/)#i', $find_url, $new_matches ) ) {
+				// Relative URL
+
+				$actual_url = $matches[ 3 ][ $count-1 ];
+				$new_url = str_replace( $actual_url, $cdn_url . $actual_url, $find_url );
+
+				$find[] = $find_url;
+				$replace[] = $new_url;
+
+				wptouch_infinity_debug( '......replacing ' . $find_url . ' WITH ' . $new_url );
+			} else {
+				$home_url = home_url();
+				$new_url = str_replace( $home_url, $cdn_url, $find_url );
+
+				$find[] = $find_url;
+				$replace[] = $new_url;
+
+				wptouch_infinity_debug( '......replacing ' . $find_url . ' WITH ' . $new_url );
 			}
-
-			$find[] = $url;
-			$replace[] = $new_match;
 		}
 
 		return str_replace( $find, $replace, $content );
 	} else {
+		wptouch_infinity_debug( '....NO URLs found :(' );
 		return $content;
 	}
 }
@@ -586,15 +660,17 @@ function wptouch_addon_cache_add_directory() {
 	wptouch_addon_cache_check_cron();
 
 	global $wptouch_pro;
+
 	if ( $wptouch_pro->admin_is_wptouch_page() ) {
 		wp_enqueue_script(
 			'infinity-cache',
-			WPTOUCH_BASE_CONTENT_URL . '/extensions/infinity-cache/admin.js',
+			WPTOUCH_BASE_CONTENT_URL . '/extensions/infinity-cache/infinity-cache-admin.js',
 			array( 'wptouch-pro-admin' ),
 			FOUNDATION_VERSION,
 			true
 		);
 	}
+
 }
 
 function wptouch_addon_cache_handle_ajax_reset() {
@@ -609,5 +685,14 @@ function wptouch_addon_should_cache_desktop(){
 		return true;
 	} else {
 		return false;
+	}
+}
+
+function wptouch_infinity_cache_render_setting( $setting ) {
+	$setting_info = wptouch_get_settings( ADDON_SETTING_DOMAIN );
+	$this_setting = $setting->name;
+
+	if ( isset( $setting_info->$this_setting ) && $setting_info->$this_setting ) {
+		echo '<div class="cdn">' . sprintf( __( 'An example for this URL is: %s%s%s.', 'wptouch-pro' ), '<strong>', '</strong>', str_replace( home_url(), $setting_info->$this_setting, WPTOUCH_URL . '/readme.txt' ) ) . '</div>';
 	}
 }

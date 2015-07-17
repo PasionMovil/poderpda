@@ -66,7 +66,7 @@ function cms_show_category_slider() {
 
 function cms_show_page_titles() {
 	$cms_settings = cms_get_settings();
-	
+
 	if ( $cms_settings->show_titles ) {
 		return true;
 	} else {
@@ -76,8 +76,18 @@ function cms_show_page_titles() {
 
 function cms_show_post_featured_images() {
 	$cms_settings = cms_get_settings();
-	
+
 	if ( $cms_settings->show_featured_images_in_posts ) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+function cms_show_search() {
+	$cms_settings = cms_get_settings();
+
+	if ( $cms_settings->show_search ) {
 		return true;
 	} else {
 		return false;

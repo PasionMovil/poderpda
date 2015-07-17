@@ -10,7 +10,12 @@
 						if ( $related_post->thumbnail != '' ) {
 							echo $related_post->thumbnail;
 						} else {
-							echo "<div class='no-thumb'></div>";
+					?>
+							<div class="date-circle">
+								<span class="month"><?php echo $related_post->month; ?></span>
+								<span class="day"><?php echo $related_post->day; ?></span>
+							</div>
+					<?php
 						}
 					?>
 					<strong><a href="<?php echo $related_post->link; ?>"><?php echo $related_post->title; ?></a></strong>

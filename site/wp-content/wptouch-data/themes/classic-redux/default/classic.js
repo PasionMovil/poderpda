@@ -4,11 +4,11 @@ function classicHandleTextDropDowns() {
 	jQuery( '#content' ).on( 'click', '.text-expand', function() {
 		var arrow = jQuery( this );
 		var content = jQuery( this ).parent().find( '.post-content' );
-		if ( content.hasClass( 'slide-in' ) ) {
-			arrow.removeClass( 'icon-chevron-up' ).addClass( 'icon-chevron-down' );
+		if ( arrow.hasClass( 'wptouch-icon-chevron-up' ) ) {
+			arrow.removeClass( 'wptouch-icon-chevron-up' ).addClass( 'wptouch-icon-chevron-down' );
 			content.webkitSlideToggle();
 		} else {
-			arrow.removeClass( 'icon-chevron-down' ).addClass( 'icon-chevron-up' );
+			arrow.removeClass( 'wptouch-icon-chevron-down' ).addClass( 'wptouch-icon-chevron-up' );
 			content.webkitSlideToggle();
 		}
 	});
@@ -24,7 +24,7 @@ function classicHandleTabMenu() {
 			jQuery( sectionName ).show();
 
 			// Triggers focus on the search field when the search tab item is clicked
-			if ( jQuery( this ).hasClass( 'icon-search' ) ) {
+			if ( jQuery( this ).hasClass( 'wptouch-icon-search' ) ) {
 				jQuery( '#search-text' ).focus();
 			}
 
@@ -43,10 +43,10 @@ function classicSwapGalleryNav(){
 	var prevLink = prevEl.find( 'a' ).attr( 'href' );
 	var nextLink = nextEl.find( 'a' ).attr( 'href' );
 	if ( prevLink != undefined ) {
-		prevEl.html( '<a class="gallery-nav-links" href="'+prevLink+'"><i class="icon-circle-arrow-left"></i></a>&nbsp;&nbsp;&nbsp;|' );
+		prevEl.html( '<a class="gallery-nav-links" href="'+prevLink+'"><i class="wptouch-icon-circle-arrow-left"></i></a>&nbsp;&nbsp;&nbsp;|' );
 	}
 	if ( nextLink != undefined ) {
-		nextEl.html( '<a class="gallery-nav-links" href="'+nextLink+'"><i class="icon-circle-arrow-right"></i></a>' );
+		nextEl.html( '<a class="gallery-nav-links" href="'+nextLink+'"><i class="wptouch-icon-circle-arrow-right"></i></a>' );
 	}
 
 	jQuery( '.gallery-nav' ).on( 'click', 'a.gallery-nav-links', function( e ) {
@@ -108,12 +108,6 @@ function classicHandleAds(){
 			jQuery( '.post' ).after( adDiv );
 		}
 	}).resize();
-
-	var customAdDiv = jQuery( '.wptouch-custom-ad' );
-	var shareDiv = jQuery( '.sharing-options.share-top' );
-	if ( jQuery( customAdDiv ).length && jQuery( shareDiv ).length ) {
-		customAdDiv.before( shareDiv );
-	}
 }
 
 function doClassicReady() {

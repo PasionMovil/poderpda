@@ -1,7 +1,7 @@
 <?php
 
 // CMS Defines
-define( 'CMS_THEME_VERSION', '1.1.3' );
+define( 'CMS_THEME_VERSION', '1.3.5' );
 define( 'CMS_SETTING_DOMAIN', 'cms' );
 define( 'CMS_DIR', wptouch_get_bloginfo( 'theme_root_directory' ) );
 define( 'CMS_URL', wptouch_get_bloginfo( 'theme_root_url' ) );
@@ -13,6 +13,7 @@ add_action( 'foundation_modules_loaded', 'cms_register_fonts' );
 // CMS Filters
 add_filter( 'wptouch_registered_setting_domains', 'cms_setting_domain' );
 add_filter( 'wptouch_setting_defaults_cms', 'cms_setting_defaults' );
+add_filter( 'wptouch_setting_defaults_foundation', 'cms_foundation_setting_defaults' );
 add_filter( 'wptouch_admin_page_render_wptouch-admin-theme-settings', 'cms_render_theme_settings' );
 add_filter( 'foundation_settings_blog', 'cms_blog_settings' );
 add_filter( 'foundation_settings_pages', 'cms_page_settings' );
@@ -40,6 +41,9 @@ function cms_setting_defaults( $settings ) {
 	// Pages
 	$settings->show_titles = true;
 
+	// Search
+	$settings->show_search = true;
+
 	// Custom theme colors
 	$settings->cms_heading_color = '#990000';
 	$settings->cms_link_color = '#990000';
@@ -52,7 +56,11 @@ function cms_setting_defaults( $settings ) {
 	$settings->frontpage_message = '';
 	$settings->show_featured_images_in_posts = false;
 
+	return $settings;
+}
 
+function cms_foundation_setting_defaults( $settings ) {
+	$settings->typography_sets = 'arvo_ptsans';
 	return $settings;
 }
 
@@ -101,9 +109,8 @@ function cms_theme_init() {
 			'media',
 			'social-links',
 			'featured',
-//			'cloud',
 			// Modules w/o settings
-			'font-awesome',
+			'wptouch-icons',
 			'menu',
 			'spinjs',
 			'fastclick',
@@ -213,6 +220,25 @@ function cms_render_theme_settings( $page_options ) {
 				'',
 				WPTOUCH_SETTING_BASIC,
 				'1.0.1'
+			)
+		),
+
+		$page_options,
+		CMS_SETTING_DOMAIN
+	);
+
+	wptouch_add_page_section(
+		FOUNDATION_PAGE_GENERAL,
+		__( 'Search', 'wptouch-pro' ),
+		'show-search',
+		array(
+		wptouch_add_setting(
+				'checkbox',
+				'show_search',
+				__( 'Enable search', 'wptouch-pro' ),
+				'',
+				WPTOUCH_SETTING_BASIC,
+				'2.3.4'
 			)
 		),
 

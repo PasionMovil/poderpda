@@ -28,18 +28,15 @@ function doWPtouchReady() {
 		// We have a shortcode
 		var params = {
 			post_id: shortcodeDiv.attr( 'data-post-id' ),
-			post_content: jQuery( '.wptouch-orig-content' ).html()
+			post_content: jQuery( '.wptouch-orig-content' ).html(),
+			post_nonce: wptouchMain.security_nonce
 		};
 
-		WPtouchAjax( 'handle_shortcode', params, function( response ) {
-			if ( response == 'WPTOUCH_NO_SHORTCODE' ) {
-				// No desktop shortcode, show the original one
-				shortcodeDiv.hide();
-				jQuery( '.wptouch-orig-content' ).show();
-			} else {
-				shortcodeDiv.html( response );
+		jQuery.post( wptouchMain.current_shortcode_url + '&current_time=' + jQuery.now(), params, function( result ) {
+				shortcodeDiv.html( result );
+				jQuery( document ).trigger( 'wptouch_ajax_content_loaded' );
 			}
-		});
+		);
 	}
 }
 

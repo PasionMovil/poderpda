@@ -503,7 +503,7 @@ ul.tab-menu a.active {
 	float: right;
 }
 
-.text-expand.icon-chevron-up {
+.text-expand.wptouch-icon-chevron-up {
 	box-shadow: inset rgba(0,0,0,.3) 0px 0px 12px;
 }
 
@@ -560,8 +560,8 @@ ul.tab-menu a.active {
 }
 
 .placeholder:after {
-	font-family: 'FontAwesome';
-	content: "\f040";
+	font-family: 'wptouch-icons';
+	content: "\e816";
 	font-size: 30px;
 	position: relative;
 	top: 35%;
@@ -672,7 +672,7 @@ h2.archive-title {
 }
 
 .related-posts li a {
-	font-size: 1.2em;
+	font-size: 1.1em;
 }
 
 .related-posts li.has-thumb  p {
@@ -733,13 +733,13 @@ h2.archive-title {
 }
 
 .nav-controls a.prev-post:before {
-	content: '\f053';
-	font: normal normal 90% 'FontAwesome';
+	content: '\e810';
+	font: normal normal 90% 'wptouch-icons';
 }
 
 .nav-controls a.next-post:after {
-	content: '\f054';
-	font: normal normal 90% 'FontAwesome';
+	content: '\e811';
+	font: normal normal 90% 'wptouch-icons';
 }
 
 /* @end */
@@ -781,8 +781,8 @@ h3.search-heading {
 }
 
 .search li.post a:after {
-	font-family: 'FontAwesome';
-	content: "\f0a9";
+	font-family: 'wptouch-icons';
+	content: "\e815";
 	margin-left: 5px;
 }
 
@@ -809,10 +809,10 @@ h3#responses {
 }
 
 h3#responses:before {
-	content: "\f086";
+	content: "\e813";
 	margin-right: 5px;
 	font-style: normal;
-	font-family: 'FontAwesome';
+	font-family: 'wptouch-icons';
 	font-variant: normal;
 	margin-bottom: 0;
 }
@@ -944,7 +944,7 @@ h3#responses {
 
 /* @group Footer */
 
-.footer a.icon-facebook, .footer a.icon-twitter, .footer a.icon-google-plus, .footer a.icon-envelope-alt {
+.footer a.wptouch-icon-facebook, .footer a.wptouch-icon-twitter, .footer a.wptouch-icon-google-plus, .footer a.wptouch-icon-envelope-alt {
 	line-height: 210%;
 }
 

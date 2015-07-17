@@ -1,8 +1,3 @@
-/* @override 
-	http://wptp3.local.com/wp-content/wptouch-data/themes/cms/default/style.css?ver=3.1
-	http://demo.wptouch.com/cms/wp-content/wptouch-data/3/themes/cms/default/style.css?ver=3.1
-*/
-
 /* CMS Main CSS */
 
 /* @group Globals */
@@ -24,9 +19,18 @@ body {
 	position: relative;
 }
 
-.top-content-ad .wptouch-ad, .bottom-content-ad .wptouch-ad {
+.top-content-ad .wptouch-ad, .bottom-content-ad .wptouch-ad, #content .wptouch-ad {
 	margin-left: -15px;
 	margin-right: -15px;
+}
+
+.single #content .wptouch-ad img {
+	border: none;
+	max-width: none !important;
+	height: auto;
+	padding: none;
+	border-radius: none;
+	background-color: transparent;
 }
 
 .header-ad .wptouch-custom-ad {
@@ -122,11 +126,11 @@ h6 {
 #header-buttons i {
 }
 
-#header-buttons i.icon-search, #header-buttons i.icon-user  {
+#header-buttons i.wptouch-icon-search, #header-buttons i.wptouch-icon-user  {
 	font-size: 100%;
 }
 
-#header-buttons i.icon-play {
+#header-buttons i.wptouch-icon-play {
 	-webkit-transform: rotate(90deg);
 	-moz-transform: rotate(90deg);
 	-o-transform: rotate(90deg);
@@ -239,12 +243,17 @@ input#search-submit {
 
 /* @group Blog */
 
+.entry {
+	display: block;
+	overflow: hidden;
+}
+
 .not-single.not-page .entry-inner:before {
 	display: block;
 	content: '';
 	position: absolute;
-	width: 0; 
-	height: 0; 
+	width: 0;
+	height: 0;
 	border-top: 10px solid transparent;
 	border-bottom: 10px solid transparent;
 	border-right:10px solid;
@@ -259,7 +268,7 @@ input#search-submit {
 	padding-left: 10px;
 	padding-top: 3px;
 	padding-bottom: 3px;
-	border-top: 1px solid rgba(255,255,255,.3);	
+	border-top: 1px solid rgba(255,255,255,.3);
 	border-bottom: 1px solid rgba(0,0,0,.1);
 }
 
@@ -306,7 +315,7 @@ img.wp-post-image {
 .placeholder i {
 	font-size: 300%;
 	position: relative;
-	top: 18px;
+	top: 10px;
 	color: rgba(0,0,0,.3);
 }
 
@@ -323,7 +332,7 @@ img.wp-post-image {
 	text-transform: capitalize;
 	border-top: 1px solid rgba(255,255,255,.3);
 	border-bottom: 1px solid rgba(0,0,0,.1);
-	box-shadow: inset rgba(0,0,0,.03) 0px 0px 44px;	
+	box-shadow: inset rgba(0,0,0,.03) 0px 0px 44px;
 }
 
 .sharing-options {
@@ -495,7 +504,7 @@ img.wp-post-image {
 }
 
 .related-posts ul {
-	
+
 }
 
 .related-posts ul li {
@@ -558,7 +567,7 @@ img.wp-post-image {
 }
 
 .dark-body .commentlist li {
-	border-top: 1px dashed rgba(255,255,255,.2);	
+	border-top: 1px dashed rgba(255,255,255,.2);
 }
 
 .comment-top {
@@ -575,7 +584,7 @@ img.wp-post-image {
 }
 
 .dark-body .comment-time {
-	color: rgba(255,255,255,.5);	
+	color: rgba(255,255,255,.5);
 }
 
 .avatar {
@@ -660,8 +669,8 @@ h3#responses {
 }
 
 #content.search li a:after {
-	font-family: 'FontAwesome';
-	content: "\f0a9";
+	font-family: 'wptouch-icons';
+	content: "\e815";
 	margin-left: 5px;
 }
 
@@ -684,11 +693,11 @@ h3#responses {
 
 .dark-body .wptouch-login-wrap, .dark-body .wptouch-login-wrap a {
 	color: rgba(255,255,255,.8);
-	text-shadow: rgba(0,0,0,.2) 0 -1px 0;	
+	text-shadow: rgba(0,0,0,.2) 0 -1px 0;
 }
 
 .dark-body .wptouch-login-wrap #wp-submit {
-	color: rgba(255,255,255,.8);	
+	color: rgba(255,255,255,.8);
 	border: 1px solid rgba(0,0,0,.2);
 	background-color: rgba(0,0,0,.1);
 }
@@ -725,15 +734,15 @@ h3#responses {
 /* @group Dark Themes */
 
 .dark-body .entry-inner {
-	border-top: 1px solid rgba(0,0,0,.08);	
+	border-top: 1px solid rgba(0,0,0,.08);
 	border-bottom: 1px solid rgba(255,255,255,0);
 	border-left: 1px solid rgba(0,0,0,.08);
-	box-shadow: none;	
+	box-shadow: none;
 }
 
 .dark-body #content .sharing-options a {
-	border-top: 1px solid rgba(255,255,255,.1);	
-	border-bottom: 1px solid rgba(255,255,255,.1);	
+	border-top: 1px solid rgba(255,255,255,.1);
+	border-bottom: 1px solid rgba(255,255,255,.1);
 }
 
 .dark-body .wp-caption-text, .dark-body .nav-controls {
@@ -743,7 +752,7 @@ h3#responses {
 .dark-body .load-more-link, .dark-body .infinite-link {
 	border-top: 1px solid rgba(255,255,255,.03);
 	border-bottom: 1px solid rgba(255,255,255,.03);
-	box-shadow: inset rgba(0,0,0,.05) 0px 0px 24px;	
+	box-shadow: inset rgba(0,0,0,.05) 0px 0px 24px;
 }
 
 .dark-body .post-date, .dark-body .post-author {
@@ -756,7 +765,7 @@ h3#responses {
 }
 
 .dark-body .footer {
-		color: rgba(255,255,2555,.5);	
+		color: rgba(255,255,2555,.5);
 }
 
 .dark-body .sharing-options a {
@@ -766,7 +775,7 @@ h3#responses {
 }
 
 .dark-header .post-link-button {
-	color: rgba(255,255,255,.9);	
+	color: rgba(255,255,255,.9);
 }
 
 .dark-header #header {
@@ -797,6 +806,44 @@ h3#responses {
 	z-index: 5;
 	display: block;
 	opacity: 0.96;
+}
+
+/* @end */
+
+/* @group Back Button */
+
+.back-button,
+.smartphone.web-app-mode.pushy-active .back-button {
+	display: none;
+}
+
+.smartphone.web-app-mode .back-button {
+	background-color: rgba( 255, 255, 255, 0.2 );
+	color: rgba( 255, 255, 255, 0.3 );
+	border-radius: 35px;
+	display: block;
+	padding: 15px 18px 15px 15px;
+	position: fixed;
+	bottom: 30px;
+	left: 30px;
+	transition: background-color .5s linear;
+	z-index: 1;
+}
+
+.smartphone.web-app-mode .back-button.visible {
+	background-color: rgba( 255, 255, 255, 1 );
+	color: #000;
+	transition: background-color .5s linear;
+}
+
+.light-body.smartphone.web-app-mode .back-button {
+	background: rgba( 0, 0, 0, 0.1 );
+	color: rgba( 0, 0, 0, 0.3 );
+}
+
+.light-body.smartphone.web-app-mode .back-button.visible {
+	background-color: rgba( 0, 0, 0, 0.8 );
+	color: #fff;
 }
 
 /* @end */

@@ -1,12 +1,13 @@
 /* WPtouch CMS Theme Js File */
 
+
 function doCmsReady() {
-	
+
 	// Triggers focus on the search field when the search tab item is clicked
 	jQuery( '#search-menu-button' ).on( 'click', function(){
 		jQuery( '#search-text' ).focus();
 	});
-	
+
 	// Helps with usability and the fastclick module— it's too fast and triggers taps too quickly!
 	jQuery( '#section-slider a' ).each( function(){
 		jQuery( this ).addClass( 'needsclick' );
@@ -22,7 +23,7 @@ function doCmsReady() {
 }
 
 function cmsWebApp(){
-	jQuery( window ).resize( function() { 
+	jQuery( window ).resize( function() {
 		var windowHeight = ( jQuery( window ).height() - 142 );
 		if ( jQuery( 'body.web-app-mode.ios7.smartphone.portrait' ).length ) {
 			jQuery( '.wptouch-menu' ).css( 'max-height', windowHeight );
@@ -31,7 +32,7 @@ function cmsWebApp(){
 			jQuery( '.wtouch-menu' ).css( 'max-height', windowHeight );
 		}
 	}).resize();
-	
+
 	if ( jQuery( 'body.web-app-mode.ios7' ).length ) {
 		jQuery( 'body' ).prepend( '<span class="fixed-header-fill"></span>' );
 
@@ -41,5 +42,5 @@ function cmsWebApp(){
 		});
 	}
 }
-	
+
 jQuery( document ).ready( function() { doCmsReady(); } );

@@ -1,6 +1,6 @@
 <?php
 
-define( 'SIMPLE_THEME_VERSION', '1.1.3' );
+define( 'SIMPLE_THEME_VERSION', '1.4.4' );
 define( 'SIMPLE_SETTING_DOMAIN', 'simple' );
 define( 'SIMPLE_DIR', wptouch_get_bloginfo( 'theme_root_directory' ) );
 define( 'SIMPLE_URL', wptouch_get_bloginfo( 'theme_root_url' ) );
@@ -12,6 +12,7 @@ add_action( 'foundation_modules_loaded', 'simple_register_fonts' );
 // Simple Filters
 add_filter( 'wptouch_registered_setting_domains', 'simple_setting_domain' );
 add_filter( 'wptouch_setting_defaults', 'simple_setting_defaults' );
+add_filter( 'wptouch_setting_defaults_foundation', 'simple_foundation_setting_defaults' );
 add_filter( 'wptouch_admin_page_render_wptouch-admin-theme-settings', 'simple_render_theme_settings' );
 add_filter( 'wptouch_body_classes', 'simple_body_classes' );
 add_filter( 'wptouch_setting_version_compare', 'simple_setting_version_compare', 10, 2 );
@@ -38,15 +39,15 @@ function simple_theme_init() {
 			'media',
 			'login',
 			'social-links',
+			'custom-posts',
 			'custom-latest-posts',
 			'featured',
-//			'cloud',
 			// Modules w/o settings
 			'menu',
 			'fastclick',
 			'tappable',
 			'spinjs',
-			'font-awesome',
+			'wptouch-icons',
 			'concat'
 		)
 	);
@@ -172,6 +173,11 @@ function simple_setting_defaults( $settings ) {
 	$settings->background_image = '';
 	$settings->css_noise = false;
 
+	return $settings;
+}
+
+function simple_foundation_setting_defaults( $settings ) {
+	$settings->typography_sets = 'dosis_dsans';
 	return $settings;
 }
 

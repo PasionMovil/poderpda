@@ -1,5 +1,5 @@
 <?php
-define( 'CLASSIC_THEME_VERSION', '1.2' );
+define( 'CLASSIC_THEME_VERSION', '1.4.2' );
 define( 'CLASSIC_SETTING_DOMAIN', 'classic-redux' );
 define( 'CLASSIC_DIR', wptouch_get_bloginfo( 'theme_root_directory' ) );
 define( 'CLASSIC_URL', wptouch_get_bloginfo( 'theme_root_url' ) );
@@ -80,7 +80,7 @@ function classic_theme_init() {
 			'featured',
 //			'cloud',
 			// Modules w/o settings
-			'font-awesome',
+			'wptouch-icons',
 			'menu',
 			'spinjs',
 			'fastclick',
@@ -239,7 +239,7 @@ function classic_body_classes( $classes ) {
 function classic_blog_settings( $blog_settings ) {
 
 	$blog_settings[] = wptouch_add_setting(
-		'radiolist',
+		'list',
 		'use_thumbnails',
 		__( 'Post thumbnails', 'wptouch-pro' ),
 		'',
