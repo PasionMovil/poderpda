@@ -1,0 +1,649 @@
+msgid ""
+msgstr "MIME-Version: 1.0\n"
+
+#. Name.
+msgid "WP Offload S3"
+msgstr ""
+
+#. Short description.
+msgid "Copies files to Amazon S3 as they are uploaded to the Media Library. Optionally configure Amazon CloudFront for faster delivery."
+msgstr ""
+
+#. Screenshot description.
+msgid "Choosing/creating a bucket"
+msgstr ""
+
+#. Screenshot description.
+msgid "Settings screen"
+msgstr ""
+
+#. Found in description list item.
+msgid "Upload existing Media Library to Amazon S3"
+msgstr ""
+
+#. Found in description list item.
+msgid "Find &amp; replace file URLs in content"
+msgstr ""
+
+#. Found in description list item.
+msgid "Control Amazon S3 files from the Media Library"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"https://deliciousbrains.com/wp-offload-s3/?utm_source=wordpress.org&amp;utm_medium=web&amp;utm_content=desc&amp;utm_campaign=os3-free-plugin#assets-addon\">Assets addon</a> - Serve your CSS &amp; JS from Amazon S3/CloudFront"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"https://deliciousbrains.com/wp-offload-s3/?utm_source=wordpress.org&amp;utm_medium=web&amp;utm_content=desc&amp;utm_campaign=os3-free-plugin#woocommerce-addon\">WooCommerce addon</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "<a href=\"https://deliciousbrains.com/wp-offload-s3/?utm_source=wordpress.org&amp;utm_medium=web&amp;utm_content=desc&amp;utm_campaign=os3-free-plugin#edd-addon\">Easy Digital Downloads addon</a>"
+msgstr ""
+
+#. Found in description list item.
+msgid "PriorityExpert&trade; email support"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "https://www.youtube.com/watch?v=_PVybEGaRXc"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "This plugin automatically copies images, videos, documents, and any other media added through WordPress' media uploader to <a href=\"http://aws.amazon.com/s3/\">Amazon S3</a>. It then automatically replaces the URL to each media file with their respective Amazon S3 URL or, if you have configured <a href=\"http://aws.amazon.com/cloudfront/\">Amazon CloudFront</a>, the respective CloudFront URL. Image thumbnails are also copied to Amazon S3 and delivered through S3/CloudFront."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "Uploading files <em>directly</em> to your Amazon S3 account is not currently supported by this plugin. They are uploaded to your server first, then copied to Amazon S3. There is an option to automatically remove the files from your server once they are copied to Amazon S3 however."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "If you're adding this plugin to a site that's been around for a while, your existing media files will not be copied or served from Amazon S3. Only newly uploaded files will be copied and served from Amazon S3. The pro upgrade has an upload tool to handle existing media files."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<strong>PRO Upgrade with Email Support and More Features</strong>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "<a href=\"http://deliciousbrains.com/wp-offload-s3/upgrade/?utm_source=wordpress.org&amp;utm_medium=web&amp;utm_content=desc&amp;utm_campaign=os3-free-plugin\">Compare pro vs free &rarr;</a>"
+msgstr ""
+
+#. Found in description paragraph.
+msgid "The video below runs through the pro upgrade features..."
+msgstr ""
+
+#. Found in description paragraph.
+msgid "https://www.youtube.com/watch?v=55xNGnbJ_CY"
+msgstr ""
+
+#. Found in description paragraph.
+msgid ""
+"<em>This plugin has been completely rewritten, but was originally a fork of\n"
+"<a href=\"http://wordpress.org/extend/plugins/tantan-s3-cloudfront/\">Amazon S3 for WordPress with CloudFront</a>\n"
+"which is a fork of <a href=\"http://wordpress.org/extend/plugins/tantan-s3/\">Amazon S3 for WordPress</a>, also known as tantan-s3.</em>"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Install the required <a href=\"http://wordpress.org/extend/plugins/amazon-web-services/\">Amazon Web Services plugin</a> using WordPress' built-in installer"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Follow the instructions to setup your AWS access keys"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Install this plugin using WordPress' built-in installer"
+msgstr ""
+
+#. Found in installation list item.
+msgid "Access the <em>S3 and CloudFront</em> option under <em>AWS</em> and configure"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Support for responsive images in WP 4.4"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Incorrect file path for intermediate image size files uploaded to S3 with no prefix"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Thumbnail previews return 404 error during image edit screen due to character encoding"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Improve wording of compatibility notices"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Compatibility with Easy Digital Downloads 1.0.1 and WooCommerce 1.0.3 addons"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Better determine available memory for background processes"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: URL previews incorrect due to stripping <code>/</code> characters"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: PHP Warning: stream_wrapper_register(): Protocol s3:// is already defined"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: PHP Fatal error:  Call to undefined method WP_Error::get()"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Attachment URLs containing query string parameters incorrectly encoded"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Improve compatibility with third party plugins when the <em>Remove Files From Server</em> option is enabled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Fix inconsistent spacing on the WP Offload S3 settings screen"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Validate <em>CloudFront or custom domain</em> input field"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Link to current S3 bucket added to WP Offload S3 settings screen"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Show notice when neither GD or Imagick image libraries are not installed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Supply Cache-Control header to S3 when the <em>Far Future Expiration Header</em> option is enabled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Additional information added to <em>Diagnostic Information</em>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Added warning when <em>Remove Files From Server</em> option is enabled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Filter added to allow additional image versions to be uploaded to S3"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: File size not stored in <em>wp_attachment_metadata</em> when <em>Remove Files From Server</em> option is enabled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Uploads on Multisite installs allowed after surpassing upload limit"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Site icon in WordPress customizer returns 404"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Image versions remain locally and on S3 after deletion, when the file name contains characters which require escaping"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Files with the same file name overwritten when __Remove Files From Server_ option is enabled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Cron tasks incorrectly scheduled due to passing the wrong time to <code>wp_schedule_event</code>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Default options not shown in the UI after first install"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Update text domains for translate.wordpress.org integration"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Fatal error: Cannot use object of type WP_Error as array"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Update all existing attachments with missing file sizes when the 'Remove Files From Server' option is enabled (automatically runs in the background)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Show when constants are used to set bucket and region options"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Don't show compatibility notices on plugin update screen"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: On Multisite installs don't call <code>restore_current_blog()</code> on successive loop iterations"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: 'Error getting URL preview' alert shown when enter key pressed on settings screen"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Unable to crop header images when the 'Remove Files From Server' option is enabled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Incorrect storage space shown on Multisite installs when the 'Remove Files From Server' option is enabled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Upload attempted to non existent bucket when defined by constant"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: 'SignatureDoesNotMatch' error shown when using signed URLs with bucket names containing '.' characters"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Pro upgrade sidebar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Create buckets in US standard region causing S3 URLs to 404 errors"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Accidentally released the sidebar for after we launch the pro version"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Access denied sample IAM policy replaced with link to <a href=\"https://deliciousbrains.com/wp-offload-s3/doc/quick-start-guide/\">Quick Start Guide</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Access denied messages on bucket selection or bucket creation now link to <a href=\"https://deliciousbrains.com/wp-offload-s3/doc/quick-start-guide/\">Quick Start Guide</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Object expires time can now be filtered using the <code>as3cf_object_meta</code> filter"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Error not always shown when S3 bucket inaccessible due to incorrect permissions"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Permission checks fail when S3 bucket is in a non-default region and defined by <code>AS3CF_BUCKET</code> constant"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Restore <code>as3cf_get_attached_file_copy_back_to_local</code> filter"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Image versions not uploaded to S3 when an edited image is restored"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Original image version not deleted from server when <em>Remove Files From Server</em> option enabled"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Media library items with non-ascii characters in the file name are not removed from S3"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Compatibility notices shown on plugin install pages"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: WordPress footer overlaps WP Offload S3 sidebar"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Upon initial setup the settings changed alert shows when no settings have changed"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Plugin rebranded to WP Offload S3"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Support tab added to <em>Offload S3</em> screen containing diagnostic information"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Compatibility with the <a href=\"https://wordpress.org/plugins/enable-media-replace/\">Media Replace</a> plugin"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Select bucket region when creating a new bucket"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Toggle switches redesigned"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Compatibility with release candidate of Pro plugin"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Example IAM policy more secure"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Set default bucket region using the <code>AS3CF_REGION</code> constant"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Added <code>as3cf_object_meta</code> filter for developers"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Bucket selection moved to modal window"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Don't allow bucket names to contain invalid characters on creation"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: More verbose error messages on bucket selection"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Settings link added to plugin row on <em>Plugins</em> screen"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Object versioning enabled by default"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Uninstall routines added"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: JavaScript coding standards"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Cache result when checking S3 bucket permissions"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Bucket region errors result in blank WP Offload S3 screen"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Editing an image when <em>Remove Files From Server</em> option is enabled results in error"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Metadata upgrade procedure triggered on new installs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: File URLs when uploaded to a subdirectory result in incorrect S3 URLs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Errors logged when trying to delete non-existent HiDPI images"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: SignatureDoesNotMatch errors on regions with v4 authentication"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Customizer background image not editable"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Error when creating buckets with US Standard region"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Notices appearing incorrectly on some admin screens"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Subsite upload paths repeated on multisite installs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug fix: Handle multisite installs where <code>BLOG_ID_CURRENT_SITE</code> is not 1"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Input bucket in settings to avoid listing all buckets"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Specify bucket with 'AS3CF_BUCKET' constant"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Compatibility with beta release of Pro plugin"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Incorrect file prefix in S3 permission check"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Permission problems on installs running on EC2s"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Blank settings page due to WP_Error on S3 permission check"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Warning: strtolower() expects parameter 1 to be string, object given"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Region post meta update running on subsites of Multisite installs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Redesigned settings UI"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: SSL setting can be fully controlled, HTTPS for urls always, based on request or never"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Download files from S3 that are not found on server when running Regenerate Thumbnails plugin"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: When calling <code>get_attached_file()</code> and file is missing from server, return S3 URL"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Code cleanup to WordPress coding standards"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Files for all subsites going into the same S3 folder on multisite installs setup prior to WP 3.5"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: 'attempting to access local file system' error for some installs"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug: Some buckets in the EU region causing permission and HTTP errors"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug: Undefined variable: message in view/error.php also causing white screens"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug: Read-only error on settings page sometimes false positive"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Proper S3 region subdomain in URLs for buckets not in the US Standard region (e.g. https://s3-us-west-2.amazonaws.com/...)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Update all existing attachment meta with bucket region (automatically runs in the background)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Get secure URL for different image sizes (iamzozo)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: S3 bucket can be set with constant in wp-config.php (dberube)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Filter for allowing/disallowing file types: <code>as3cf_allowed_mime_types</code>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Filter to cancel upload to S3 for any reason: <code>as3cf_pre_update_attachment_metadata</code>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New: Sidebar with email opt-in"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Show warning when S3 policy is read-only"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Tooltip added to clarify option"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Move object versioning option to make it clear it does not require CloudFront"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: By default only allow file types in <code>get_allowed_mime_types()</code> to be uploaded to S3"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Improvement: Compatibility with WPML Media plugin"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Edited images not removed on S3 when restoring image and IMAGE_EDIT_OVERWRITE true"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: File names with certain characters broken not working"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Edited image uploaded to incorrect month folder"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: When creating a new bucket the bucket select box appears empty on success"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: SSL not working in regions other than US Standard"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: 'Error uploading' and 'Error removing local file' messages when editing an image"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Upload and delete failing when bucket is non-US-region and bucket name contains dot"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: S3 file overwritten when file with same name uploaded and local file removed (dataferret)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Bug Fix: Manually resized images not uploaded (gmauricio)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "WP.org download of Amazon Web Services plugin is giving a 404 Not Found, so directing people to download from Github instead"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Complete rewrite"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now requires PHP 5.3.3+"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now requires the <a href=\"http://wordpress.org/extend/plugins/amazon-web-services/\">Amazon Web Services plugin</a> which contains the latest PHP libraries from Amazon"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Now works with multisite"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New Option: Custom S3 object path"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New Option: Always serve files over https (SSL)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New Option: Enable object versioning by appending a timestamp to the S3 file path"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New Option: Remove uploaded file from local filesystem once it has been copied to S3"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "New Option: Copy any HiDPI (@2x) images to S3 (works with WP Retina 2x plugin)"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Forked <a href=\"http://wordpress.org/extend/plugins/tantan-s3-cloudfront/\">Amazon S3 for WordPress with CloudFront</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Cleaned up the UI to fit with today's WP UI"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "Fixed issues causing error messages when WP_DEBUG is on"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "<a href=\"https://github.com/deliciousbrains/wp-amazon-s3-and-cloudfront/commit/e777cd49a4b6999f999bd969241fb24cbbcece60\">Delete files on S3 when deleting WP attachment</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "<a href=\"https://github.com/deliciousbrains/wp-amazon-s3-and-cloudfront/commit/bbe1aed5c2ae900e9ba1b16ba6806c28ab8e2f1c\">Added filter to the get_attachment_url function</a>"
+msgstr ""
+
+#. Found in changelog list item.
+msgid "<a href=\"https://github.com/deliciousbrains/wp-amazon-s3-and-cloudfront/commit/11f46ec2714d34907009e37ad3b97f4421aefed3\">Added function to get a temporary, secure download URL for private files</a>"
+msgstr ""
+
+#. Found in faq header.
+msgid "What are the minimum requirements?"
+msgstr ""
+
+#. Found in faq paragraph.
+msgid "You can see the minimum requirements <a href=\"https://deliciousbrains.com/wp-offload-s3/pricing/?utm_source=wordpress.org&amp;utm_medium=web&amp;utm_content=desc&amp;utm_campaign=os3-free-plugin#requirements\">here</a>."
+msgstr ""

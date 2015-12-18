@@ -1,25 +1,23 @@
-=== WP Missed Schedule Fix Failed Future Posts ===
+=== WP Missed Schedule Fix Future Posts Failed ===
 Contributors: slangjis
 Donate link: https://slangji.wordpress.com/donate/
-Tags: failed-future-posts, missed, missed-schedule, missed-schedule-fix, missed-schedule-wordpress, missed-scheduled, schedule, scheduled, sLaNGjIs, wordpress-missed-schedule, wordpress-missed-schedule-fix, wp-missed-schedule
-Stable tag: 2014.1231.2014
+Tags: failedfutureposts, future, futureposts, missed, missedschedule, missedscheduled, missedschedules, posts, schedule, scheduled, schedules, sLaNGjIs, wordpress
+Stable tag: 2014.1231.2015
 Requires at least: 2.1
-Tested up to: 4.4
+Tested up to: 4.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-wordpress plugin wp missed schedule fix failed future posts with this problem and republish them correctly 10 items each session every 10 minutes    .
+wordpress plugin wp missed schedule fix only failed future posts and republish them correctly 10 items each session every 10 minutes Build 2015-11-25
 == Description ==
-wordpress plugin <a href="https://slangji.wordpress.com/wp-missed-schedule/" title="WP Missed Schedule">wp <code>missed schedule</code> fix <code>scheduled</code> <code>failed future posts</code></a> with this problem and republish them correctly fixed 10 items each session every 10 minutes without waste resources others will be solved on next <code>virtual cron job</code> or <code>real cron job</code> until no longer exist 10 items every 10 minutes, 60 items every hour, 1 session every 10 minutes, 6 sessions every hour. This plugin patched an important unfixed bug since WordPress 2.5+ to date because Missed Schedule is a WordPress Bug!
+wordpress plugin <a href="https://slangji.wordpress.com/wp-missed-schedule/" title="WP Missed Schedule">wp <code>missed schedule</code> fix only <code>scheduled</code> <code>failed future posts</code></a> bug with this problem and republish them correctly fixed 10 items each session every 10 minutes without waste resources others will be solved on next <code>virtual cron job</code> or <code>real cron job</code> until no longer exist 10 items every 10 minutes, 60 items every hour, 1 session every 10 minutes, 6 sessions every hour - Build 2015-11-25 - This plugin patched an important unfixed bug since WordPress 2.5+ to date because Missed Schedule is a WordPress Bug! This plugin Work with all WordPress Versions from 2.1+ to 4.4+ and future 4.5-alpha trunk!
 
 <a href="https://slangji.wordpress.com/wp-missed-schedule-pro/" title="Upgrade to WP Missed Schedule Pro Version">Upgrade to Pro Version</a> | <a href="https://slangji.wordpress.com/premium-support/" title="Premium Support">Premium Support</a> | <a href="https://slangji.wordpress.com/wp-missed-schedule-beta/" title="Try New WP Missed Schedule Beta Version">Try New Beta Version</a>
 
 [Secunia Certified Zero Advisories and Vulnerabilities](https://web.archive.org/web/20140716010606/https://secunia.com/advisories/product/51113/)
 
 [sLaNGjIs Team do not provide support on WordPress.org forum](https://wordpress.org/plugins/wp-missed-schedule/other_notes/)
-
-All in One [Gold Version](https://slangji.wordpress.com/wp-missed-schedule-gold/) with vary Frequency of Checking.
 `
-200.000+ Downloads and 60.000+ Active Installs!
+236.000+ Downloads and 70.000+ Active Installs!
 
 A special thank to all users who have installed
 this plugin: best regards by sLa NGjI's Team ;)
@@ -34,7 +32,7 @@ This plugin, in order to reduce the CPU load, and do not use too many resources,
 
 This plugin is designed, on fact, for heavy use of scheduled future posts and rss grabbing, as feedWordPress or wp-o-matic, but also work well with a simple WordPress blog or for use as a cms.
 
-The plugin code was totally rewrited for maximum compatibility with w3 total cache and others caching plugins, jetpack and others social publishing plugins, transparency and interference free with others scheduled cron jobs at scale. The configuration is Automattic! and not need other actions from the administrator except activate, deactivate or delete it. Is full compatible with WordPress versions from 2.1+ to 4.3+ add preemptive support for coming soon 4.4-alpha future (trunk) 2015 releases. Is ready to single, network multisite installations, and old WPMU 2.5+ to 2.9+ (latest is 2.9.2) multi users. Run on shared, dedicated, cloud and vps hosting, with high and low resources.
+The plugin code was totally rewrited for maximum compatibility with w3 total cache and others caching plugins, jetpack and others social publishing plugins, transparency and interference free with others scheduled cron jobs at scale. The configuration is Automatic! and not need other actions from the administrator except activate, deactivate or delete it. Is full compatible with WordPress versions from 2.1+ to 4.4+ add preemptive support for coming soon 4.5-alpha future (trunk) 2015 releases. Is ready to single, network multisite installations, and old WPMU 2.6 to 2.9+ (latest is 2.9.2) multi users. Run on shared, dedicated, cloud and vps hosting, with high and low resources.
 `
 Failed run when a good post goes to future.
 
@@ -51,24 +49,23 @@ Read <a href="https://wordpress.org/plugins/wp-missed-schedule/changelog/" title
 `
 New WP Missed Schedule Features and Future Updates
 
-Active Version 2014.1231.2014 (2015-08-25) FREE
+Active Version 2014.1231.2015 (2015-11-25) FREE
 
 Limited Missed Scheduled Posts Fixing per days!
-Full Support WordPress 2.1+ to 4.3+ Versions
-Preemptive Support WordPress 4.4-alpha 2015 Release
-Extended Support for all Released WordPress Versions
+Full Support WordPress 2.1+ to 4.4+ Versions
+Preemptive Support WordPress 4.5-alpha 2016 Release
 Secure Key Tag Auth Support (a New Idea of sLa)
 Prioritization of Plugin Loading
 Full uninstall db Options Clean Support
-Plugin Translation Languages Support
 Check WordPress Version Requirements Before Activation
+Self Deactivation Features to match Requirements
+Translation Languages Support
 Dynamic Row Meta Links Plugin Activation Support
-Plugin Functions Isolation Constructor
+Functions Isolation Constructor
 HyperDB Table Query Formatting Compatibility
 Fast Queries with index table and CPU Load Optimization
 W3 Total Cache and others Caching Plugins Compatibility
 JetPack and Social Publishing Plugins Transparency
-
 All in One Gold Version with vary Frequency of Checking
 
 Please noted that Special Gold Edition is dedicated to
@@ -77,25 +74,21 @@ advanced users and was installed only on manual mode!
 New Beta Version 2015.0228.3 (2015-08-28) FREE
 
 Limited Missed Scheduled Posts Fixing per days!
-Full Support WordPress 2.1+ to 4.3+ Versions
-Preemptive Support WordPress 4.4-alpha 2015 Release
+Full Support WordPress 2.1+ to 4.4+ Versions
+Preemptive Support WordPress 4.5-alpha 2016 Release
 Admin DashBoard Help and FAQ Panel
 Admin Menu Classic Plugin Settings Page
 New Real Cron Checking Interval Method Rewrited Coding
-Including all Features of 2013 and 2014 Branche
 
 Development Version (free code in becoming) DEV
 
 Limited Missed Scheduled Posts Fixing per days!
-
 Customization of all Plugin Options (concept only)
 All in One Virtual and Real Cron Method (concept only)
-
 Unlimited Missed Scheduled Posts Fixing per days! (pro)
 Check Secure Key Tag Auth Before Activation (pro)
 Enable or Disable Frontend Header and Footer Log (pro)
 Manual Change the Frequency of Checking (pro)
-Manual Change the Number of Checking Sessions (pro)
 Manual Change the Number of Failed Posts Fixed (pro)
 Switching from Local GMT and UTC Time (pro)
 `
@@ -104,18 +97,21 @@ Switching from Local GMT and UTC Time (pro)
 * The state of art for fix big core bug since WordPress 2.5+
 * Secunia Certified Zero Advisories and Vulnerabilities
 * Compatible with: WordPress, bbPress, Buddypress
-* Work with all WordPress Versions from 2.1+ to 4.3+
-* Preemptive Support for WordPress 4.4-alpha
+* Work with all WordPress Versions from 2.1+ to 4.4+
+* Preemptive Support for WordPress 4.5-alpha
 * No interference with others Scheduled Cron Jobs at scale
 * Ready to Single and Network Multisite Environment
 * Full Strict Security Rules Applied
 * Repair Failure WordPress Virtual Cron Job Process
 * Repair Failure WordPress Real Cron Job Process
 * Prioritization of Plugin Loading
+* Full uninstall db Options Clean Support
+* Check WordPress Version Requirements Before Activation
+* Self Deactivation Features to match Requirements
+* Translation Languages Support
 * Dynamic Row Meta Links Plugin Activation Support
-* Functions Constructor Coding Isolation
-* Plugin Translation Languages Support
-* Less Plugin Memory Consumption
+* Functions Isolation Constructor
+* Less Memory Consumption
 * Full Support Activation Hook
 * Full Support Deactivation Hook
 * Full Support Uninstall Hook
@@ -148,9 +144,9 @@ No need delete anything from database when deleted
 No need delete anything from wp_option when deactivate
 No need delete anything from wp_option when deleted
 `
-* [My Others WordPress Plugins](https://slangji.wordpress.com/plugins/) on [Softpedia Webscripts](http://webscripts.softpedia.com/publisher/sLa-1869786722.html) and [GitHub](https://github.com/slangji)
+* [My Others WordPress Plugins](https://slangji.wordpress.com/plugins/) on [Softpedia Webscripts](http://webscripts.softpedia.com/publisher/sLa-1869786722.html) [GitHub](https://github.com/slangji)
  * [WP Overview (lite)](https://wordpress.org/plugins/wp-overview-lite/) (modules updated)
- * [WP Missed Schedule](https://wordpress.org/plugins/wp-missed-schedule/) 200.000+ Downloads and 60.000+ Installs
+ * [WP Missed Schedule](https://wordpress.org/plugins/wp-missed-schedule/) 236.000+ Downloads 70.000+ Installs
  * [Global Hide Toolbar](https://wordpress.org/plugins/global-admin-bar-hide-or-remove/) (new)
  * [WP Admin Bar Removal](https://wordpress.org/plugins/wp-admin-bar-removal/) Linked at [softpedia.com](http://webscripts.softpedia.com/script/Modules/WordPress-Plugins/Admin-Bar-Removal-completely-disable-73547.html)
  * [WP Admin Bar Removal Node](https://wordpress.org/plugins/wp-admin-bar-node-removal/) (refreshed)
@@ -164,9 +160,8 @@ No need delete anything from wp_option when deleted
  * [Noindex (total) WordPress Deindexing](https://wordpress.org/plugins/wp-total-deindexing/) (refreshed)
  * [Header and Footer Log](https://wordpress.org/plugins/wp-header-footer-log/) Only For Developers
 == Installation ==
-= How to install Special Gold Edition ? =
 wp <code>missed schedule</code> special gold edition is for advanced users and was installed only on manual mode
-
+= How to install Special Gold Edition ? =
 WARNING: Is not possible to install WP Missed Schedule Gold directly from Admin Control Panel Dasboard.
 
 Clarifications about manual installation of the WP Missed Schedule Special Gold Edition.
@@ -276,7 +271,7 @@ I hope the fix working fine for you. WordPress should really look into this issu
 
 Please: if you have others screenshots on your language contact me a.s.a.p.
 == Changelog ==
-available [new beta version](https://slangji.wordpress.com/wp-missed-schedule-beta/) with code totally rewrited that applies innovative method for interval of check with lowest load server. This plugin patched an important unfixed bug since WordPress 2.5+ to date because Missed Schedule is a WordPress Bug!
+available [new beta version](https://slangji.wordpress.com/wp-missed-schedule-beta/) with code totally rewrited that applies innovative method for interval of check with lowest load server. This plugin patched an important unfixed bug since WordPress 2.5+ to date because Missed Schedule is a WordPress Bug! Build 2015-11-25
 
 <a href="https://slangji.wordpress.com/wp-missed-schedule-pro/" title="Upgrade to WP Missed Schedule Pro Version">Upgrade to Pro Version</a> | <a href="https://slangji.wordpress.com/premium-support/" title="Premium Support">Premium Support</a> | <a href="https://slangji.wordpress.com/wp-missed-schedule-beta/" title="Try New WP Missed Schedule Beta Version">Try New Beta Version</a>
 
@@ -285,30 +280,80 @@ available [new beta version](https://slangji.wordpress.com/wp-missed-schedule-be
 [sLaNGjIs Team do not provide support on WordPress.org forum](https://wordpress.org/plugins/wp-missed-schedule/other_notes/)
 
 All in One [Gold Version](https://slangji.wordpress.com/wp-missed-schedule-gold/) with vary Frequency of Checking.
+
+Alpha development release is available only on [GitHub](https://github.com/slangji)
 `
-200.000+ Downloads and 60.000+ Active Installs!
+236.000+ Downloads and 70.000+ Active Installs!
 
 A special thank to all users who have installed
 this plugin: best regards by sLa NGjI's Team ;)
 `
-= 2014.1231.2014 =
-* Celebrative [MAJOR][UPDATE] 200.000+ Downloads Day!
+`
+Legend:
+
+Branche is identified with first year on current
+version number (*2014*.1231.0) 2014 for example.
+
+Build is identified with progressive number on
+middle version number (2014.*1231*.0) 2014-12-31.
+
+Revision is identified with progressive number on
+last version number (2014.1231.*1*) 1 for example.
+
+All previous versions, on fact, before the last stable,
+are deprecated and no longer supported in this project!
+
+Periodically, the distribution files will be silenty
+updated: you are advised to re-download or re-install
+it based on the build date rather than on its version.
+
+We always recommend upgrading to the latest version!
+`
+= 2014.1231.2015 =
+* Major Release [UPDATED][RELOADED] Self Deactivation Features!
  * Please update as soon as possible!
- * Stable Release 2015 Branche 2014 Build 2015-08-25
- * Full Support and Compatibility for WordPress 2.1+ to 4.3+
- * Preemptive Support for WordPress 4.4-alpha
+ * Release 2014 Branche 2014 Update 2015 Build 2015-11-25
+ * Full Support and Compatibility for WordPress 2.1+ - 4.4+
+ * Preemptive Support for WordPress 4.5-alpha
+ * SPECIAL GOLD EDITION is now a [separate distro](https://slangji.wordpress.com/wp-missed-schedule-gold/).
+ * WPMS Cleaner is now a [separate distro](https://slangji.wordpress.com/wp-missed-schedule-db-cron-transient-cleaner/).
+ * MAINTENANCE Release According WordPress 4.3.1
+ * MAINTENANCE Release According WordPress 4.3
+ * MAINTENANCE Release According WordPress 4.2.5
+ * MAINTENANCE Release According WordPress 4.2.4
+ * MAINTENANCE Release According WordPress 4.2.3
+ * MAINTENANCE Release According WordPress 4.2.2
+ * MAINTENANCE Release According WordPress 4.2.1
+ * MAINTENANCE Release According WordPress 4.2
+ * FIXED If Requirements Not Match Control Panel Loop
+ * FIXED If Requirements Not Match Dashboard Freeze
+ * FIXED Somes Priority Filter Issues
+ * NEW Work with all WordPress Versions from 2.1+ to 4.4+
+ * NEW Transients Caching to Reduce db Queries and Server Load
+ * NEW Prioritization of Plugin Loading
  * NEW load_plugin_textdomain Languages Loading by Default
- * NEW Full Support uninstall.php
- * NEW Full Support Uninstall Hook
+ * NEW Plugin Self Deactivation if Requirements Not Match
+ * NEW If Requirements Not Match Plugin is Not Loaded
+ * NEW Full db wp_options cleanup on activation (anticorrupted)
+ * NEW Full db wp_options cleanup on uninstall or deactivation
  * ADD Multisite Uninstall Routine Compatibility Support
- * Bump Version 2014 Build 1231 Revision 2 a.k.a. 2014
-= 2014.1231.1 =
-* Recommended [UPDATE] Removed Notices and Undefinied Constant Warning!
+ * UPDATED Pre-Activation-Deactivation-Uninstall Code
+ * UPDATED Somes Priority Filters Values
+ * INCLUDED All Features of Major Release 2014.1231.2014
+ * INCLUDED All Features of Major Release 2013.1231.2015
+ * INCLUDED All Features of Major Release 2013.1231.2014
+ * INCLUDED All Features of Major Release 2013.1231.2013
+ * Bump Version 2014 Build 1231 Revision 2015
+= 2014.1231.2014 =
+* Celebrative Release [MAJOR][RELOADED] 200.000+ Downloads Day!
  * Please update as soon as possible!
- * Stable Release 2015 Branche 2014 Build 2015-08-18
- * Full Support and Compatibility for WordPress 2.1+ to 4.3+
- * Preemptive Support for WordPress 4.4-alpha
- * Extended Support for all Released WordPress Versions
+ * Release 2014 Branche 2014 Update 2014 Build 2015-11-25
+ * Full Support and Compatibility for WordPress 2.1+ - 4.1+
+ * Preemptive Support for WordPress 4.2-alpha
+ * 200.000 Downloads and 60.000+ Active Installs Day 2015-08-25
+ * MAINTENANCE Release According WordPress 4.1+
+ * MAINTENANCE Release According WordPress 4.0+
+ * MAINTENANCE Release According WordPress 3.9+
  * FIXED ticket #7121343 [Annoying PHP Debug Notices](https://wordpress.org/support/topic/php-notice-53)
  * FIXED ticket #6739625 [SQL EOL CRLF (dos) Mode Problems](https://wordpress.org/support/topic/help-with-activating-on-multisite)
  * FIXED ticket #6642239 [Undefined Constant Warning](https://wordpress.org/support/topic/undefined-constant-warning)
@@ -321,61 +366,48 @@ this plugin: best regards by sLa NGjI's Team ;)
  * FIXED ticket #4643184 [Reduced Info Header](https://wordpress.org/support/topic/how-to-remove-plugin-info-in-header)
  * FIXED ticket #4570622 [db post_date_gmt not indexed](https://wordpress.org/support/topic/plugin-uses-post_date_gmt-which-is-not-indexed)
  * FIXED db post_date_utc Support on WordPress 2.3+ or later
+ * NEW Work with all WordPress Versions from 2.1+ to 4.1+
+ * NEW Transients Caching to Reduce db Queries and Server Load
  * NEW Prioritization of Plugin Loading
- * NEW Full uninstall support for db wp_options cleanup
+ * NEW load_plugin_textdomain Languages Loading by Default
+ * NEW Full Support uninstall.php
+ * NEW Full Support Uninstall Hook
  * MIGRATED Plugin EOL CRLF (dos) to LF (unix) code
  * CONVERTED EOL <<<SQL CRLF (dos) to LF (unix) code
- * UPDATED Transients Caching to reduce db Queries Load
+ * IMPORTED Key and Auth Tag from Pro Version
+ * UPDATED Header and Footer Log Code
+ * ADDED security rules to activate and manage functions
+ * REVISED some possible paranoid security issues
+ * DISABLED identification of version and build installed
+ * MIGRATED MD5 Checksum to SHA1
+ * SECURITY only admins view backend header and footer log
+ * SECURITY limited frontend header and footer log to home
+ * UPDATED realtime checking: 1 session every 10 minutes
+ * UPDATED realtime checking: 6 sessions every hour
+ * UPDATED realtime checking: 10 future posts every 10 minute
+ * UPDATED realtime checking: 60 items every hour
  * UPDATED Support and Compatibility for WordPress 2.8+
  * UPDATED Support and Compatibility for WordPress 2.7+
- * UPDATED Support and Compatibility for WordPress 2.6+ 
+ * UPDATED Support and Compatibility for WordPress 2.6+
  * UPDATED Support and Compatibility for WordPress 2.5+
  * UPDATED Support and Compatibility for WordPress 2.3+
  * UPDATED Support and Compatibility for WordPress 2.2+
  * UPDATED Support and Compatibility for WordPress 2.1+
- * BUMP Version 2014 Build 1231 Revision 1 a.k.a 2014
-= 2014.1231.0 =
-* Security [UPDATE] Secunia Certified Zero Advisories and Vulnerabilities!
- * Please update as soon as possible!
- * Stable Release 2015 Branche 2014 Build 2015-08-16
- * Full Support and Compatibility for WordPress 2.3+ - 4.2+
- * Preemptive Support for WordPress 4.3-alpha
- * Secunia Certified Zero Advisories and Vulnerabilities.
- * SPECIAL GOLD EDITION is now a [separate distro](https://slangji.wordpress.com/wp-missed-schedule-gold/).
- * WPMS Cleaner is now a [separate distro](https://slangji.wordpress.com/wp-missed-schedule-db-cron-transient-cleaner/).
- * NEW Reduced db and Server Load with Transients Caching
- * IMPORTED Key and Auth Tag from Pro Version.
- * UPDATED Header and Footer Log Code.
- * ADDED security rules to activate and manage functions.
- * REVISED some possible paranoid security issues.
- * DISABLED identification of version and build installed.
- * MIGRATED MD5 Checksum to SHA1.
- * SECURITY only admins view backend header and footer log.
- * SECURITY limited frontend header and footer log to home.
- * UPDATED realtime checking: 1 session every 10 minutes.
- * UPDATED realtime checking: 6 sessions every hour.
- * UPDATED realtime checking: 10 future posts every 10 minute.
- * UPDATED realtime checking: 60 items every hour.
  * INCLUDED All Features of Major Release 2013.1231.2015
  * INCLUDED All Features of Major Release 2013.1231.2014
  * INCLUDED All Features of Major Release 2013.1231.2013
- * BUMP Version 2014 Build 1231 Revision 0 a.k.a 2014
+ * Bump Version 2014 Build 1231 Revision 2014
 = To-Do List =
-`
-All previous versions, on fact, before the last stable,
-are deprecated and no longer supported in this project!
-
-We always recommend upgrading to the latest version!
-`
 = Branche 2016 (alpha) =
 * All in One Virtual and Real Cron Method (no date set)
+* PHP 7 and 8 Compatibility Updates (no date set)
+* Introducing PHP 5 Construct and Destruct (no date set)
 * Merge Branche 2014 and 2015 to 2016 (2016.1231.0)
 = Branche 2015 (beta) =
-* Preemptive Support WordPress 4.5-alpha (2015.1231.0)
-* Full Support for WordPress 4.4+ Release (2015.1231.0)
-* Admin DashBoard Help and FAQ Panel (2015.0228.5)
-* Customization of all Plugin Options (2015.0228.4)
-* Admin Menu Classic Plugin Settings Page (2015.0228.4)
+* Admin DashBoard Help and FAQ Panel (2015.0228.6)
+* Customization of all Plugin Options (2015.0228.5)
+* Admin Menu Classic Plugin Settings Page (2015.0228.5)
+* Merge Branche 2014 to 2015 (2015.0228.4)
 = Beta Release =
 Beta Version 2015.0228.3 Release 2015 Improved FREE:
 
@@ -388,22 +420,26 @@ Beta Version 2015.0228.3 Release 2015 Improved FREE:
 * Prioritization of Plugin Loading (2014.0316.1111)
 = Branche 2014 =
 * Preemptive Support WordPress 4.5-alpha (2014.1231.2015)
-* Full Support for WordPress 4.4+ Release (2014.1231.2015)
 = Stable Release =
-Stable Version 2014.1231.2014 Release 2014 FREE:
+Stable Version 2014.1231.2015 Release 2014 FREE:
 
 * Limited Missed Scheduled Posts Fixing per days!
+* Plugin Self Deactivation Festures (2014.1231.2015)
+* Full Support for WordPress 4.4+ Release (2014.1231.2015)
+* Full Support for WordPress 4.3+ Release (2014.1231.2015)
+* Full Support for WordPress 4.2+ Release (2014.1231.2015)
 * Multisite Uninstall Routine Support (2014.1231.2014)
 * Full Support uninstall.php (2014.1231.2014)
 * Full Support Uninstall Hook (2014.1231.2014)
 * load_plugin_textdomain Loading by Default (2014.1231.2014)
-* Preemptive Support WordPress 4.4-alpha (2014.1231.1)
-* Full Support for WordPress 4.3+ Release (2014.1231.1)
+* Preemptive Support WordPress 4.2-alpha (2014.1231.2014)
+* Full Support for WordPress 4.1+ Release (2014.1231.2014)
+* Full Support for WordPress 4.0+ Release (2014.1231.2014)
+* Full Support for WordPress 3.9+ Release (2014.1231.2014)
 * Support for all Released WordPress Versions (2014.1231.1)
 * Secure Key Tag Auth (a New Idea of sLa)(2014.1231.1)
 * Prioritization of Plugin Loading (2014.1231.1)
 * Full uninstall db Options Clean Support (2014.1231.1)
-* Full Support for WordPress 4.2+ Release (2014.1231.0)
 * Reduce Server Load with Transients Caching (2014.1231.0)
 * Plugin Translation Languages Support (2014.1231.0)
 * Dynamic Row Meta Links Activation Support (2014.1231.0)
@@ -412,16 +448,15 @@ Stable Version 2014.1231.2014 Release 2014 FREE:
 * Merge Branche 2013 to 2014 (2014.1231.0)
 * Merge Genuine Aut Tag from Pro Version (2014.0221.2015)
 * Merge Secured Key Tag from Pro Version (2014.0207.2015)
-
-All in One Gold Version with vary Frequency of Checking
+= Gold Release =
+Gold Version 2014.1231.2015 Release 2014 FREE:
 `
-Please noted that Special Gold Edition is dedicated to
+Please noted that the All in One Special Gold Edition
+Version with vary Frequencies of Checking is dedicated to
 advanced users and was installed only on manual mode!
 `
 = Development Release =
 Development Version (code in becoming) Dev Preemptive FREE:
-
-Alpha development release is available only on [GitHub](https://github.com/slangji)
 
 * Limited Missed Scheduled Posts Fixing per days!
 * Customization of all Plugin Options (concept only)
@@ -441,22 +476,26 @@ Alpha development release is available only on [GitHub](https://github.com/slang
 * Check Secure Key Tag Auth Before Activation (pro)
 * Enable or Disable FrontEnd Header and Footer Log (pro)
 * Manual Change the Frequency of Checking (pro)
-* Manual Change the Number of Checking Sessions (pro)
 * Manual Change the Number of Failed Posts Fixed (pro)
 * Switching from Local GMT and UTC Time (pro)
 = Branche 2013 =
-Version 2013.1231.2015 Stable Release Reloaded 2013 FREE:
+Stable Version 2013.1231.2015 Release 2013 Reloaded FREE:
 
 * Limited Missed Scheduled Posts Fixing per days!
 * Fix Activation on localhost or Virtual VPS (2013.1231.2015)
 * Full Support for WordPress 4.2+ Release (2013.1231.2015)
 * Support for [Plugin Check](https://wordpress.org/plugins/plugin-check/) Specifications (2013.1231.2014)
 * Support for [Theme Check](https://wordpress.org/plugins/theme-check/) Specifications (2013.1231.2014)
+* Preemptive Support WordPress 4.2-alpha (2013.1231.2014)
 * Full Support for WordPress 4.1+ Release (2013.1231.2014)
-* Full Support for WordPress 4.0+ Release (2013.1231.2013)
-* Full Support for WordPress 3.9+ Release (2013.1231.2013)
-* Full Support for WordPress 3.8+ Release (2013.1212.9999)
-* Full Support for WordPress 3.7+ Release (2013.1024.8888)
+* Full Support for WordPress 4.0+ Release (2013.1231.2014)
+* Full Support for WordPress 3.9+ Release (2013.1231.2014)
+* Preemptive Support WordPress 3.9-alpha (2013.1231.2013)
+* Full Support for WordPress 3.8+ Release (2013.1231.2013)
+* Full Support for WordPress 3.7+ Release (2013.1231.2013)
+* Full Support for WordPress 3.6+ Release (2013.1231.2013)
+* Preemptive Support WordPress 3.8-alpha (2013.1212.9999)
+* Preemptive Support WordPress 3.7-alpha (2013.1024.8888)
 * Ticket #4218662 [HyperDB Compatibility](https://wordpress.org/support/topic/resolving-table_name-from-query-broken-in-select-query) (2013.0730.7777)
 * Checking 10 Future Posts for 5 Minute (2013.0726.6666)  
 * Queries and CPU Speedup (2013.0725.5555) Jack Hayhurst
@@ -468,7 +507,7 @@ Version 2013.1231.2015 Stable Release Reloaded 2013 FREE:
 * Default WordPress Items Feed Syndication Support (2013.0131.3333)
 * Transparency of JetPack and others Publishing Plugins (2013.0131.3333)
 * Free Interference with others Scheduled Cron Jobs (2013.0131.3333)
-* Full Support for WordPress 3.6+ Release (2013.0131.3333)
+* Preemptive Support WordPress 3.6-alpha (2013.0131.3333)
 * Ticket #3786523 [Strange Messages](https://wordpress.org/support/topic/activate-the-plugin-then-show-strange-messages/) (2013.0130.2222)
 * Scheduled Posts Regression <a href="https://core.trac.wordpress.org/Ticket/22944" title="WordPress 3.5 Scheduled Posts Regression Ticket #22944">#22944</a> (2013.0106.1111)
 * Full Support for WordPress 3.5+ Release (2013.0106.1111)
@@ -477,18 +516,19 @@ Version 2013.1231.2015 Stable Release Reloaded 2013 FREE:
 * The state of art for fix big core bug since WordPress 2.5+
 * Secunia Certified Zero Advisories and Vulnerabilities
 * Compatible with: WordPress, bbPress, Buddypress
-* Work with all WordPress Versions from 2.1+ to 4.3+
-* Preemptive Support for WordPress 4.4-alpha
 * No interference with others Scheduled Cron Jobs at scale
 * Ready to Single and Network Multisite Environment
 * Full Strict Security Rules Applied
 * Repair Failure WordPress Virtual Cron Job Process
 * Repair Failure WordPress Real Cron Job Process
 * Prioritization of Plugin Loading
+* Full uninstall db Options Clean Support
+* Check WordPress Version Requirements Before Activation
+* Self Deactivation Features to match Requirements
+* Translation Languages Support
 * Dynamic Row Meta Links Plugin Activation Support
-* Functions Constructor Coding Isolation
-* Plugin Translation Languages Support
-* Less Plugin Memory Consumption
+* Functions Isolation Constructor
+* Less Memory Consumption
 * Full Support Activation Hook
 * Full Support Deactivation Hook
 * Full Support Uninstall Hook
@@ -521,23 +561,15 @@ No need delete anything from database when deleted
 No need delete anything from wp_option when deactivate
 No need delete anything from wp_option when deleted
 `
-= Legend =
-`
-Branche is identified with first year on current
-version number (*2014*.1231.0) 2014 for example.
-
-Build is identified with progressive number on
-middle version number (2014.*1231*.0) 2014-12-31.
-
-Revision is identified with progressive number on
-last version number (2014.1231.*1*) 1 for example.
-`
 = 2013.1231.2015 =
-* Major Release 2015 [STABLE][RELOADED] The plugin does not have a valid header!
+* Major Release [STABLE][RELOADED] The plugin does not have a valid header!
  * Please update as soon as possible!
- * Major Release 2015 Reloaded Branche 2013 Build 2015-02-28
- * Full Support and Compatibility for WordPress 2.3+ - 4.1+
- * Preemptive Support for WordPress 4.2-alpha
+ * Release 2013 Branche 2013 Update 2015 Build 2015-11-25
+ * Full Support and Compatibility for WordPress 2.3+ - 4.4+
+ * Preemptive Support for WordPress 4.5-alpha
+ * MAINTENANCE Release According WordPress 4.4+
+ * MAINTENANCE Release According WordPress 4.3+
+ * MAINTENANCE Release According WordPress 4.2+
  * MERGED Genuine Aut Tag from Pro Version (Only for Admin)
  * MERGED Secured Key Tag from Pro Version (Only for Admin)
  * FIXED Error [The plugin does not have a valid header](https://wordpress.org/support/topic/the-plugin-does-not-have-a-valid-header-72)
@@ -545,50 +577,35 @@ last version number (2014.1231.*1*) 1 for example.
  * FIXED Activation on local XAMPP, EASYPHP, Installations.
  * FIXED Activation on Virtual VPS WordPress Installations.
  * FIXED Activation on other type of Virtual installations.
- * INCLUDED All Features of Major Release 2013.1231.2014
- * INCLUDED All Features of Major Release 2013.1231.2013
  * NEW Renamed Distribution Files on Special Gold Edition.
  * NEW Action Link Cron accessible with [WP Crontrol](https://wordpress.org/plugins/wp-crontrol/) Active.
  * NEW Fully Compatible with WordPress Multisite Install.
  * THANKS to [Jan Dembowski](https://wordpress.org/support/profile/jdembowski) for help me to discover this issue.
+ * INCLUDED All Features of Major Release 2013.1231.2014
  * BUMP Version 2013 Build 1231 Revision 2015
 = 2013.1231.2014 =
-* Major Release 2014 [STABLE][RELOADED] Both DOS and UNIX EOL SVN error!
+* Major Release [STABLE][RELOADED] Both DOS and UNIX EOL SVN error!
  * Please update as soon as possible!
- * Major Release 2014 Reloaded Branche 2013 Build 2015-02-28
- * Full Support and Compatibility for WordPress 2.3+ - 4.0+
- * Preemptive Support for WordPress 4.1-alpha
+ * Release 2013 Branche 2013 Update 2014 Build 2015-11-25
+ * Full Support and Compatibility for WordPress 2.3+ - 4.1+
+ * Preemptive Support for WordPress 4.2-alpha
+ * MAINTENANCE Release According WordPress 4.1+
+ * MAINTENANCE Release According WordPress 4.0+
+ * MAINTENANCE Release According WordPress 3.9+
  * FIXED Both DOS and UNIX EOL causes SVN repo problems.
  * FIXED You have not included a Text Domain Problems.
- * INCLUDED All Features of Major Release 2013.1231.2013
- * NEW support and compatibility for WordPress 4.2-alpha
- * NEW support and compatibility for WordPress 4.1+
  * UPDATED [Special Gold Edition](https://wordpress.org/support/topic/special-gold-edition-version-installation-guide) installation guide.
+ * INCLUDED All Features of Major Release 2013.1231.2013
  * BUMP Version 2013 Build 1231 Revision 2014
 = 2013.1231.2013 =
-* Major Release 2013 [STABLE][RELOADED] One year of testing and bug corrections!
+* Major Release [STABLE][RELOADED] One year of testing and bug corrections!
  * Please update as soon as possible!
- * Major Release 2013 Reloaded Branche 2013 Build 2015-02-28
- * Full Support and Compatibility for WordPress 2.3+ - 3.9+
- * Preemptive Support for WordPress 4.0-alpha
- * The state of art for fix big core bug since WordPress 2.5+
- * Secunia Certified Zero Advisories and Vulnerabilities.
- * Compatible with WordPress, bbPress, Buddypress.
- * Work under [GPLv2](https://www.gnu.org/licenses/gpl-2.0.html) or later License.
- * Implement [GNU style](https://www.gnu.org/prep/standards/standards.html) coding standard indentation.
- * Meet detailed [Plugin Guidelines](https://wordpress.org/plugins/about/guidelines/) quality requirements.
- * Support for [Plugin Beta Tester](https://wordpress.org/plugins/plugin-beta-tester/) specifications.
- * Support for [Plugin Check](https://wordpress.org/plugins/plugin-check/) specifications.
- * Support for [Theme Check](https://wordpress.org/plugins/theme-check/) specifications.
- * NEW key tag plugin authenticity.
- * NEW header and footer log.
- * NEW functions isolation constructor.
- * NEW support and compatibility for WordPress 4.0+
- * NEW support and compatibility for WordPress 3.9+
- * NEW default WordPress items (10 each session) feed syndication support.
- * NEW fast queries and cpu load (5 minutes) optimization by Jack Hayhurst.
- * NEW [HyperDB Query Compatibility](https://wordpress.org/support/topic/resolving-table_name-from-query-broken-in-select-query).
- * NEW [Special Gold Edition](https://wordpress.org/support/topic/special-gold-edition-version-installation-guide) all in one files versions with vary frequency of check.
+ * Release 2013 Branche 2013 Update 2013 Build 2015-11-25
+ * Full Support and Compatibility for WordPress 2.3+ - 3.8+
+ * Preemptive Support for WordPress 3.9-alpha
+ * MAINTENANCE Release According WordPress 3.8+
+ * MAINTENANCE Release According WordPress 3.7+
+ * MAINTENANCE Release According WordPress 3.6+
  * FIXED infrequent freeze when deactivate or delete it.
  * FIXED issue discuss [here](https://wordpress.org/support/topic/bug-published-future-posts-after-update).
  * FIXED ticket #4163854 [W3 Total Cache Conflict](https://wordpress.org/support/topic/any-conflicts-with-w3-cache/).
@@ -601,6 +618,13 @@ last version number (2014.1231.*1*) 1 for example.
  * FIXED WordPress [wp_schedule_single_event](https://codex.wordpress.org/function_reference/wp_schedule_single_event) function behavior.
  * FIXED WordPress [wp_publish_post](https://codex.wordpress.org/function_reference/wp_publish_post) function behavior.
  * FIXED execution time.
+ * NEW key tag plugin authenticity.
+ * NEW header and footer log.
+ * NEW functions isolation constructor.
+ * NEW default WordPress items (10 each session) feed syndication support.
+ * NEW fast queries and cpu load (5 minutes) optimization by Jack Hayhurst.
+ * NEW [HyperDB Query Compatibility](https://wordpress.org/support/topic/resolving-table_name-from-query-broken-in-select-query).
+ * NEW [Special Gold Edition](https://wordpress.org/support/topic/special-gold-edition-version-installation-guide) all in one files versions with vary frequency of check.
  * UPDATED [Special Gold Edition](https://wordpress.org/support/topic/special-gold-edition-version-installation-guide) all in one files with vary frequency of check.
  * UPDATED key tag plugin mechanism.
  * UPDATED header and footer log descriptions.
@@ -628,7 +652,6 @@ last version number (2014.1231.*1*) 1 for example.
  * SECURITY index.php directory listing protection.
  * SECURITY .htaccess strict security rules.
  * SECURITY nothing is written into hosting space disk.
- * INTRODUCED concept of pro version for future development and survivor.
  * ENHANCEMENT check minimun WordPress version required for plugin activation.
  * ENHANCEMENT default WordPress items feed syndication support.
  * ENHANCEMENT maximized stability and speedup performances.
@@ -643,24 +666,24 @@ last version number (2014.1231.*1*) 1 for example.
  * ENHANCEMENT plugin memory consumption (less of 1kb or no more).
  * ENHANCEMENT full strict security rules applied.
  * ENHANCEMENT work with shared and vps hosting.
+ * INTRODUCED concept of pro version for future development and survivor.
  * BUMP Version 2013 Build 1231 Revision 2013
 = 2013.1212.9999 =
-* Refreshed Update [STABLE] Full Support and Compatibility for WordPress 3.8+
+* Refreshed Update [STABLE] Preemptive Support for WordPress 3.8-alpha
  * Please update as soon as possible!
- * Full Support and Compatibility for WordPress 3.8+
+ * Preemptive Support for WordPress 3.8-alpha
  * UPDATED Stability and Performances.
  * BUMP Version 2013 Build 1212 Revision 9999
 = 2013.1024.8888 =
 * Recommended Update [STABLE] Fixed infrequent freeze when deactivate or delete it!
  * Please update as soon as possible!
- * Full Support and Compatibility for WordPress 3.7+
+ * Preemptive Support for WordPress 3.7-alpha
  * NEW Special Gold All in One Update Versions with vary Frequency of Check.
  * BUXFIX Fixed infrequent freeze when deactivate or delete it!
  * BUMP Version 2013 Build 1024 Revision 8888
 = 2013.0730.7777 =
 * Release Candidate 2013 [STABLE] WP Missed Scheduled Release Candidate 2013
  * Please update as soon as possible!
- * Preemptive Support for WordPress 3.7+ - 3.8+
  * NEW Ticket #4218662 [HyperDB Query Compatibility](https://wordpress.org/support/topic/resolving-table_name-from-query-broken-in-select-query)
  * NEW Introducing Concept of PRO Version for Future Development and Survivor.
  * UPDATED Realtime Checking: 10 Future Posts for 5 Minute.
@@ -668,7 +691,6 @@ last version number (2014.1231.*1*) 1 for example.
 = 2013.0726.6666 =
 * Bugfix Update [OMG] Resolved Issue Discuss [Here](https://wordpress.org/support/topic/bug-published-future-posts-after-update)
  * Please update as soon as possible!
- * Full Support and Compatibility for WordPress 3.6+
  * NEW Fast Queries and CPU Load (5 minutes) Optimization by Jack Hayhurst.
  * UPDATED Security Rules.
  * REMOVED /mu-plugins/ Outdated Install Support! Refer to [WPMS db Cleaner](https://downloads.wordpress.org/plugin/wp-missed-schedule.wpms-mu-plugins-clnr.zip)
@@ -677,7 +699,6 @@ last version number (2014.1231.*1*) 1 for example.
 = 2013.0725.5555 =
 * Recommended Update [BUGFIX-PERFORMANCES-SECURITY] Future Start Now!
  * Please update as soon as possible!
- * Full Support and Compatibility for WordPress 3.6+
  * NEW Fast Queries and CPU Load (5 minutes) Optimization by Jack Hayhurst.
  * UPDATED Security Rules.
  * REMOVED /mu-plugins/ Outdated Install Support! Refer to [WPMS db Cleaner](https://downloads.wordpress.org/plugin/wp-missed-schedule.wpms-mu-plugins-clnr.zip)
@@ -686,8 +707,6 @@ last version number (2014.1231.*1*) 1 for example.
 = 2013.0531.4444 =
 * Special Gold Update [STABLE] All in One Versions with vary Frequency of Check
  * Please update as soon as possible!
- * Full Compatible with WordPress 2.6+ to 3.5+
- * Full Support for WordPress 3.6+ Coming Soon Release.
  * NEW Transparency of JetPack and others Publishing Plugins.
  * BUGFIX Fixed Ticket #3712701 [TimeZone Issues](https://wordpress.org/support/topic/publishing-ahead-of-schedule-timezone-issues/)
  * ENHANCEMENT Compatibility of Third Party Caching Plugins.
@@ -701,8 +720,7 @@ last version number (2014.1231.*1*) 1 for example.
 = 2013.0131.3333 =
 * Recommended Update [BUGFIX] Fixed Ticket #3712701 [TimeZone Issues](https://wordpress.org/support/topic/publishing-ahead-of-schedule-timezone-issues/)
  * Please update as soon as possible!
- * Full Compatible with WordPress 2.6+ to 3.5+
- * Preemptive Support for WordPress 3.6+ Coming Soon Release.
+ * Preemptive Support for WordPress 3.6-alpha
  * NEW Transparency of JetPack and others Publishing Plugins.
  * BUGFIX Fixed Ticket #3712701 [TimeZone Issues](https://wordpress.org/support/topic/publishing-ahead-of-schedule-timezone-issues/)
  * ENHANCEMENT Compatibility of Third Party Caching Plugins.
@@ -716,8 +734,6 @@ last version number (2014.1231.*1*) 1 for example.
 = 2013.0130.2222 =
 * Recommended Update [BUGFIX] Fixed (unusual/infrequent) Ticket [#3786523](https://wordpress.org/support/topic/activate-the-plugin-then-show-strange-messages/)
  * Please update as soon as possible!
- * Full Compatible with WordPress 2.6+ to 3.5+
- * Preemptive Support for WordPress 3.6+ Coming Soon Release.
  * BUGFIX Fixed Ticket [#3786523](https://wordpress.org/support/topic/activate-the-plugin-then-show-strange-messages/) in Some Circumstances Hosting Configurations.
  * ENHANCEMENT Checking Interval Modified from 5 Minutes to 1 Minute.
  * UPDATE checking interval every 1 minute (previous 5 minutes) ('WPMS_DELAY' ,1)
@@ -770,7 +786,7 @@ last version number (2014.1231.*1*) 1 for example.
  * UPDATE Preemptive support for WordPress 3.1-RC2-17229
  * Bump Version 2011 Build 0107 Revision 1111
 = 2010.1231.2010 =
-* Major Update [STABLE] Full WP 3.0.4 and 3.1-RC1-17163 Zero Bugs Compatibility Upgrade.
+* Major Update [STABLE] Full WP 3.0.4 and 3.1-RC1-17163 Compatibility Upgrade.
  * Please update as soon as possible!
  * Fix Missed Scheduled Future Posts Cron Job.
  * ZERO-BUGS Full Last 2010 Major Release.
@@ -832,14 +848,16 @@ last version number (2014.1231.*1*) 1 for example.
  * 1ST Plugin Build
  * Bump Version 2007 Build 0807 Revision 2007
 == Upgrade Notice ==
+= 2014.1231.2015 =
+Major [UPDATE] WP 2.1+ to 4.4+ - 4.5-alpha (Build 2015-11-25) Maintenance Release According WordPress 4.3.1 - Introducing Self Deactivation Features if Requirements Not Match - Fixed Control Panel Loop and Dashboard Freeze - Secunia Certified Zero Advisories and Vulnerabilities!
 = 2014.1231.2014 =
-Celebrative [MAJOR] 200.000+ Downloads Day! WP 2.1+ to 4.3+ - 4.4-alpha (Build 2015-08-25) load_plugin_textdomain Languages Loading by Default - Full Support Uninstall Hook and uninstall.php - Multisite Uninstall Routine - Secunia Certified Zero Advisories and Vulnerabilities!
+Celebrative [UPDATE] 200.000+ Downloads Day! WP 2.1+ to 4.3+ - 4.4-alpha (Build 2015-08-25) load_plugin_textdomain Languages Loading by Default - Full Support Uninstall Hook and uninstall.php - Multisite Uninstall Routine - Secunia Certified Zero Advisories and Vulnerabilities!
 = 2014.1231.1 =
-Recommended [UPDATE] WP 2.1+ to 4.3+ - 4.4-alpha (Build 2015-08-18) Removed Annoying Debug Notices and Undefinied Constant Warning! Fixed 11 Tickets! Best Transients Caching! Extended Support for all Released WordPress Versions! Secunia Certified Zero Advisories and Vulnerabilities!
+Recommended [UPDATE] WP 2.1+ to 4.2+ - 4.3-alpha (Build 2015-04-23) Removed Annoying Debug Notices and Undefinied Constant Warning! Fixed 11 Tickets! Best Transients Caching! Extended Support for all Released WordPress Versions! Secunia Certified Zero Advisories and Vulnerabilities!
 = 2014.1231.0 =
-Security [UPDATE] WP 2.3+ to 4.2+ - 4.3-alpha (Build 2015-08-16) Secunia Certified Zero Advisories and Vulnerabilities! Imported Key and Auth Tag from pro version. Updated header footer code. Disabled the ability to identify the version and build installed. Migrated MD5 Checksum to SHA1
+Security [UPDATE] WP 2.3+ to 4.1+ - 4.2-alpha (Build 2015-02-18) Secunia Certified Zero Advisories and Vulnerabilities! Imported Key and Auth Tag from pro version. Updated header footer code. Disabled the ability to identify the version and build installed. Migrated MD5 Checksum to SHA1
 == Disclaimer ==
-[sLaNGjIs team do not providing support on wordpress.org forum](https://wordpress.org/plugins/wp-missed-schedule/other_notes/) because we are not interested in reviews o stars on our plugins!
+[sLaNGjIs team do not providing support on wordpress.org forum and reviews](https://wordpress.org/plugins/wp-missed-schedule/other_notes/) because we are not interested in reviews o stars on our plugins!
 
 Dear user of plugins or themes: Missed Schedule is a WordPress Bug!
 
@@ -853,22 +871,22 @@ In the near future this increase will be even more pronounced, as a result of th
 
 By contrast, both the posts and threads definable "requests" and those definable "trash" are very difficult to finding and follow: the time necessary for this purpose, now, longer a nightmare that one added value service, real.
 
-With the passage of time, the problems of this type of assistance have been deemed ineffective by more and more developers excellent, while the tools available for this workload considered insufficient or inadequate to many of them.
+The problems of this type of assistance, through that instruments, have been deemed ineffective by more and more developers excellent, while the tools available for this workload considered inadequate to many of them.
 
 Many of these developers have already abandoned this platform of assistance by providing other methods of customer care.
 
-Our team has tried to respond to all for more long years, and maintained the support forums for plugins and themes developed always clean, neat, and clear.
+Our team has tried to respond to all for more long years, and maintained the support forums for plugins and themes developed always clean.
 
-Failing to provide a service that gives us satisfaction, through the instruments of WordPress.org forum, as of today August 15, 2014 we abandon the active support with this type of structure, started since July 7, 2007 to try to give one type of service more personalized, and targeted, to requests of users.
+Failing to provide a service that gives us satisfaction, as of today August 15, 2014 we abandon the active support with this type of structure, started since July 7, 2007 to try to give one type of personalized targeted service to user requests.
 
-1. For Bug's [sLaNGjIs GitHub ](https://github.com/slangji/)
-1. For Tickets [sLaNGjIs Contact](https://slangji.wordpress.com/contact/)
-1. For Support [sLaNGjIs Support](https://slangji.wordpress.com/support/)
+1. Bug's [sLaNGjIs GitHub](//github.com/slangji/)
+1. Suggestions [sLaNGjIs Contact](//slangji.wordpress.com/contact/)
+1. Support [sLaNGjIs Premium](//slangji.wordpress.com/premium-support/)
 
 * Please note that:
- * We are not interested in reviews on our plugins and themes.
+ * We are not interested in reviews on our plugins or themes.
  * Do not write anything like that!
- * We are not interested in stars on our plugins and themes.
+ * We are not interested in stars on our plugins or themes.
  * Do not make any in that sections!
 
-Generally we're not interested to be informed if you like our plugins and themes, or if you use them successfully through the instruments of the WordPress.org forum and reviews! Remember to keep proper behavior, under the rules, respect all their moderators, and its users. This team do not supporting it anymore, and the possibility that some of us then reply or write on it, will be very low! After 2 weeks, posts and threads opened without any reply, active discussion on it, or real issues, is automatically dropped, and marked resolved, because the fake probability is elevated!
+Possibility that some of us then reply or write on it, will be very low!

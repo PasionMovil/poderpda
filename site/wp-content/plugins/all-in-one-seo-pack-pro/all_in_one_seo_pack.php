@@ -3,7 +3,7 @@
 Plugin Name: All in One SEO Pack Pro
 Plugin URI: http://semperfiwebdesign.com
 Description: Out-of-the-box SEO for your WordPress blog. <a href="admin.php?page=all-in-one-seo-pack-pro/aioseop_class.php">Options configuration panel</a> | <a href="http://semper.plugins.com/support/" target="_blank">Support Forum</a>
-Version: 2.3.7.1
+Version: 2.3.7.2
 Author: Michael Torbert
 Author URI: http://michaeltorbert.com
 */
@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * @package All-in-One-SEO-Pack-Pro
- * @version 2.3.7.1
+ * @version 2.3.7.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) return;
@@ -42,7 +42,7 @@ if ( ! defined( 'AIOSEOP_PLUGIN_NAME' ) )
     define( 'AIOSEOP_PLUGIN_NAME', $aioseop_plugin_name );
 
 if ( ! defined( 'AIOSEOP_VERSION' ) )
-    define( 'AIOSEOP_VERSION', '2.3.7.1' );
+    define( 'AIOSEOP_VERSION', '2.3.7.2' );
 
 if ( ! defined( 'AIOSEOP_PLUGIN_DIR' ) ) {
     define( 'AIOSEOP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );

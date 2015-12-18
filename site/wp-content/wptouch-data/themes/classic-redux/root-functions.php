@@ -1,5 +1,5 @@
 <?php
-define( 'CLASSIC_THEME_VERSION', '1.4.2' );
+define( 'CLASSIC_THEME_VERSION', '1.4.3' );
 define( 'CLASSIC_SETTING_DOMAIN', 'classic-redux' );
 define( 'CLASSIC_DIR', wptouch_get_bloginfo( 'theme_root_directory' ) );
 define( 'CLASSIC_URL', wptouch_get_bloginfo( 'theme_root_url' ) );

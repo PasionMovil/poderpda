@@ -98,12 +98,12 @@ function classicBindTappableLinks(){
 }
 
 function classicHandleAds(){
-	var adDiv = jQuery( '.wptouch-ad' );
+	var adDiv = jQuery( '.wptouch-showcase' );
 	jQuery( window ).resize( function(){
-		if ( jQuery( 'body' ).hasClass( 'smartphone' ) && jQuery( 'body' ).hasClass( 'top-content-ad' ) ) {
+		if ( jQuery( 'body' ).hasClass( 'smartphone' ) && jQuery( 'body' ).hasClass( 'top-content-showcase' ) ) {
 			adDiv.detach();
 			jQuery( '.post' ).before( adDiv );
-		} else if ( jQuery( 'body' ).hasClass( 'smartphone' ) && jQuery( 'body' ).hasClass( 'bottom-content-ad' ) ) {
+		} else if ( jQuery( 'body' ).hasClass( 'smartphone' ) && jQuery( 'body' ).hasClass( 'bottom-content-showcase' ) ) {
 			adDiv.detach();
 			jQuery( '.post' ).after( adDiv );
 		}

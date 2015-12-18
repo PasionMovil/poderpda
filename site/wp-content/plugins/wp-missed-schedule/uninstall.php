@@ -13,7 +13,7 @@
 	 * @license     //www.gnu.org/licenses/gpl-2.0.html
 	 * @link        //wordpress.org/plugins/wp-missed-schedule/
 	 *
-	 * @build  2015-08-28
+	 * @build  2015-09-26
 	 * @author sLa NGjI's @ slangji.wordpress.com
 	 *
 	 * @since  WordPress 2.7+

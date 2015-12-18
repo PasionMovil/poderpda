@@ -2,14 +2,14 @@
 /*
 Plugin Name: WP Missed Schedule
 Plugin URI: //slangji.wordpress.com/wp-missed-schedule/
-Description: WordPress Plugin WP <code>Missed Schedule</code> Fix Schedules <code>Failed Future Posts</code> Scheduled <code>Virtual Cron Job</code>: find only all that match this problem, re-publish correctly 10 items each session, every 10 minutes, the others on next sessions, for no waste resources, until no longer exist. The configuration of this plugin is Automatic! Free (UNIX STYLE) Stable Branche 2014 - Version 2014.1231 - Revision 2 - Build 2015-08-25 - <a title="Try New Stable Beta Version Branche 2015" href="//slangji.wordpress.com/wp-missed-schedule-beta/">Beta Branche 2015</a>
-Version: 2014.1231.2014
+Description: WordPress Plugin WP <code>Missed Schedule</code> Fix Schedules <code>Failed Future Posts</code> Scheduled <code>Virtual Cron Job</code>: find only all that match this problem, re-publish correctly 10 items each session, every 10 minutes, the others on next sessions, for no waste resources, until no longer exist. The configuration of this plugin is Automatic! Cron link requires <a title="WP Crontrol plugin active is required for Cron Link" href="//wordpress.org/plugins/wp-crontrol/">WP Crontrol</a> activated and WP 2.7+ or later. <a title="Try New Stable Beta Version Branche 2015" href="//slangji.wordpress.com/wp-missed-schedule-beta/">Beta Branche 2015</a> - Free (UNIX STYLE) Stable Branche 2014 - Version 2014.1231 - Revision 2015 - Build 2015-09-26
+Version: 2014.1231.2015
 Requires at least: 2.1
 KeyTag: 7f71ee70ea1ce6795c69c81df4ea13ac5cf230b4
 Author: sLa NGjI's
 Author URI: //slangji.wordpress.com/
 Network: true
-Text Domain: wpmissedscheduled
+Text Domain: wp-missed-schedule
 Domain Path: /languages
 License: GPLv2 or later
 License URI: //www.gnu.org/licenses/gpl-2.0.html
@@ -20,7 +20,7 @@ Humans URI: //humanstxt.org/Standard.html
  *
  * ALPHA DEVELOPMENT Release is available only on [GitHub](//github.com/slangji)
  *
- * BETA Release: Version 2015 Build 0228 Revision 3
+ * BETA Release: Version 2015 Build 0228 Revision 4
  *
  * REQUIREMENTS
  *
@@ -46,7 +46,7 @@ Humans URI: //humanstxt.org/Standard.html
  *
  * This plugin patched an important big problem unfixed since WordPress 2.5+ to date.
  *
- * Copyright (C) 2007-2015 [slangjis](//slangji.wordpress.com/) (email: <slangjis [at] googlegmail [dot] com>))
+ * Copyright (C) 2007-2015 [sLaNGjIs](//slangji.wordpress.com/) (email: <slangjis [at] googlegmail [dot] com>))
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the [GNU General Public License](//wordpress.org/about/gpl/)
@@ -89,24 +89,27 @@ Humans URI: //humanstxt.org/Standard.html
  * This uses (or it parts) code derived from:
  *
  * wp-header-footer-login-log.php by slangjis <slangjis [at] googlemail [dot] com>
- * Copyright (C) 2009 [slangjis](//slangji.wordpress.com/) (email: <slangjis [at] googlemail [dot] com>)
+ * Copyright (C) 2007-2015 [sLaNGjIs](//slangji.wordpress.com/) (email: <slangjis [at] googlemail [dot] com>)
  *
- * according to the terms of the GNU General Public License version 2 (or later)
+ * according to the terms of the GNU General Public License version 2 (or later).
  *
- * This wp-header-footer-login-log.php uses (or it parts) code derived from
+ * This wp-header-footer-login-log.php uses (or it parts) code derived from:
+ *
+ * wp-login-log.php by slangjis <slangjis [at] googlemail [dot] com>
+ * Copyright (C) 2009 [sLaNGjIs](//slangji.wordpress.com/) (email: <slangjis [at] googlemail [dot] com>)
  *
  * wp-header-log.php by slangjis <slangjis [at] googlemail [dot] com>
- * Copyright (C) 2008 [slangjis](//slangji.wordpress.com/) (email: <slangjis [at] googlemail [dot] com>)
+ * Copyright (C) 2008 [sLaNGjIs](//slangji.wordpress.com/) (email: <slangjis [at] googlemail [dot] com>)
  *
  * wp-footer-log.php by slangjis <slangjis [at] googlemail [dot] com>
- * Copyright (C) 2007 [slangjis](//slangji.wordpress.com/) (email: <slangjis [at] googlemail [dot] com>)
+ * Copyright (C) 2007 [sLaNGjIs](//slangji.wordpress.com/) (email: <slangjis [at] googlemail [dot] com>)
  *
- * according to the terms of the GNU General Public License version 2 (or later)
+ * according to the terms of the GNU General Public License version 2 (or later).
  *
  * According to the Terms of the GNU General Public License version 2 (or later) part of Copyright
  * belongs to your own author and part belongs to their respective others authors:
  *
- * Copyright (C) 2007-2009 [slangjis](//slangji.wordpress.com/) (email: <slangjis [at] googlemail [dot] com>)
+ * Copyright (C) 2007-2009 [sLaNGjIs](//slangji.wordpress.com/) (email: <slangjis [at] googlemail [dot] com>)
  *
  * VIOLATIONS
  *
@@ -161,8 +164,10 @@ Humans URI: //humanstxt.org/Standard.html
 	 * @since       2.5+
 	 * @tested      2.6+
 	 * @branche     2014
-	 * @version     2014.1231.2014
-	 * @build       2015-08-25
+	 * @revision    2015
+	 * @release     2014.1231
+	 * @version     2014.1231.2015
+	 * @build       2015-09-26
 	 * @license     GPLv2 or later
 	 * @indentation GNU style coding standard
 	 * @keybit      eLCQM540z78BbFMtmFXj3lC62b79H8651411574J4YQCb3g46FsK338kT29FPANa8
@@ -188,9 +193,20 @@ Humans URI: //humanstxt.org/Standard.html
 
 	if ( $wp_version < 2.1 )
 		{
-			wp_die( __( 'Plugin WP Missed Schedule Requires WordPress 2.1+ or Greater: Activation Stopped.', 'wpmissedscheduled' ) );
+			if ( $wp_version >= 2.5 )
+				{
+					function wpms_psd()
+						{
+							deactivate_plugins( plugin_basename( __FILE__ ) );
+						}
+					add_action( 'admin_init', 'wpms_psd', 0 );
+				}
+
+			wp_die( __( 'WP Missed Schedule requires WordPress 2.1+ or greater Activation Stopped', 'wp-missed-schedule' ) );
 				exit;
 		}
+	else
+		{
 
 	function wpms_activation()
 		{
@@ -243,9 +259,9 @@ Humans URI: //humanstxt.org/Standard.html
 			if ( ! current_user_can( 'activate_plugins' ) )
 				return;
 
-			load_plugin_textdomain( 'wpmissedscheduled', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+			load_plugin_textdomain( 'wp-missed-schedule', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 		}
-	add_action( 'plugins_loaded', 'wpms_languages' );
+	add_action( 'plugins_loaded', 'wpms_languages', 0 );
 
 	define( 'WPMS_OPTION', 'wp_scheduled_missed' );
 
@@ -279,7 +295,7 @@ Humans URI: //humanstxt.org/Standard.html
 				{
 					global $wpdb;
 
-			$qry = <<<SQL
+					$qry = <<<SQL
  SELECT ID FROM {$wpdb->posts} WHERE ( ( post_date > 0 && post_date <= %s ) ) AND post_status = 'future' LIMIT 0,10 
 SQL;
 
@@ -292,7 +308,7 @@ SQL;
 				{
 					global $wpdb;
 
-					$scheduledIDs = $wpdb->get_col( "SELECT`ID`FROM`{$wpdb->posts}`" . "WHERE(" . "((`post_date`>0)&&(`post_date`<=CURRENT_TIMESTAMP()))OR" . "((`post_date_gmt`>0)&&(`post_date_gmt`<=UTC_TIMESTAMP()))" . ")AND`post_status`='future'LIMIT 0,10" );
+					$scheduledIDs = $wpdb->get_col( "SELECT`ID`FROM `{$wpdb->posts}` " . " WHERE ( " . " ( ( `post_date` > 0 ) && ( `post_date` <= CURRENT_TIMESTAMP() ) ) OR " . " ( ( `post_date_gmt` > 0 ) && ( `post_date_gmt` <= UTC_TIMESTAMP() ) ) " . " ) AND `post_status` = 'future' LIMIT 0,10" );
 				}
 
 			if ( ! count( $scheduledIDs ) )
@@ -318,8 +334,8 @@ SQL;
 
 							if ( $wp_version >= 2.7 )
 								{
-									$wpms_settings_action_links_1 = '<a title="'. __( 'View Your Missed Scheduled Failed Future Posts', 'wpmissedscheduled' ) .'" href="edit.php?post_status=future&post_type=post">'. __( 'Missed', 'wpmissedscheduled' ) .'</a>';
-									$wpms_settings_action_links_2 = '<a title="'. __( 'Requires WP Crontrol Plugin Activated', 'wpmissedscheduled' ) .'" href="tools.php?page=crontrol_admin_manage_page">'. __( 'Cron', 'wpmissedscheduled' ) .'</a>';
+									$wpms_settings_action_links_1 = '<a title="'. __( 'View Your Missed Scheduled Failed Future Posts', 'wp-missed-schedule' ) .'" href="edit.php?post_status=future&post_type=post">'. __( 'Missed', 'wp-missed-schedule' ) .'</a>';
+									$wpms_settings_action_links_2 = '<a title="'. __( 'Requires WP Crontrol Plugin Activated', 'wp-missed-schedule' ) .'" href="tools.php?page=crontrol_admin_manage_page">'. __( 'Cron', 'wp-missed-schedule' ) .'</a>';
 
 									array_unshift( $links, $wpms_settings_action_links_1 );
 									array_unshift( $links, $wpms_settings_action_links_2 );
@@ -327,7 +343,7 @@ SQL;
 
 							if ( ( $wp_version >= 2.5 ) and ( $wp_version < 2.7 ) )
 								{
-									$wpms_settings_action_links_1 = '<a title="'. __( 'View Your Missed Scheduled Failed Future Posts', 'wpmissedscheduled' ) .'" href="edit.php?post_status=future&post_type=post">'. __( 'Missed', 'wpmissedscheduled' ) .'</a>';
+									$wpms_settings_action_links_1 = '<a title="'. __( 'View Your Missed Scheduled Failed Future Posts', 'wp-missed-schedule' ) .'" href="edit.php?post_status=future&post_type=post">'. __( 'Missed', 'wp-missed-schedule' ) .'</a>';
 
 									array_unshift( $links, $wpms_settings_action_links_1 );
 								}
@@ -341,8 +357,8 @@ SQL;
 		{
 			function wpms_pral( $links )
 				{
-					$links[] = '<a title="'. __( 'Requires WP Crontrol Plugin Activated', 'wpmissedscheduled' ) .'" href="tools.php?page=crontrol_admin_manage_page">'. __( 'Cron', 'wpmissedscheduled' ) .'</a>';
-					$links[] = '<a title="'. __( 'View Your Missed Scheduled Failed Future Posts', 'wpmissedscheduled' ) .'" href="edit.php?post_status=future&post_type=post">'. __( 'Miss', 'wpmissedscheduled' ) .'</a>';
+					$links[] = '<a title="'. __( 'Requires WP Crontrol Plugin Activated', 'wp-missed-schedule' ) .'" href="tools.php?page=crontrol_admin_manage_page">'. __( 'Cron', 'wp-missed-schedule' ) .'</a>';
+					$links[] = '<a title="'. __( 'View Your Missed Scheduled Failed Future Posts', 'wp-missed-schedule' ) .'" href="edit.php?post_status=future&post_type=post">'. __( 'Miss', 'wp-missed-schedule' ) .'</a>';
 						return $links;
 				}
 
@@ -373,9 +389,9 @@ SQL;
 
 					if ( $file == plugin_basename( __FILE__ ) )
 						{
-							$links[] = '<a title="'. __( 'Offer a Beer to sLa', 'wpmissedscheduled' ) .'" href="//slangji.wordpress.com/donate/">'. __( 'Donate', 'wpmissedscheduled' ) .'</a>';
-							$links[] = '<a title="'. __( 'Bugfix and Suggestions', 'wpmissedscheduled' ) .'" href="//slangji.wordpress.com/contact/">'. __( 'Contact', 'wpmissedscheduled' ) .'</a>';
-							$links[] = '<a title="'. __( 'Visit other author plugins', 'wpmissedscheduled' ) .'" href="//slangji.wordpress.com/plugins/">'. __( 'Other', 'wpmissedscheduled' ) .'</a>';
+							$links[] = '<a title="'. __( 'Offer a Beer to sLa', 'wp-missed-schedule' ) .'" href="//slangji.wordpress.com/donate/">'. __( 'Donate', 'wp-missed-schedule' ) .'</a>';
+							$links[] = '<a title="'. __( 'Bugfix and Suggestions', 'wp-missed-schedule' ) .'" href="//slangji.wordpress.com/contact/">'. __( 'Contact', 'wp-missed-schedule' ) .'</a>';
+							$links[] = '<a title="'. __( 'Visit other author plugins', 'wp-missed-schedule' ) .'" href="//slangji.wordpress.com/plugins/">'. __( 'Other', 'wp-missed-schedule' ) .'</a>';
 						}
 					return $links;
 				}
@@ -390,8 +406,8 @@ SQL;
 			echo "\r\n<!--Plugin WP Missed Schedule Active - Secured with Genuine Authenticity KeyTag-->\r\n";
 			echo "\r\n<!-- This site is patched against a big problem not solved since WordPress 2.5 -->\r\n\r\n";
 		}
-	add_action( 'wp_head', 'wpms_shfl', 0 );
-	add_action( 'wp_footer', 'wpms_shfl', 0 );
+	add_action( 'wp_head', 'wpms_shfl', 100 );
+	add_action( 'wp_footer', 'wpms_shfl', 100 );
 
 	function wpms_shfl_authag()
 		{
@@ -410,8 +426,8 @@ SQL;
 					echo "\r\n<!-- Your copy of Plugin WP Missed Schedule (free) NO Genuine -->\r\n\r\n";
 				}
 		}
-	add_action( 'admin_head', 'wpms_shfl_authag', 0 );
-	add_action( 'admin_footer', 'wpms_shfl_authag', 0 );
+	add_action( 'admin_head', 'wpms_shfl_authag', 100 );
+	add_action( 'admin_footer', 'wpms_shfl_authag', 100 );
 
 	function wpms_deactivation()
 		{
@@ -524,4 +540,5 @@ SQL;
 				}
 			register_uninstall_hook( __FILE__, 'wpms_uninstall', 0 );
 		}
+	}
 ?>

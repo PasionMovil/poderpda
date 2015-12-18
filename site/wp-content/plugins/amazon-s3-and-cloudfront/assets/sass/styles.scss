@@ -3,12 +3,11 @@
  * AWS wrap
  */
 .aws-main.wrap {
-	&> h2 {
+	& > h1 {
 		float: left;
 	}
 
 	.as3cf-notice, .as3cf-updated, .as3cf-error {
-		margin-bottom: 0;
 		-webkit-box-sizing: border-box;
 		-moz-box-sizing: border-box;
 		box-sizing: border-box;
@@ -21,11 +20,10 @@
 
 	h2.nav-tab-wrapper {
 		float: none;
-		margin-bottom: 0;
+		margin-bottom: 15px;
 		width: 650px;
 		margin-top: 10px;
-		padding-left: 5px;
-		padding-right: 0;
+		padding: 9px 0 0 5px;
 
 		a.nav-tab-active {
 			color: #464646;
@@ -56,7 +54,7 @@
 		.as3cf-notice, .error, .updated, .updated.show {
 			display: none;
 		}
-		.fatal .error, .dbrains-api-down {
+		.fatal .error, .as3cf-notice.important, .dbrains-api-down  {
 			display: block;
 		}
 	}
@@ -247,6 +245,7 @@
 
 	.form-table {
 		margin: 0;
+
 		tr {
 			&.as3cf-border-bottom td {
 				border-bottom: 1px solid #ddd;
@@ -264,6 +263,16 @@
 					vertical-align: top;
 					min-width: 120px;
 				}
+
+				.as3cf-notice:last-child {
+					margin-bottom: 0;
+				}
+			}
+
+			&:first-of-type {
+				td {
+					padding-top: 5px;
+				}
 			}
 		}
 		h3 {
@@ -275,10 +284,21 @@
 		}
 	}
 
-  .as3cf-active-bucket {
-	font-weight: bold;
-	margin-right: 10px;
-  }
+	.as3cf-active-bucket {
+		font-weight: bold;
+		margin-right: 10px;
+	}
+	.as3cf-view-bucket {
+		color: #444;
+		text-decoration: none;
+		margin-right: 10px;
+		&:hover, &:active {
+			color: #00a0d2;
+		}
+		.dashicons-external {
+			margin-top: -2px;
+		}
+	}
 
   .tooltip {
 	position: relative;
@@ -405,11 +425,6 @@
 		}
 	}
 
-	.as3cf-invalid-bucket-name {
-		font-size: 12px;
-		color: #a00;
-	}
-
 	.bucket-actions {
 		margin: 15px 0;
 		border-top: 1px solid #ccc;
@@ -488,6 +503,7 @@
 }
 
 #tab-support {
+	min-height: 900px;
 	.as3cf-sidebar {
 		top: 11px;
 	}
@@ -549,11 +565,6 @@
 	  line-height: 1.4;
 	}
 
-	ul {
-	  margin-left: 20px;
-	  list-style-type: disc;
-	}
-
 	li {
 	  line-height: 1.4;
 	}
@@ -577,6 +588,10 @@
 
 	  p {
 		margin-bottom: 0.3em;
+	  }
+
+	  input[type=text], input[type=email] {
+	  	width: 100%;
 	  }
 
 	  &.submit-button {
@@ -637,15 +652,8 @@
   (min-resolution: 1.3dppx) {
 
 	.as3cf-banner {
-	  background-image: url(../img/snail@2x.jpg);
-	  background-size: 292px 165px;
-	  width: 292px;
-	  height: 165px;
-	  display: block;
-
-	  img {
-		display: none;
-	  }
+	  background-image: url(../img/snail-banner@2x.jpg);
+	  background-size: 292px 156px;
 	}
   }
 
@@ -661,12 +669,72 @@
  * Misc
  */
 .as3cf-banner {
-	img {
-		display: block;
+	margin-top: 28px;
+	width: 292px;
+	height: 156px;
+	display: block;
+	background-image: url(../img/snail-banner.jpg);
+	position: relative;
+
+	h1 {
+		font-size: 28px;
+		color: #fff;
+		font-weight: 200;
+		margin: 0;
+		position: absolute;
+		bottom: 25px;
+		left: 20px;
+		text-decoration: none;
+	}
+}
+
+.as3cf-upgrade-details {
+	background-color: #73833b;
+	padding: 20px;
+	color: #fff;
+	font-size: 13px;
+	margin: 0;
+	display: block;
+	text-decoration: none;
+
+	p {
+		margin: 0;
+	}
+
+	a {
+		color: #fff;
+		font-weight: bold;
+		text-decoration: none;
+		font-size: 16px;
+
+		&:hover {
+			color: #fff;
+			opacity: 0.9;
+		}
+	}
+
+	ul {
+		margin-top: 0;
+		margin-left: 16px;
+		list-style-type: disc;
 	}
 }
 
 .aws-compatibility-notice.error {
 	clear: both;
 	margin: 5px 20px 5px 0;
+}
+
+.as3cf-bucket-error {
+	span.title {
+		font-weight: bold;
+	}
+}
+
+.as3cf-invalid-bucket-name,
+.as3cf-validation-error {
+	display: block;
+	margin-top: 2px;
+	font-size: 12px;
+	color: #a00;
 }
