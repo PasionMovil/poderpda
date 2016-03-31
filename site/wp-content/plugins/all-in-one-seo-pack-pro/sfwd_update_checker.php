@@ -63,11 +63,11 @@ class SFWD_Update_Checker extends PluginUpdateChecker {
 		if ( !$this->check_license_key( $license_key ) )
 			$msg = "<p><strong>" . sprintf( __('%s is almost ready.'), $this->plugin_name ) . "</strong> " 
 				. sprintf(__('You must <a href="%s">enter a valid License Key</a> for it to work.'), "admin.php?page={$this->options_page}" )
-				. __( ' Need a license key?', 'all_in_one_seo_pack' ) 
-				. ' <a href="' . $this->renewal_page . '" target="_blank">' . __( 'Purchase one now', 'all_in_one_seo_pack' ) . '</a>';
+				. __( ' Need a license key?', 'all-in-one-seo-pack' ) 
+				. ' <a href="' . $this->renewal_page . '" target="_blank">' . __( 'Purchase one now', 'all-in-one-seo-pack' ) . '</a>';
 		else
 			if ( $this->has_update() )
-				$msg = sprintf( __( "There is a new version of %s available. Go to <a href='%s'>the plugins page</a> for details.", 'all_in_one_seo_pack' ), AIOSEOP_PLUGIN_NAME, network_admin_url( 'plugins.php' ) );
+				$msg = sprintf( __( "There is a new version of %s available. Go to <a href='%s'>the plugins page</a> for details.", 'all-in-one-seo-pack' ), AIOSEOP_PLUGIN_NAME, network_admin_url( 'plugins.php' ) );
 		if ( !empty( $msg ) ) {
 			aioseop_output_dismissable_notice( $msg, 'aioseop-warning' );			
 		}
@@ -80,15 +80,15 @@ class SFWD_Update_Checker extends PluginUpdateChecker {
 		add_action( 'in_plugin_update_message-' . $this->plugin_basename, Array( $this, 'update_message' ), 10, 2 );
 		if ( !$this->check_license_key() )
 			echo '<tr class="plugin-update-tr"><td colspan="3" class="plugin-update"><div class="update-message"><span style="border-right: 1px solid #DFDFDF; margin-right: 5px;"><a href="admin.php?page=' . $this->options_page . '">'
-				 . __( 'Manage Licenses', 'all_in_one_seo_pack' ) . '</a> ' . __( 'License Key is not set yet or invalid. ', 'all_in_one_seo_pack' ) . __( ' Need a license key?', 'all_in_one_seo_pack' ) 
-				 . ' <a href="' . $this->renewal_page . '" target="_blank">' . __( 'Purchase one now', 'all_in_one_seo_pack' ) . '</a></span></div></td></tr>';
+				 . __( 'Manage Licenses', 'all-in-one-seo-pack' ) . '</a> ' . __( 'License Key is not set yet or invalid. ', 'all-in-one-seo-pack' ) . __( ' Need a license key?', 'all-in-one-seo-pack' ) 
+				 . ' <a href="' . $this->renewal_page . '" target="_blank">' . __( 'Purchase one now', 'all-in-one-seo-pack' ) . '</a></span></div></td></tr>';
 	}
 
 	/**
 	 * Get update information back from the server, display to the user on the plugins page.
 	 */
 	function update_message( $plugin_data, $r ) {
-		echo " " . __("Notice: ", 'all_in_one_seo_pack' ) . $r->upgrade_notice;
+		echo " " . __("Notice: ", 'all-in-one-seo-pack' ) . $r->upgrade_notice;
 	}
 	
 	function license_change_check( $options, $location ) {

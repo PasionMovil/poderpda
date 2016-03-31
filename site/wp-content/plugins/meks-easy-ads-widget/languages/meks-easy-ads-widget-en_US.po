@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2015-05-26 19:54+0100\n"
-"PO-Revision-Date: 2015-05-26 19:55+0100\n"
+"POT-Creation-Date: 2016-03-04 12:50+0100\n"
+"PO-Revision-Date: 2016-03-04 12:50+0100\n"
 "Last-Translator: MeksHQ <support@mekshq.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -25,74 +25,82 @@ msgstr ""
 msgid "Advertisement"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:180
+#: ../inc/class-ads-widget.php:179
 msgid "Title"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:185
+#: ../inc/class-ads-widget.php:184
 msgid "Ads Size"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:187
+#: ../inc/class-ads-widget.php:186
 msgid "Small (125x125 px)"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:189
+#: ../inc/class-ads-widget.php:188
 msgid "Large (300x250 px)"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:191
+#: ../inc/class-ads-widget.php:190
 msgid "Custom"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:197
+#: ../inc/class-ads-widget.php:196
 msgid "Width"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:199
+#: ../inc/class-ads-widget.php:198
 msgid "Height"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:203
+#: ../inc/class-ads-widget.php:202
 msgid "Options"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:206
+#: ../inc/class-ads-widget.php:205
 msgid "Rotate (slide) Ads"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:211
+#: ../inc/class-ads-widget.php:210
+msgid "Rotation speed"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:212
+msgid "Number of seconds between ads rotation"
+msgstr ""
+
+#: ../inc/class-ads-widget.php:217
 msgid "Randomize Ads"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:216
+#: ../inc/class-ads-widget.php:222
 msgid "Add \"nofollow\" to ad links"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:220
+#: ../inc/class-ads-widget.php:226
 msgid "Number of Ads per view"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:222
+#: ../inc/class-ads-widget.php:228
 msgid "Means how many ads to display per page load or slide"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:226
+#: ../inc/class-ads-widget.php:232
 msgid "Ads"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:231 ../inc/class-ads-widget.php:245
+#: ../inc/class-ads-widget.php:237 ../inc/class-ads-widget.php:251
 msgid "Ad Image URL"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:233
+#: ../inc/class-ads-widget.php:239
 msgid "Ad Link"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:241
+#: ../inc/class-ads-widget.php:247
 msgid "Add New"
 msgstr ""
 
-#: ../inc/class-ads-widget.php:247
+#: ../inc/class-ads-widget.php:253
 msgid "Ad Link URL"
 msgstr ""

@@ -11,14 +11,14 @@ if ( !class_exists( 'All_in_One_SEO_Pack_Sitemap' ) ) {
 if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_One_SEO_Pack_Video_Sitemap' ) ) ) {
 	class All_in_One_SEO_Pack_Video_Sitemap extends All_in_One_SEO_Pack_Sitemap {
 		function __construct( ) {
-			$this->name = __( 'Video Sitemap', 'all_in_one_seo_pack' );	// Human-readable name of the plugin
+			$this->name = __( 'Video Sitemap', 'all-in-one-seo-pack' );	// Human-readable name of the plugin
 			$this->prefix = 'aiosp_video_sitemap_';						// option prefix
 			$this->file = __FILE__;									// the current file
 			parent::__construct();
 			$this->default_options['filename']['default'] = 'video-sitemap';
-			$this->default_options['videos_only'] = Array( 'name' => __( 'Show Only Posts With Videos', 'all_in_one_seo_pack' ), 'default' => 'On' );
-			$this->default_options['video_scan'] = Array( 'name' => __( 'Scan Posts For Videos', 'all_in_one_seo_pack' ), 'type' => 'custom', 'save' => false, 'nowrap' => false );
-			$this->default_options['restrict_access'] = Array( 'name' => __( 'Restrict Access to Video Sitemap', 'all_in_one_seo_pack' ),
+			$this->default_options['videos_only'] = Array( 'name' => __( 'Show Only Posts With Videos', 'all-in-one-seo-pack' ), 'default' => 'On' );
+			$this->default_options['video_scan'] = Array( 'name' => __( 'Scan Posts For Videos', 'all-in-one-seo-pack' ), 'type' => 'custom', 'save' => false, 'nowrap' => false );
+			$this->default_options['restrict_access'] = Array( 'name' => __( 'Restrict Access to Video Sitemap', 'all-in-one-seo-pack' ),
 															   'condshow'  => Array( "{$this->prefix}rewrite" => 'on' ) );
 			$this->layout['default']['options'][] = 'videos_only';
 			$this->layout['default']['options'][] = 'restrict_access';
@@ -26,9 +26,9 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
 			
 			$this->layout['status']['help_link'] = 'http://semperplugins.com/documentation/video-sitemap/';
 			
-			$this->help_text['video_scan']		= __( 'Press the Scan button to scan your posts for videos! Do this if video content from a post or posts is not showing up in your sitemap.', 'all_in_one_seo_pack' );
-			$this->help_text['videos_only']		= __( 'If checked, only posts that have videos in them will be displayed on the sitemap.', 'all_in_one_seo_pack' );
-			$this->help_text['restrict_access'] = __( 'Enable this option to only allow access to your sitemap by site administrators and major search engines.', 'all_in_one_seo_pack' );
+			$this->help_text['video_scan']		= __( 'Press the Scan button to scan your posts for videos! Do this if video content from a post or posts is not showing up in your sitemap.', 'all-in-one-seo-pack' );
+			$this->help_text['videos_only']		= __( 'If checked, only posts that have videos in them will be displayed on the sitemap.', 'all-in-one-seo-pack' );
+			$this->help_text['restrict_access'] = __( 'Enable this option to only allow access to your sitemap by site administrators and major search engines.', 'all-in-one-seo-pack' );
 			
 			$this->help_anchors['video_scan']		= '#scan-posts-for-videos';
 			$this->help_anchors['videos_only']		= 'http://semperplugins.com/documentation/video-sitemap/#show-only-posts-with-videos';
@@ -84,7 +84,7 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
 				add_filter( $this->prefix . 'post_counts', Array( $this, 'count_videos_only' ), 10, 2 );				
 			if ( $max > 0 ) {
 			?><div id="aiosp_sitemap_oembed_scan"><input name=aiosp_sitemap_scan id=aiosp_sitemap_scan type="submit" value="<?php
-				echo __( 'Scan', 'all_in_one_seo_pack' ); ?>" class="button-primary"><div id="aiosp_sitemap_scan" style="display:inline-block;margin-left:10px;""></div></div><progress id=p style="width:100%;" value=0 max=<?php echo (int)$max; 
+				echo __( 'Scan', 'all-in-one-seo-pack' ); ?>" class="button-primary"><div id="aiosp_sitemap_scan" style="display:inline-block;margin-left:10px;""></div></div><progress id=p style="width:100%;" value=0 max=<?php echo (int)$max; 
 			?>></progress><script>
 			jQuery(document).ready(function() {
 				var min = 5;

@@ -1,26 +1,24 @@
 === All in One SEO Pack ===
 Contributors: hallsofmontezuma
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mrtorbert%40gmail%2ecom&item_name=All%20In%20One%20SEO%20Pack&item_number=Support%20Open%20Source&no_shipping=0&no_note=1&tax=0&currency_code=USD&lc=US&bn=PP%2dDonationsBF&charset=UTF%2d8
-Tags: seo, search engine optimization, google
+Tags: seo, all in one seo pack, search engine optimization, google
 Requires at least: 3.3
-Tested up to: 3.9.2
-Stable tag: trunk
+Tested up to: 4.4
+Stable tag: 2.3.7.5
+License: GPLv2 or later 
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-WordPress SEO plugin to automatically optimize your WordPress blog for Search Engines.
+All in One SEO Pack Pro is a WordPress SEO plugin to automatically optimize your WordPress blog for Search Engines such as Google.
 
 == Description ==
 
 **Optimizes** your WordPress blog for Search Engines (**Search Engine Optimization**).
 
-**[Upgrade to Pro Version](http://semperplugins.com/plugins/all-in-one-seo-pack-pro-version/)**
-
-[Support](http://semperfiwebdesign.com/forum/) |
-[Change Log](http://semperfiwebdesign.com/documentation/all-in-one-seo-pack/all-in-one-seo-pack-release-history/) |
-[FAQ](http://semperfiwebdesign.com/documentation/all-in-one-seo-pack/all-in-one-seo-faq/)|
-[Translations](http://semperfiwebdesign.com/documentation/all-in-one-seo-pack/translations-for-all-in-one-seo-pack/)
+[Support](http://semperplugins.com/support/) |
+[Change Log](http://semperplugins.com/documentation/all-in-one-seo-pack-pro-changelog/) |
+[FAQ](http://semperplugins.com/faqs/)|
 
 Some features:
-
 
 * Google Analytics support
 * Support for Custom Post Types
@@ -36,38 +34,27 @@ Some features:
 * For beginners, you don't even have to look at the options, it works out-of-the-box. Just install.
 * For advanced users, you can fine-tune everything
 * You can override any title and set any META description and any META keywords you want.
-* Backward-Compatibility with many other plugins, like Auto Meta, Ultimate Tag Warrior and others.
-
-**If upgrading, please back up your database first!**
-
-Be sure to check out:
-[WP Security Scan](http://wordpress.org/extend/plugins/wp-security-scan/)
-and
-[SMS Text Message](http://wordpress.org/extend/plugins/sms-text-message/)
 
 Follow me on Twitter to keep up with the latest updates [Michael
 Torbert](http://twitter.com/michaeltorbert/)
 
 == Installation ==
 
-You can use the built in installer and upgrader, or you can install the plugin
-manually.
-
-1. You can either use the automatic plugin installer or your FTP program to upload it to your wp-content/plugins directory
-the top-level folder. Don't just upload all the php files and put them in `/wp-content/plugins/`.
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Visit your SEO options (*Options - All in One SEO*) for WordPress 2.3.x, (*Settings - All in One SEO*) for WordPress 2.5.x-2.8.x 
-1. Configure any options as desired, and then enable the plugin
-1. That's it!
-
-If you have to upgrade manually simply repeat the installation steps and re-enable the plugin.
-
-**If upgrading, please back up your database first!**
-
-[Upgrade guide for upgrading from 1.5.x and below to
-1.6.x](http://onefinejay.com/2009/07/11/a-guide-to-upgrading-to-aioseop-v1-6-1)
+You can find installation instructions online at (http://semperplugins.com/documentation/installing-all-in-one-seo-pack-pro/)
 
 == Frequently Asked Questions ==
 
-Please read these **[FAQs](http://semperfiwebdesign.com/documentation/all-in-one-seo-pack/all-in-one-seo-faq/)** before requesting
-**[My Plugin Support Forum](http://semperfiwebdesign.com/forum/)**
+Please read these **[FAQs](http://semperplugins.com/faqs/)** before requesting
+**[My Plugin Support Forum](http://semperplugins.com/support/)**
+
+== Upgrade Notice == 
+= 2.3.7.5 =  
+-Update for WordPress 4.4 
+-CSS fixes 
+-Important localization improvements 
+-Update for Social Meta Module - Photo Twitter Card 
+-Add support for the full set of Twitter meta tags (https://dev.twitter.com/cards/markup) 
+-Bugfix for issue with Noindex options for post types 
+-Bugfix for schema.org  markup
+-Category capitalization fixes
+-Futureproofing for PHP v7 and v8

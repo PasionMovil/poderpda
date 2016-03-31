@@ -3,14 +3,15 @@
 Plugin Name: All in One SEO Pack Pro
 Plugin URI: http://semperfiwebdesign.com
 Description: Out-of-the-box SEO for your WordPress blog. <a href="admin.php?page=all-in-one-seo-pack-pro/aioseop_class.php">Options configuration panel</a> | <a href="http://semper.plugins.com/support/" target="_blank">Support Forum</a>
-Version: 2.3.7.2
+Version: 2.3.7.5
 Author: Michael Torbert
 Author URI: http://michaeltorbert.com
+Text Domain: all-in-one-seo-pack
 */
 
 /*
-Copyright (C) 2008-2014 Michael Torbert, semperfiwebdesign.com (michael AT semperfiwebdesign DOT com)
-Original code by uberdose of uberdose.com
+Copyright (C) 2008-2015 Michael Torbert, semperfiwebdesign.com and semperplugins.com
+
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * @package All-in-One-SEO-Pack-Pro
- * @version 2.3.7.2
+ * @version 2.3.7.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) return;
@@ -42,13 +43,13 @@ if ( ! defined( 'AIOSEOP_PLUGIN_NAME' ) )
     define( 'AIOSEOP_PLUGIN_NAME', $aioseop_plugin_name );
 
 if ( ! defined( 'AIOSEOP_VERSION' ) )
-    define( 'AIOSEOP_VERSION', '2.3.7.2' );
+    define( 'AIOSEOP_VERSION', '2.3.7.5' );
 
 if ( ! defined( 'AIOSEOP_PLUGIN_DIR' ) ) {
     define( 'AIOSEOP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 } elseif ( AIOSEOP_PLUGIN_DIR != plugin_dir_path( __FILE__ ) ) {
 	add_action( 'admin_notices', create_function( '', 'echo "' . "<div class='error'>" . sprintf(
-				__( "%s detected a conflict; please deactivate the plugin located in %s.", 'all_in_one_seo_pack' ),
+				__( "%s detected a conflict; please deactivate the plugin located in %s.", 'all-in-one-seo-pack' ),
 				$aioseop_plugin_name, AIOSEOP_PLUGIN_DIR ) . "</div>" . '";' ) );
 	return;
 }
