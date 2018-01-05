@@ -30,7 +30,7 @@
 
 		$switch.toggleClass( 'on' ).find( 'span' ).toggleClass( 'checked' );
 		var switchOn = $switch.find( 'span.on' ).hasClass( 'checked' );
-		$checkbox.attr( 'checked', switchOn ).trigger( 'change' );
+		$checkbox.prop( 'checked', switchOn ).trigger( 'change' );
 	}
 
 	/**
@@ -45,10 +45,10 @@
 
 		if ( pattern.test( $input.val() ) ) {
 			$error.show();
-			$submit.attr( 'disabled', true );
+			$submit.prop( 'disabled', true );
 		} else {
 			$error.hide();
-			$submit.attr( 'disabled', false );
+			$submit.prop( 'disabled', false );
 		}
 	}
 
@@ -61,18 +61,73 @@
 		 * @param bool   persist_updated_notice
 		 */
 		toggle: function( hash, persist_updated_notice ) {
+			hash = as3cf.tabs.sanitizeHash( hash );
+
 			$tabs.hide();
 			$activeTab = $( '#tab-' + hash );
 			$activeTab.show();
 			$( '.nav-tab' ).removeClass( 'nav-tab-active' );
 			$( 'a.nav-tab[data-tab="' + hash + '"]' ).addClass( 'nav-tab-active' );
-			$( '.aws-main' ).attr( 'data-tab', hash );
-			if ( $activeTab.attr( 'data-prefix' ) ) {
-				as3cfModal.prefix = $activeTab.attr( 'data-prefix' );
+			$( '.aws-main' ).data( 'tab', hash );
+			if ( $activeTab.data( 'prefix' ) ) {
+				as3cfModal.prefix = $activeTab.data( 'prefix' );
 			}
 			if ( ! persist_updated_notice ) {
 				$( '.as3cf-updated' ).removeClass( 'show' );
 			}
+
+			if ( 'support' === hash ) {
+				as3cf.tabs.getDiagnosticInfo();
+			}
+		},
+
+		/**
+		 * Update display of diagnostic info.
+		 */
+		getDiagnosticInfo: function() {
+			var $debugLog = $( '.debug-log-textarea' );
+
+			$debugLog.html( as3cf.strings.get_diagnostic_info );
+
+			var data = {
+				action: 'as3cf-get-diagnostic-info',
+				_nonce: as3cf.nonces.get_diagnostic_info
+			};
+
+			$.ajax( {
+				url: ajaxurl,
+				type: 'POST',
+				dataType: 'JSON',
+				data: data,
+				error: function( jqXHR, textStatus, errorThrown ) {
+					$debugLog.html( errorThrown );
+				},
+				success: function( data, textStatus, jqXHR ) {
+					if ( 'undefined' !== typeof data[ 'success' ] ) {
+						$debugLog.html( data[ 'diagnostic_info' ] );
+					} else {
+						$debugLog.html( as3cf.strings.get_diagnostic_info_error );
+						$debugLog.append( data[ 'error' ] );
+					}
+				}
+			} );
+		},
+
+		/**
+		 * Sanitize hash to ensure it references a real tab.
+		 *
+		 * @param string hash
+		 *
+		 * @return string
+		 */
+		sanitizeHash: function( hash ) {
+			var $newTab = $( '#tab-' + hash );
+
+			if ( 0 === $newTab.length ) {
+				hash = as3cf.tabs.defaultTab;
+			}
+
+			return hash;
 		}
 	};
 
@@ -112,7 +167,7 @@
 				return;
 			}
 
-			$bucketList.html( '<li class="loading">' + $bucketList.attr( 'data-working' ) + '</li>' );
+			$bucketList.html( '<li class="loading">' + $bucketList.data( 'working' ) + '</li>' );
 
 			var data = {
 				action: as3cfModal.prefix + '-get-buckets',
@@ -209,7 +264,7 @@
 				return;
 			}
 			$( '.as3cf-bucket-error' ).hide();
-			$manualBucketButton.text( $manualBucketButton.attr( 'data-working' ) );
+			$manualBucketButton.text( $manualBucketButton.data( 'working' ) );
 			$manualBucketButton.prop( 'disabled', true );
 
 			var data = {
@@ -269,14 +324,14 @@
 				return;
 			}
 
-			var previousBucket = $( '.as3cf-bucket-list a.selected' ).attr( 'data-bucket' );
+			var previousBucket = $( '.as3cf-bucket-list a.selected' ).data( 'bucket' );
 
 			$( '.as3cf-bucket-list a' ).removeClass( 'selected' );
 			$link.addClass( 'selected' );
 
 			$bucketList.addClass( 'saving' );
 			$link.find( '.spinner' ).show().css( 'visibility', 'visible' );
-			var bucketName = $link.attr( 'data-bucket' );
+			var bucketName = $link.data( 'bucket' );
 
 			var data = {
 				action: as3cfModal.prefix + '-save-bucket',
@@ -324,15 +379,15 @@
 			var $manualBucketForm = $( '.as3cf-bucket-container.' + as3cfModal.prefix + ' .as3cf-manual-save-bucket-form' );
 
 			if ( $createBucketForm.find( '.as3cf-bucket-name' ).val().length < 3 ) {
-				$createBucketForm.find( 'button[type=submit]' ).attr( 'disabled', true );
+				$createBucketForm.find( 'button[type=submit]' ).prop( 'disabled', true );
 			} else {
-				$createBucketForm.find( 'button[type=submit]' ).attr( 'disabled', false );
+				$createBucketForm.find( 'button[type=submit]' ).prop( 'disabled', false );
 			}
 
 			if ( $manualBucketForm.find( '.as3cf-bucket-name' ).val().length < 3 ) {
-				$manualBucketForm.find( 'button[type=submit]' ).attr( 'disabled', true );
+				$manualBucketForm.find( 'button[type=submit]' ).prop( 'disabled', true );
 			} else {
-				$manualBucketForm.find( 'button[type=submit]' ).attr( 'disabled', false );
+				$manualBucketForm.find( 'button[type=submit]' ).prop( 'disabled', false );
 			}
 		},
 
@@ -375,8 +430,8 @@
 			if ( 'as3cf' === as3cfModal.prefix && 0 === $activeBucket.text().trim().length ) {
 
 				// First time bucket select - enable main options by default
-				setCheckbox( 'copy-to-s3-wrap' );
-				setCheckbox( 'serve-from-s3-wrap' );
+				setCheckbox( 'as3cf-copy-to-s3-wrap' );
+				setCheckbox( 'as3cf-serve-from-s3-wrap' );
 
 				// Update the saved settings string so we don't trigger the navigation alert
 				var id = $activeTab.attr( 'id' );
@@ -404,7 +459,12 @@
 
 			setBucketLink();
 
-			as3cfModal.close( unlockBucketSelect );
+			as3cfModal.close( function() {
+				$activeTab.trigger( 'bucket-change', [ canWrite ] );
+
+				// Unlock setting the bucket
+				as3cf.buckets.bucketSelectLock = false;
+			} );
 		},
 
 		/**
@@ -420,7 +480,7 @@
 			var origButtonText = $createBucketButton.text();
 
 			$( '.as3cf-bucket-error' ).hide();
-			$createBucketButton.text( $createBucketButton.attr( 'data-working' ) );
+			$createBucketButton.text( $createBucketButton.data( 'working' ) );
 			$createBucketButton.prop( 'disabled', true );
 
 			var data = {
@@ -452,9 +512,9 @@
 
 						// Tidy up create bucket form
 						$( '.as3cf-bucket-select-region' ).hide();
-						$( '.as3cf-bucket-select-region' ).removeAttr( 'selected' );
+						$( '.as3cf-bucket-select-region' ).prop( 'selected', false );
 						$createBucketInput.val( '' );
-						$createBucketButton.attr( 'disabled', true );
+						$createBucketButton.prop( 'disabled', true );
 
 						// Make sure the bucket list will refresh the next time the modal loads
 						refreshBucketListOnLoad = true;
@@ -568,20 +628,11 @@
 		} );
 	}
 
-	/**
-	 * Reset the bucket select lock
-	 */
-	function unlockBucketSelect( target ) {
-
-		// Unlock setting the bucket
-		as3cf.buckets.bucketSelectLock = false;
-	}
-
 	/*
 	 * Toggle the lost files notice
 	 */
 	function toggleLostFilesNotice() {
-		if ( $( '#remove-local-file' ).is( ':checked' ) && $( '#serve-from-s3' ).is( ':not(:checked)' ) ) {
+		if ( $( '#as3cf-remove-local-file' ).is( ':checked' ) && $( '#as3cf-serve-from-s3' ).is( ':not(:checked)' ) ) {
 			$( '#as3cf-lost-files-notice' ).show();
 		} else {
 			$( '#as3cf-lost-files-notice' ).hide();
@@ -592,53 +643,52 @@
 	 * Toggle the remove local files notice
 	 */
 	function toggleRemoveLocalNotice() {
-		if ( $( '#remove-local-file' ).is( ':checked' ) ) {
+		if ( $( '#as3cf-remove-local-file' ).is( ':checked' ) ) {
 			$( '#as3cf-remove-local-notice' ).show();
 		} else {
 			$( '#as3cf-remove-local-notice' ).hide();
 		}
 	}
 
+	/**
+	 * Update the UI with the current active tab set in the URL hash.
+	 */
+	function renderCurrentTab() {
+
+		// If rendering the default tab, or a bare hash clean the hash.
+		if ( '#' + as3cf.tabs.defaultTab === location.hash ) {
+			location.hash = '';
+
+			return;
+		}
+
+		as3cf.tabs.toggle( location.hash.replace( '#', '' ), true );
+
+		$( document ).trigger( 'as3cf.tabRendered', [ location.hash.replace( '#', '' ) ] );
+	}
+
 	$( document ).ready( function() {
 
 		// Tabs
 		// --------------------
+		renderCurrentTab();
+
+		/**
+		 * Set the hashchange callback to update the rendered active tab.
+		 */
+		window.onhashchange = function( event ) {
+
+			// Strip the # if still on the end of the URL
+			if ( 'function' === typeof history.replaceState && '#' === location.href.slice( -1 ) ) {
+				history.replaceState( {}, '', location.href.slice( 0, -1 ) );
+			}
+
+			renderCurrentTab();
+		};
 
 		// Move any compatibility errors below the nav tabs
 		var $navTabs = $( '.wrap.aws-main .nav-tab-wrapper' );
 		$( '.aws-compatibility-notice, div.updated, div.error, div.notice' ).not( '.below-h2, .inline' ).insertAfter( $navTabs );
-
-		// Check for hash in url and switch tabs accordingly
-		if ( window.location.hash ) {
-			var hash = window.location.hash.substring( 1 );
-			as3cf.tabs.toggle( hash, true );
-		} else {
-
-			// Default settings tab
-			$activeTab = $( '#tab-' + as3cf.tabs.defaultTab );
-			$( '.aws-main' ).attr( 'data-tab', as3cf.tabs.defaultTab );
-		}
-
-		$( '.aws-main' ).on( 'click', '.nav-tab', function( e ) {
-			e.preventDefault();
-			if ( $( this ).hasClass( 'nav-tab-active' ) ) {
-				return;
-			}
-			var nextTab = $( this ).attr( 'data-tab' );
-			as3cf.tabs.toggle( nextTab );
-			if ( 'media' === nextTab ) {
-
-				// As it's the default remove the hash
-				window.location.hash = '';
-				if ( 'function' === typeof window.history.replaceState  && '#' === window.location.href.slice( -1 ) ) {
-
-					// Strip the # if still on the end of the URL
-					history.replaceState( {}, '', window.location.href.slice( 0, -1 ) );
-				}
-			} else {
-				window.location.hash = nextTab;
-			}
-		} );
 
 		// Settings
 		// --------------------
@@ -689,36 +739,17 @@
 			$cloudfront.toggleClass( 'hide', ! cloudfrontSelected );
 		} );
 
-		$( '.as3cf-ssl' ).on( 'change', 'input[type="radio"]', function( e ) {
-			if ( ! $( '#' + $activeTab.attr( 'id' ) + ' .deprecated-domain' ).length ) {
-				return;
-			}
-
-			var ssl = $( 'input:radio[name="ssl"]:checked' ).val();
-			if ( 'https' === ssl ) {
-				var domain = $( 'input:radio[name="domain"]:checked' ).val();
-				if ( 'subdomain' === domain ) {
-					$( 'input[name="domain"][value="path"]' ).attr( 'checked', true );
-				}
-				$( '.subdomain-wrap input' ).attr( 'disabled', true );
-				$( '.subdomain-wrap' ).addClass( 'disabled' );
-			} else {
-				$( '.subdomain-wrap input' ).removeAttr( 'disabled' );
-				$( '.subdomain-wrap' ).removeClass( 'disabled' );
-			}
-		} );
-
 		$( '.url-preview' ).on( 'change', 'input', function( e ) {
 			generateUrlPreview();
 		} );
 
 		toggleLostFilesNotice();
-		$( '#serve-from-s3,#remove-local-file' ).on( 'change', function( e ) {
+		$( '#as3cf-serve-from-s3,#as3cf-remove-local-file' ).on( 'change', function( e ) {
 			toggleLostFilesNotice();
 		} );
 
 		toggleRemoveLocalNotice();
-		$( '#remove-local-file' ).on( 'change', function( e ) {
+		$( '#as3cf-remove-local-file' ).on( 'change', function( e ) {
 			toggleRemoveLocalNotice();
 		} );
 
@@ -742,7 +773,7 @@
 			var $submit = $( '#' + $activeTab.attr( 'id' ) + ' form button[type="submit"]' );
 
 			if ( 'cloudfront' !== $input.val() ) {
-				$submit.attr( 'disabled', false );
+				$submit.prop( 'disabled', false );
 			} else {
 				validateCustomDomain( $input.next( '.as3cf-setting' ).find( 'input[name="cloudfront"]' ) );
 			}
@@ -836,9 +867,9 @@
 			var $createBucketForm = $( '.as3cf-bucket-container.' + as3cfModal.prefix + ' .as3cf-create-bucket-form' );
 
 			if ( as3cf.buckets.isValidName( bucketName ) ) {
-				$createBucketForm.find( 'button[type=submit]' ).removeAttr( 'disabled' );
+				$createBucketForm.find( 'button[type=submit]' ).prop( 'disabled', false );
 			} else {
-				$createBucketForm.find( 'button[type=submit]' ).attr( 'disabled', true );
+				$createBucketForm.find( 'button[type=submit]' ).prop( 'disabled', true );
 			}
 			as3cf.buckets.updateNameNotice( bucketName );
 		} );
@@ -848,9 +879,9 @@
 			var $manualBucketForm = $( '.as3cf-bucket-container.' + as3cfModal.prefix + ' .as3cf-manual-save-bucket-form' );
 
 			if ( $manualBucketForm.find( '.as3cf-bucket-name' ).val().length < as3cf.buckets.validLength ) {
-				$manualBucketForm.find( 'button[type=submit]' ).attr( 'disabled', true );
+				$manualBucketForm.find( 'button[type=submit]' ).prop( 'disabled', true );
 			} else {
-				$manualBucketForm.find( 'button[type=submit]' ).removeAttr( 'disabled' );
+				$manualBucketForm.find( 'button[type=submit]' ).prop( 'disabled', false );
 			}
 		} );
 

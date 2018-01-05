@@ -1,32 +1,32 @@
 === Meks Smart Social Widget ===
 Contributors: mekshq
-Donate link: http://mekshq.com/
+Donate link: https://mekshq.com/
 Tags: social, icons, widget, linkedin, reddit, vimeo, dribble, instagram, pinterest
 Requires at least: 3.0
-Tested up to: 4.3
-Stable tag: 1.2.5
+Tested up to: 4.9
+Stable tag: 1.3.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
-Easily display more than 40 social icons inside your WordPress widget.
+Easily display more than 100 social icons inside your WordPress widget.
 
 == Description ==
 
-Choose from different icon shapes and sizes and quickly connect your website with your social profiles. There are 40 social icons provided: Aim, Apple, Behance, Blogger, Cargo, 
-Delicious, DeviantArt, Digg, Dribbble, Envato, Evernote, Facebook, Flickr, Forrst, Github, Google, GooglePlus, GrooveShark, iCloud, Instagram, LastFM, LinkedIN, MySpace, Picasa, 
-Pinterest, ReddIt, Rss, Skype, Soundcloud, Spotify, StumbleUpon, Tumblr, Twitter, Vimeo, Vine, WordPress, Xing, Youtube, Zerply, 500px, vKontakte,  Sina Weibo, Tencent Weibo, Me2Day, Twitch...
+Choose from different icon shapes and sizes and quickly connect your website with your social profiles. There aare more than 100 social icons provided: Aim, Apple, Behance, Blogger, Cargo, Delicious, DeviantArt, Digg, Dribbble, Envato, Evernote, Facebook, Flickr,Forrst, Github, Google, GooglePlus, GrooveShark, iCloud, Instagram, LastFM, LinkedIN, MySpace, Picasa, Pinterest, ReddIt, Rss, Skype, Soundcloud, Spotify, StumbleUpon, Tumblr, Twitter, Vimeo, Vine, WordPress, Xing, Youtube, Zerply, 500px, vKontakte, Sina Weibo, Tencent Weibo, Me2Day, Twitch...
 
-### Features
+== Features ==
 
-* Choose from around 40 social icons
+* Choose from more than 100 social icons
 * Choose from 3 different icon shapes (square, circle or rounded corners)
 * Define custom size for your icons
 
-Smart Social Widget plugin is created by <a href="http://mekshq.com" target="_blank">MeksHQ</a>
+Smart Social Widget plugin is created by [Meks](https://mekshq.com)
 
-### Live preview?
+== Live example? ==
 
-You can see Smart Social Widget live example on our <a href="http://mekshq.com/demo/throne" target="_blank">Throne theme demo website</a>
+You can see Meks Easy Ads Widget live example on our [Gridlove theme demo website](https://mekshq.com/demo/gridlove)
+
+Social icons font is made by [socicon](http://www.socicon.com)
 
 == Installation ==
 
@@ -36,7 +36,7 @@ You can see Smart Social Widget live example on our <a href="http://mekshq.com/d
 
 == Frequently Asked Questions ==
 
-For any questions, error reports and suggestions please email support@mekshq.com or visit http://mekshq.com
+For any questions, error reports and suggestions please visit https://mekshq.com
 
 == Screenshots ==
 
@@ -46,6 +46,29 @@ For any questions, error reports and suggestions please email support@mekshq.com
 4. Widget in action - example 3
 
 == Changelog ==
+
+= 1.3.4 =
+
+* Improved: Social links now dislay social network titles on link hover
+* Tested with WP 4.9
+
+= 1.3.3 =
+
+* Fixed: JavaScript error breaking several functionalities in admin panel in specific cases
+
+= 1.3.2 =
+
+* Added: Possibility to reorder (drag and drop) social icons in admin panel
+
+= 1.3.1 =
+
+* Fixed: Google+ icon not displaying
+
+= 1.3 =
+
+* Added more than 60 new icons!
+* Images replaced by icon font for faster loading and better rendering on retina devices (thanks to www.socicon.com)
+* Added: Option to define icon font size
 
 = 1.2.5 =
 * Full compatibility with WordPress 4.3

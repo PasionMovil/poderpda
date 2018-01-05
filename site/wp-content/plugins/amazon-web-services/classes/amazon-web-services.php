@@ -112,25 +112,18 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	/**
 	 * Load styles for the AWS menu item
 	 */
-	function enqueue_menu_styles() {
-		$src = plugins_url( 'assets/css/global.css', $this->plugin_file_path );
-		wp_enqueue_style( 'aws-global-styles', $src, array(), $this->get_asset_version() );
+	public function enqueue_menu_styles() {
+		$this->enqueue_style( 'aws-global-styles', 'assets/css/global' );
 	}
 
 	/**
 	 * Plugin loading enqueue scripts and styles
 	 */
-	function plugin_load() {
-		$version = $this->get_asset_version();
-		$suffix  = $this->get_asset_suffix();
+	public function plugin_load() {
+		$this->enqueue_style( 'aws-styles', 'assets/css/styles' );
+		$this->enqueue_script( 'aws-script', 'assets/js/script', array( 'jquery' ) );
 
-		$src = plugins_url( 'assets/css/styles.css', $this->plugin_file_path );
-		wp_enqueue_style( 'aws-styles', $src, array(), $version );
-
-		$src = plugins_url( 'assets/js/script' . $suffix . '.js', $this->plugin_file_path );
-		wp_enqueue_script( 'aws-script', $src, array( 'jquery' ), $version, true );
-
-		if ( isset( $_GET['page'] ) && 'aws-addons' == sanitize_key( $_GET['page'] ) ) { // input var okay
+		if ( isset( $_GET['page'] ) && 'aws-addons' === sanitize_key( $_GET['page'] ) ) { // input var okay
 			add_filter( 'admin_body_class', array( $this, 'admin_plugin_body_class' ) );
 			wp_enqueue_script( 'plugin-install' );
 			add_thickbox();
@@ -220,7 +213,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 * @return bool
 	 */
 	function are_key_constants_set() {
-		return defined( 'AWS_ACCESS_KEY_ID' ) && defined( 'AWS_SECRET_ACCESS_KEY' );
+		return defined( 'AWS_ACCESS_KEY_ID' ) || defined( 'AWS_SECRET_ACCESS_KEY' );
 	}
 
 	/**
@@ -229,7 +222,22 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 * @return bool
 	 */
 	function are_prefixed_key_constants_set() {
-		return defined( 'DBI_AWS_ACCESS_KEY_ID' ) && defined( 'DBI_AWS_SECRET_ACCESS_KEY' );
+		return defined( 'DBI_AWS_ACCESS_KEY_ID' ) || defined( 'DBI_AWS_SECRET_ACCESS_KEY' );
+	}
+
+	/**
+	 * Whether or not IAM access keys are needed.
+	 *
+	 * Keys are needed if we are not using EC2 roles or not defined/set yet.
+	 *
+	 * @return bool
+	 */
+	public function needs_access_keys() {
+		if ( $this->use_ec2_iam_roles() ) {
+			return false;
+		}
+
+		return ! $this->are_access_keys_set();
 	}
 
 	/**
@@ -244,31 +252,43 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	/**
 	 * Get the AWS key from a constant or the settings
 	 *
+	 * Falls back to settings only if neither constant is defined.
+	 *
 	 * @return string
 	 */
 	function get_access_key_id() {
-		if ( defined( 'DBI_AWS_ACCESS_KEY_ID' ) ) {
-			return DBI_AWS_ACCESS_KEY_ID;
-		} elseif ( defined( 'AWS_ACCESS_KEY_ID' ) ) {
-			return AWS_ACCESS_KEY_ID; // Deprecated
+		if ( $this->are_prefixed_key_constants_set() || $this->are_key_constants_set() ) {
+			if ( defined( 'DBI_AWS_ACCESS_KEY_ID' ) ) {
+				return DBI_AWS_ACCESS_KEY_ID;
+			} elseif ( defined( 'AWS_ACCESS_KEY_ID' ) ) {
+				return AWS_ACCESS_KEY_ID; // Deprecated
+			}
+		} else {
+			return $this->get_setting( 'access_key_id' );
 		}
 
-		return $this->get_setting( 'access_key_id' );
+		return '';
 	}
 
 	/**
 	 * Get the AWS secret from a constant or the settings
 	 *
+	 * Falls back to settings only if neither constant is defined.
+	 *
 	 * @return string
 	 */
 	function get_secret_access_key() {
-		if ( defined( 'DBI_AWS_SECRET_ACCESS_KEY' ) ) {
-			return DBI_AWS_SECRET_ACCESS_KEY;
-		} elseif ( defined( 'AWS_SECRET_ACCESS_KEY' ) ) {
-			return AWS_SECRET_ACCESS_KEY; // Deprecated
+		if ( $this->are_prefixed_key_constants_set() || $this->are_key_constants_set() ) {
+			if ( defined( 'DBI_AWS_SECRET_ACCESS_KEY' ) ) {
+				return DBI_AWS_SECRET_ACCESS_KEY;
+			} elseif ( defined( 'AWS_SECRET_ACCESS_KEY' ) ) {
+				return AWS_SECRET_ACCESS_KEY; // Deprecated
+			}
+		} else {
+			return $this->get_setting( 'secret_access_key' );
 		}
 
-		return $this->get_setting( 'secret_access_key' );
+		return '';
 	}
 
 	/**
@@ -290,15 +310,15 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 * Instantiate a new AWS service client for the AWS SDK
 	 * using the defined AWS key and secret
 	 *
-	 * @return Aws|WP_Error
+	 * @return Aws
+	 * @throws Exception
 	 */
 	function get_client() {
-		if ( ! $this->use_ec2_iam_roles() && ( ! $this->get_access_key_id() || ! $this->get_secret_access_key() ) ) {
-			return new WP_Error( 'access_keys_missing', sprintf( __( 'You must first <a href="%s">set your AWS access keys</a> to use this addon.', 'amazon-web-services' ), 'admin.php?page=' . $this->plugin_slug ) ); // xss ok
+		if ( $this->needs_access_keys() ) {
+			throw new Exception( sprintf( __( 'You must first <a href="%s">set your AWS access keys</a> to use this addon.', 'amazon-web-services' ), 'admin.php?page=' . $this->plugin_slug ) );
 		}
 
 		if ( is_null( $this->client ) ) {
-
 			$args = array();
 
 			if ( ! $this->use_ec2_iam_roles() ) {
@@ -356,64 +376,26 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 	 *
 	 * @return array
 	 */
-	function get_addons( $unfiltered = false ) {
+	public function get_addons( $unfiltered = false ) {
 		$addons = array(
-			'amazon-s3-and-cloudfront' => array(
+			'amazon-s3-and-cloudfront'     => array(
 				'title'   => __( 'WP Offload S3 Lite', 'amazon-web-services' ),
 				'url'     => 'https://wordpress.org/plugins/amazon-s3-and-cloudfront/',
 				'install' => true,
 			),
 			'amazon-s3-and-cloudfront-pro' => array(
 				'title'  => __( 'WP Offload S3', 'amazon-web-services' ),
-				'url'    => 'https://deliciousbrains.com/wp-offload-s3/',
+				'url'    => $this->dbrains_url( '/wp-offload-s3', array(
+					'utm_campaign' => 'WP+Offload+S3',
+				) ),
 				'addons' => array(
-					'amazon-s3-and-cloudfront-assets'               => array(
-						'title' => __( 'Assets', 'amazon-web-services' ),
-						'url'   => 'https://deliciousbrains.com/wp-offload-s3/doc/assets-addon/',
+					'amazon-s3-and-cloudfront-assets-pull' => array(
+						'title' => __( 'Assets Pull', 'amazon-web-services' ),
+						'url'   => $this->dbrains_url( '/wp-offload-s3/doc/assets-pull-addon/', array(
+							'utm_campaign' => 'addons+install',
+						) ),
 						'label' => __( 'Feature', 'amazon-web-services' ),
 						'icon'  => true,
-					),
-					'amazon-s3-and-cloudfront-woocommerce'          => array(
-						'title'                  => __( 'WooCommerce', 'amazon-web-services' ),
-						'url'                    => 'https://deliciousbrains.com/wp-offload-s3/doc/woocommerce-addon/',
-						'label'                  => __( 'Integration', 'amazon-web-services' ),
-						'parent_plugin_basename' => 'woocommerce/woocommerce.php',
-						'icon'                   => true,
-					),
-					'amazon-s3-and-cloudfront-edd'                  => array(
-						'title'                  => __( 'Easy Digital Downloads', 'amazon-web-services' ),
-						'url'                    => 'https://deliciousbrains.com/wp-offload-s3/doc/edd-addon/',
-						'label'                  => __( 'Integration', 'amazon-web-services' ),
-						'parent_plugin_basename' => 'easy-digital-downloads/easy-digital-downloads.php',
-						'icon'                   => true,
-					),
-					'amazon-s3-and-cloudfront-wpml'                 => array(
-						'title'                  => __( 'WPML', 'amazon-web-services' ),
-						'url'                    => 'https://deliciousbrains.com/wp-offload-s3/doc/wpml-addon/',
-						'label'                  => __( 'Integration', 'amazon-web-services' ),
-						'parent_plugin_basename' => 'wpml-media/plugin.php',
-						'icon'                   => true,
-					),
-					'amazon-s3-and-cloudfront-meta-slider'          => array(
-						'title'                  => __( 'Meta Slider', 'amazon-web-services' ),
-						'url'                    => 'https://deliciousbrains.com/wp-offload-s3/doc/meta-slider-addon/',
-						'label'                  => __( 'Integration', 'amazon-web-services' ),
-						'parent_plugin_basename' => 'ml-slider/ml-slider.php',
-						'icon'                   => true,
-					),
-					'amazon-s3-and-cloudfront-enable-media-replace' => array(
-						'title'                  => __( 'Enable Media Replace', 'amazon-web-services' ),
-						'url'                    => 'https://deliciousbrains.com/wp-offload-s3/doc/enable-media-replace-addon/',
-						'label'                  => __( 'Integration', 'amazon-web-services' ),
-						'parent_plugin_basename' => 'enable-media-replace/enable-media-replace.php',
-						'icon'                   => true,
-					),
-					'amazon-s3-and-cloudfront-acf-image-crop' => array(
-						'title'                  => __( 'ACF Image Crop', 'amazon-web-services' ),
-						'url'                    => 'https://deliciousbrains.com/wp-offload-s3/doc/acf-image-crop-addon/',
-						'label'                  => __( 'Integration', 'amazon-web-services' ),
-						'parent_plugin_basename' => 'acf-image-crop-add-on/acf-image-crop.php',
-						'icon'                   => true,
 					),
 				),
 			),
@@ -458,13 +440,13 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 		$activated = $this->is_plugin_activated( $slug );
 
 		if ( $installed && $activated ) {
-			echo '<li>' . esc_html( _x( 'Installed & Activated', 'Plugin already installed and activated', 'amazon-web-services' ) ) . '</li>';
+			echo '<li class="installed activated">' . esc_html( _x( 'Installed & Activated', 'Plugin already installed and activated', 'amazon-web-services' ) ) . '</li>';
 		} elseif ( $installed ) {
-			echo '<li>' . esc_html( _x( 'Installed', 'Plugin already installed', 'amazon-web-services' ) ) . '</li>';
-			echo '<li><a href="' . esc_url( $this->get_plugin_activate_url( $slug ) ) . '">' . esc_html( _x( 'Activate Now', 'Activate plugin now', 'amazon-web-services' ) ) . '</a></li>';
+			echo '<li class="installed">' . esc_html( _x( 'Installed', 'Plugin already installed', 'amazon-web-services' ) ) . '</li>';
+			echo '<li class="activate"><a href="' . esc_url( $this->get_plugin_activate_url( $slug ) ) . '">' . esc_html( _x( 'Activate Now', 'Activate plugin now', 'amazon-web-services' ) ) . '</a></li>';
 		} else {
 			if ( isset( $addon['install'] ) && $addon['install'] ) {
-				echo '<li><a href="' . esc_url( $this->get_plugin_install_url( $slug ) ) . '">' . esc_html( _x( 'Install Now', 'Install plugin now', 'amazon-web-services' ) ) . '</a></li>';
+				echo '<li class="install"><a href="' . esc_url( $this->get_plugin_install_url( $slug ) ) . '">' . esc_html( _x( 'Install Now', 'Install plugin now', 'amazon-web-services' ) ) . '</a></li>';
 			}
 		}
 
@@ -508,7 +490,7 @@ class Amazon_Web_Services extends AWS_Plugin_Base {
 			$class = 'thickbox';
 		}
 
-		echo '<li><a class="' . $class . '" href="' . esc_url( $url ) . '">' . esc_html( $title ) . '</a></li>';
+		echo '<li class="visit-site"><a class="' . $class . '" href="' . esc_url( $url ) . '">' . esc_html( $title ) . '</a></li>';
 	}
 
 	/**

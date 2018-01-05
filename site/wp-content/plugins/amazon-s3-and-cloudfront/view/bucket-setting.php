@@ -13,7 +13,7 @@ $tr_class = ( isset( $tr_class ) ) ? $tr_class : '';
 			<span class="dashicons dashicons-external"></span>
 		</a>
 		<?php if ( ! defined( $constant ) && ! $this->get_defined_setting( 'bucket', false ) ) { ?>
-			<a href="#" class="as3cf-change-bucket" data-as3cf-modal=".as3cf-bucket-container"><?php _e( 'Change', 'amazon-s3-and-cloudfront' ); ?></a>
+			<a href="#" id="<?php echo $prefix; ?>-change-bucket" class="as3cf-change-bucket" data-as3cf-modal=".as3cf-bucket-container"><?php _e( 'Change', 'amazon-s3-and-cloudfront' ); ?></a>
 		<?php } else {
 			echo '<span class="as3cf-defined-in-config">' . __( 'defined in wp-config.php', 'amazon-s3-and-cloudfront' ) . '</span>';
 		} ?>
@@ -30,6 +30,14 @@ $tr_class = ( isset( $tr_class ) ) ? $tr_class : '';
 		if ( isset( $after_bucket_content ) ) {
 			echo $after_bucket_content;
 		}
-		?>
+
+		$lock_bucket_args = array(
+			'message' => __( '<strong>Bucket Select Disabled</strong> &mdash; Bucket selection has been disabled while files are copied between buckets.', 'amazon-s3-and-cloudfront' ),
+			'id'      => 'as3cf-bucket-select-locked',
+			'inline'  => true,
+			'type'    => 'notice-warning',
+			'style'   => 'display: none',
+		);
+		$this->render_view( 'notice', $lock_bucket_args ); ?>
 	</td>
 </tr>

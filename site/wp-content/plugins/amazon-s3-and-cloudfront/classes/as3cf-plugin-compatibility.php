@@ -61,17 +61,10 @@ class AS3CF_Plugin_Compatibility {
 		 * Responsive Images WP 4.4
 		 */
 		add_filter( 'wp_calculate_image_srcset', array( $this, 'wp_calculate_image_srcset' ), 10, 5 );
-
-		global $wp_version;
-		if ( 0 === version_compare( $wp_version, '4.4' ) ) {
-			// Hot fix for 4.4
-			add_filter( 'the_content', array( $this, 'wp_make_content_images_responsive' ), 11 );
-		}
-
-		/*
-		 * Responsive Images WP 4.4.1+
-		 */
 		add_filter( 'wp_calculate_image_srcset_meta', array( $this, 'wp_calculate_image_srcset_meta' ), 10, 4 );
+
+		// Maybe warn about PHP version if in admin screens.
+		add_action( 'admin_init', array( $this, 'maybe_warn_about_php_version' ) );
 
 		if ( $this->as3cf->is_plugin_setup() ) {
 			$this->compatibility_init_if_setup();
@@ -82,9 +75,6 @@ class AS3CF_Plugin_Compatibility {
 	 * Register the compatibility hooks as long as the plugin is setup.
 	 */
 	function compatibility_init_if_setup() {
-		// Add notices about compatibility addons to install
-		add_action( 'admin_init', array( $this, 'maybe_render_compatibility_addons_notice' ) );
-
 		// Turn on stream wrapper S3 file
 		add_filter( 'as3cf_get_attached_file', array( $this, 'get_stream_wrapper_file' ), 20, 4 );
 
@@ -92,219 +82,31 @@ class AS3CF_Plugin_Compatibility {
 		 * Legacy filter
 		 * 'as3cf_get_attached_file_copy_back_to_local'
 		 */
-		add_filter( 'as3cf_get_attached_file', array( $this, 'legacy_copy_back_to_local'), 10, 4 );
+		add_filter( 'as3cf_get_attached_file', array( $this, 'legacy_copy_back_to_local' ), 10, 4 );
 
 		/*
 		 * WP_Image_Editor
 		 * /wp-includes/class-wp-image-editor.php
 		 */
-		add_action( 'as3cf_upload_attachment_pre_remove', array( $this, 'image_editor_remove_files' ), 10, 4 );
+		add_action( 'as3cf_pre_upload_attachment', array( $this, 'image_editor_remove_files' ), 10, 3 );
 		add_filter( 'as3cf_get_attached_file', array( $this, 'image_editor_download_file' ), 10, 4 );
 		add_filter( 'as3cf_upload_attachment_local_files_to_remove', array( $this, 'image_editor_remove_original_image' ), 10, 3 );
 		add_filter( 'as3cf_get_attached_file', array( $this, 'customizer_crop_download_file' ), 10, 4 );
 		add_filter( 'as3cf_upload_attachment_local_files_to_remove', array( $this, 'customizer_crop_remove_original_image' ), 10, 3 );
+		add_filter( 'wp_unique_filename', array( $this, 'customizer_crop_unique_filename' ), 10, 3 );
 
 		/*
 		 * Regenerate Thumbnails
 		 * https://wordpress.org/plugins/regenerate-thumbnails/
 		 */
 		add_filter( 'as3cf_get_attached_file', array( $this, 'regenerate_thumbnails_download_file' ), 10, 4 );
-	}
 
-	/**
-	 * Get the addons for the Pro upgrade
-	 *
-	 * @return array
-	 */
-	public function get_pro_addons() {
-		global $amazon_web_services;
-
-		$all_addons = $amazon_web_services->get_addons( true );
-		if ( ! isset( $all_addons['amazon-s3-and-cloudfront-pro']['addons'] ) ) {
-			return array();
+		/*
+		 * WP-CLI Compatibility
+		 */
+		if ( defined( 'WP_CLI' ) && class_exists( 'WP_CLI') ) {
+			WP_CLI::add_hook( 'before_invoke:media regenerate', array( $this, 'enable_get_attached_file_copy_back_to_local' ) );
 		}
-
-		$addons = $all_addons['amazon-s3-and-cloudfront-pro']['addons'];
-
-		return $addons;
-	}
-
-	/**
-	 * Get compatibility addons that are required to be installed
-	 *
-	 * @return array
-	 */
-	public function get_compatibility_addons_to_install() {
-		if ( isset( $this->compatibility_addons ) ) {
-			return $this->compatibility_addons;
-		}
-
-		$addons            = $this->get_pro_addons();
-		$addons_to_install = array();
-
-		if ( empty ( $addons ) ) {
-			return $addons_to_install;
-		}
-
-		foreach( $addons as $addon_slug => $addon ) {
-			if ( file_exists( WP_PLUGIN_DIR . '/' . $addon_slug . '/' . $addon_slug . '.php' ) ) {
-				// Addon already installed, ignore.
-				continue;
-			}
-
-			if ( ! isset( $addon['parent_plugin_basename'] ) || '' === $addon['parent_plugin_basename'] ) {
-				// Addon doesn't have a parent plugin, ignore.
-				continue;
-			}
-
-			if ( ! file_exists( WP_PLUGIN_DIR . '/' . $addon['parent_plugin_basename'] ) || ! is_plugin_active( $addon['parent_plugin_basename'] ) ) {
-				// Parent plugin not installed or not activated, ignore.
-				continue;
-			}
-
-			$addons_to_install[ $addon_slug ] = array(
-				'title' => $addon['title'],
-				'url'   => $addon['url'],
-			);
-		}
-
-		$this->compatibility_addons = $addons_to_install;
-
-		return $addons_to_install;
-	}
-
-	/**
-	 * Maybe show a notice about installing addons when the site is using the
-	 * plugins they add compatibility for.
-	 */
-	public function maybe_render_compatibility_addons_notice() {
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-			return;
-		}
-
-		global $as3cf_compat_check;
-		if ( ! $as3cf_compat_check->check_capabilities() ){
-			// User can't install plugins anyway, bail.
-			return;
-		}
-
-		if ( ! $this->should_show_compatibility_notice() ) {
-			// No addons to install, or addons haven't changed
-			return;
-		}
-
-		$notice_id         = 'as3cf-compat-addons';
-		$addons_to_install = $this->get_compatibility_addons_to_install();
-
-		// Remove previous notice to refresh addon list
-		$this->remove_compatibility_notice();
-
-		$title       = __( 'WP Offload S3 Compatibility Addons', 'amazon-s3-and-cloudfront' );
-		$compat_url  = 'https://deliciousbrains.com/wp-offload-s3/doc/compatibility-with-other-plugins/';
-		$compat_link = sprintf( '<a href="%s">%s</a>', $compat_url, __( 'compatibility addons', 'amazon-s3-and-cloudfront' ) );
-		$message     = sprintf( __( "To get WP Offload S3 to work with certain 3rd party plugins, you might need to install and activate some of our %s. We've detected the following addons might need to be installed. Please click the links for more information about each addon to determine if you need it or not.", 'amazon-s3-and-cloudfront' ), $compat_link );
-
-		$notice_addons_text = $this->render_addon_list( $addons_to_install );
-		$support_email      = 'nom@deliciousbrains.com';
-		$support_link       = sprintf( '<a href="mailto:%1$s">%1$s</a>', $support_email );
-
-		$notice_addons_text .= '<p>' . sprintf( __( "You will need to purchase a license to get access to these addons. If you're having trouble determining whether or not you need the addons, send an email to %s.", 'amazon-s3-and-cloudfront' ), $support_link ). '</p>';
-		$notice_addons_text .= sprintf( '<p><a href="%s" class="button button-large">%s</a></p>', 'https://deliciousbrains.com/wp-offload-s3/pricing/', __( 'View Licenses', 'amazon-s3-and-cloudfront' ) );
-
-		$notice_addons_text = apply_filters( 'wpos3_compat_addons_notice', $notice_addons_text, $addons_to_install );
-
-		if ( false === $notice_addons_text ) {
-			// Allow the notice to be aborted.
-			return;
-		}
-
-		$notice = '<p><strong>' . $title . '</strong> &mdash; ' . $message . '</p>' . $notice_addons_text;
-
-		$notice_args = array(
-			'type'              => 'notice-info',
-			'custom_id'         => $notice_id,
-			'only_show_to_user' => false,
-			'flash'             => false,
-			'auto_p'            => false,
-		);
-
-		$notice_args = apply_filters( 'wpos3_compat_addons_notice_args', $notice_args, $addons_to_install );
-
-		update_site_option( 'as3cf_compat_addons_to_install', $addons_to_install );
-
-		$this->as3cf->notices->add_notice( $notice, $notice_args );
-	}
-
-	/**
-	 * Should show compatibility notice
-	 *
-	 * @return bool
-	 */
-	protected function should_show_compatibility_notice() {
-		$addons          = $this->get_compatibility_addons_to_install();
-		$previous_addons = get_site_option( 'as3cf_compat_addons_to_install', array() );
-
-		if ( empty( $addons ) && empty( $previous_addons ) ) {
-			// No addons to install
-			return false;
-		}
-
-		if ( empty( $addons ) && ! empty( $previous_addons ) ) {
-			// No addons to install but previous exist
-			$this->remove_compatibility_notice( true );
-
-			return false;
-		}
-
-		if ( $previous_addons === $addons ) {
-			// Addons have not changed
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Remove compatibility notice
-	 *
-	 * @param bool $delete_option
-	 */
-	protected function remove_compatibility_notice( $delete_option = false ) {
-		$notice_id = 'as3cf-compat-addons';
-
-		if ( $this->as3cf->notices->find_notice_by_id( $notice_id ) ) {
-			$this->as3cf->notices->undismiss_notice_for_all( $notice_id );
-			$this->as3cf->notices->remove_notice_by_id( $notice_id );
-		}
-
-		if ( $delete_option ) {
-			delete_site_option( 'as3cf_compat_addons_to_install' );
-		}
-	}
-
-	/**
-	 * Render list of addons for a notice
-	 *
-	 * @param array $addons
-	 *
-	 * @return string
-	 */
-	protected function render_addon_list( $addons ) {
-		if ( ! is_array( $addons ) || empty( $addons ) ) {
-			return '';
-		}
-
-		sort( $addons );
-
-		$html = '<ul style="list-style-type: disc; padding: 0 0 0 30px; margin: 5px 0;">';
-		foreach ( $addons as $addon ) {
-			$html .= '<li style="margin: 0;">';
-			$html .= '<a href="' . $addon['url'] . '">' . $addon['title'] . '</a>';
-			$html .= '</li>';
-		}
-		$html .= '</ul>';
-
-		return $html;
 	}
 
 	/**
@@ -335,6 +137,13 @@ class AS3CF_Plugin_Compatibility {
 	}
 
 	/**
+	 * Enables copying missing local files back to the server when `get_attached_file` filter is called.
+	 */
+	public function enable_get_attached_file_copy_back_to_local() {
+		add_filter( 'as3cf_get_attached_file_copy_back_to_local', '__return_true' );
+	}
+
+	/**
 	 * Is this an AJAX process?
 	 *
 	 * @return bool
@@ -351,9 +160,9 @@ class AS3CF_Plugin_Compatibility {
 	 * Check the current request is a specific one based on action and
 	 * optional context
 	 *
-	 * @param string      $action_key
-	 * @param bool        $ajax
-	 * @param null|string $context_key
+	 * @param string            $action_key
+	 * @param bool              $ajax
+	 * @param null|string|array $context_key
 	 *
 	 * @return bool
 	 */
@@ -375,9 +184,14 @@ class AS3CF_Plugin_Compatibility {
 
 		$context_check = true;
 		if ( ! is_null( $context_key ) ) {
-			$global        = constant( 'INPUT_' . $var_type );
-			$context       = $this->as3cf->filter_input( 'context', $global );
-			$context_check = ( $context_key === $context );
+			$global  = constant( 'INPUT_' . $var_type );
+			$context = $this->as3cf->filter_input( 'context', $global );
+
+			if ( is_array( $context_key ) ) {
+				$context_check = in_array( $context, $context_key );
+			} else {
+				$context_check = ( $context_key === $context );
+			}
 		}
 
 		return ( $action_key === sanitize_key( $action ) && $context_check );
@@ -418,7 +232,7 @@ class AS3CF_Plugin_Compatibility {
 	function get_original_image_file( $post_id, $file_path ) {
 		// remove original main image after edit
 		$meta          = get_post_meta( $post_id, '_wp_attachment_metadata', true );
-		$original_file = trailingslashit( dirname( $file_path ) ) . basename( $meta['file'] );
+		$original_file = trailingslashit( dirname( $file_path ) ) . wp_basename( $meta['file'] );
 		if ( file_exists( $original_file ) ) {
 			return $original_file;
 		}
@@ -430,21 +244,49 @@ class AS3CF_Plugin_Compatibility {
 	 * Allow the WordPress Image Editor to remove edited version of images
 	 * if the original image is being restored and 'IMAGE_EDIT_OVERWRITE' is set
 	 *
-	 * @param int    $post_id
-	 * @param array  $s3object
-	 * @param string $prefix
-	 * @param array  $args
+	 * @param bool  $pre
+	 * @param int   $post_id
+	 * @param array $data
+	 *
+	 * @return bool
 	 */
-	function image_editor_remove_files( $post_id, $s3object, $prefix, $args ) {
+	public function image_editor_remove_files( $pre, $post_id, $data ) {
 		if ( ! isset( $_POST['do'] ) || 'restore' !== $_POST['do'] ) {
-			return;
+			return $pre;
 		}
 
 		if ( ! defined( 'IMAGE_EDIT_OVERWRITE' ) || ! IMAGE_EDIT_OVERWRITE ) {
+			return $pre;
+		}
+
+		$s3object = $this->as3cf->get_attachment_s3_info( $post_id );
+		$this->remove_edited_image_files( $post_id, $s3object );
+
+		// Update object key with original filename
+		$restored_filename = wp_basename( $data['file'] );
+		$old_filename      = wp_basename( $s3object['key'] );
+		$s3object['key']   = str_replace( $old_filename, $restored_filename, $s3object['key'] );
+		update_post_meta( $post_id, 'amazonS3_info', $s3object );
+
+		return true;
+	}
+
+	/**
+	 * Remove edited image files from S3.
+	 *
+	 * @param int   $attachment_id
+	 * @param array $s3object
+	 */
+	protected function remove_edited_image_files( $attachment_id, $s3object ) {
+		$bucket = $s3object['bucket'];
+		$region = $this->as3cf->get_s3object_region( $s3object );
+		$keys   = AS3CF_Utils::get_attachment_edited_keys( $attachment_id, $s3object );
+
+		if ( empty( $keys ) ) {
 			return;
 		}
 
-		$this->as3cf->remove_attachment_files_from_s3( $post_id, $s3object, false );
+		$this->as3cf->delete_s3_objects( $region, $bucket, $keys );
 	}
 
 	/**
@@ -479,19 +321,19 @@ class AS3CF_Plugin_Compatibility {
 			$this->copy_s3_file_to_server( $orig_s3, $orig_file );
 
 			// Copy the edited file back to the server as well, it will be cleaned up later
-			if ( ( $s3_file = $this->copy_s3_file_to_server( $s3_object, $file ) ) ) {
+			if ( $s3_file = $this->copy_s3_file_to_server( $s3_object, $file ) ) {
 				// Return the file if successfully downloaded from S3
 				return $s3_file;
 			};
 		}
 
-		// must be the image-editor process
-		if ( isset( $_POST['action'] ) && 'image-editor' == sanitize_key( $_POST['action'] ) ) { // input var okay
-			$callers = debug_backtrace();
-			foreach ( $callers as $caller ) {
+		$action = filter_input( INPUT_GET, 'action' ) ?: filter_input( INPUT_POST, 'action' );
+
+		if ( in_array( $action, array( 'image-editor', 'imgedit-preview' ) ) ) { // input var okay
+			foreach ( debug_backtrace() as $caller ) {
 				if ( isset( $caller['function'] ) && '_load_image_to_edit_path' == $caller['function'] ) {
 					// check this has been called by '_load_image_to_edit_path' so as only to copy back once
-					if ( ( $s3_file = $this->copy_s3_file_to_server( $s3_object, $file ) ) ) {
+					if ( $s3_file = $this->copy_s3_file_to_server( $s3_object, $file ) ) {
 						// Return the file if successfully downloaded from S3
 						return $s3_file;
 					};
@@ -533,10 +375,12 @@ class AS3CF_Plugin_Compatibility {
 	 * @return bool
 	 */
 	protected function is_customizer_crop_action() {
-		$header_crop   = $this->maybe_process_on_action( 'custom-header-crop', true );
-		$identity_crop = $this->maybe_process_on_action( 'crop-image', true, 'site-icon' );
+		$header_crop = $this->maybe_process_on_action( 'custom-header-crop', true );
 
-		if ( ! $header_crop && ! $identity_crop ) {
+		$context    = array( 'site-icon', 'custom_logo' );
+		$image_crop = $this->maybe_process_on_action( 'crop-image', true, $context );
+
+		if ( ! $header_crop && ! $image_crop ) {
 			// Not doing a Customizer action
 			return false;
 		}
@@ -555,8 +399,12 @@ class AS3CF_Plugin_Compatibility {
 	 *
 	 * @return string
 	 */
-	function customizer_crop_download_file( $url, $file, $attachment_id, $s3_object ) {
+	public function customizer_crop_download_file( $url, $file, $attachment_id, $s3_object ) {
 		if ( false === $this->is_customizer_crop_action() ) {
+			return $url;
+		}
+
+		if ( $this->as3cf->attachment_just_uploaded( $attachment_id ) ) {
 			return $url;
 		}
 
@@ -671,13 +519,11 @@ class AS3CF_Plugin_Compatibility {
 		}
 
 		try {
-			$this->as3cf->get_s3client( $s3_object['region'], true )->getObject(
-				array(
-					'Bucket' => $s3_object['bucket'],
-					'Key'    => $s3_object['key'],
-					'SaveAs' => $file,
-				)
-			);
+			$this->as3cf->get_s3client( $s3_object['region'], true )->getObject( array(
+				'Bucket' => $s3_object['bucket'],
+				'Key'    => $s3_object['key'],
+				'SaveAs' => $file,
+			) );
 		} catch ( Exception $e ) {
 			AS3CF_Error::log( sprintf( __( 'There was an error attempting to download the file %s from S3: %s', 'amazon-s3-and-cloudfront' ), $s3_object['key'], $e->getMessage() ) );
 
@@ -763,47 +609,6 @@ class AS3CF_Plugin_Compatibility {
 	}
 
 	/**
-	 * Filters 'img' elements in post content to add 'srcset' and 'sizes' attributes for S3 URLs.
-	 *
-	 * @param string $content The raw post content to be filtered.
-	 *
-	 * @return string Converted content with 'srcset' and 'sizes' attributes added to images.
-	 */
-	public function wp_make_content_images_responsive( $content ) {
-		if ( ! preg_match_all( '/<img [^>]+>/', $content, $matches ) ) {
-			return $content;
-		}
-
-		$selected_images = $attachment_ids = array();
-
-		foreach( $matches[0] as $image ) {
-			if ( false === strpos( $image, ' srcset=' ) && preg_match( '/wp-image-([0-9]+)/i', $image, $class_id ) &&
-			     ( $attachment_id = absint( $class_id[1] ) ) ) {
-
-				/*
-				 * If exactly the same image tag is used more than once, overwrite it.
-				 * All identical tags will be replaced later with 'str_replace()'.
-				 */
-				$selected_images[ $image ] = $attachment_id;
-				// Overwrite the ID when the same image is included more than once.
-				$attachment_ids[ $attachment_id ] = true;
-			}
-		}
-
-		foreach ( $selected_images as $image => $attachment_id ) {
-			if ( ! ( $s3object = $this->as3cf->is_attachment_served_by_s3( $attachment_id ) ) ) {
-				// Attachment not uploaded to S3, abort
-				continue;
-			}
-
-			$image_meta = get_post_meta( $attachment_id, '_wp_attachment_metadata', true );
-			$content    = str_replace( $image, $this->wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ), $content );
-		}
-
-		return $content;
-	}
-
-	/**
 	 * Adds 'srcset' and 'sizes' attributes to an existing S3 'img' element.
 	 *
 	 * @param string $image         An HTML 'img' element to be filtered.
@@ -818,7 +623,7 @@ class AS3CF_Plugin_Compatibility {
 			return $image;
 		}
 
-		$image_src         = preg_match( '/src="([^"]+)"/', $image, $match_src ) ? $match_src[1] : '';
+		$image_src = preg_match( '/src="([^"]+)"/', $image, $match_src ) ? $match_src[1] : '';
 		list( $image_src ) = explode( '?', $image_src );
 
 		// Return early if we couldn't get the image source.
@@ -827,13 +632,12 @@ class AS3CF_Plugin_Compatibility {
 		}
 
 		// Bail early if an image has been inserted and later edited.
-		if ( preg_match( '/-e[0-9]{13}/', $image_meta['file'], $img_edit_hash ) &&
-		     strpos( wp_basename( $image_src ), $img_edit_hash[0] ) === false ) {
+		if ( preg_match( '/-e[0-9]{13}/', $image_meta['file'], $img_edit_hash ) && strpos( wp_basename( $image_src ), $img_edit_hash[0] ) === false ) {
 
 			return $image;
 		}
 
-		$width  = preg_match( '/ width="([0-9]+)"/',  $image, $match_width  ) ? (int) $match_width[1]  : 0;
+		$width  = preg_match( '/ width="([0-9]+)"/', $image, $match_width ) ? (int) $match_width[1] : 0;
 		$height = preg_match( '/ height="([0-9]+)"/', $image, $match_height ) ? (int) $match_height[1] : 0;
 
 		if ( ! $width || ! $height ) {
@@ -847,7 +651,7 @@ class AS3CF_Plugin_Compatibility {
 				$width  = (int) $image_meta['width'];
 				$height = (int) $image_meta['height'];
 			} else {
-				foreach( $image_meta['sizes'] as $image_size_data ) {
+				foreach ( $image_meta['sizes'] as $image_size_data ) {
 					if ( $image_filename === $image_size_data['file'] ) {
 						$width  = (int) $image_size_data['width'];
 						$height = (int) $image_size_data['height'];
@@ -905,7 +709,7 @@ class AS3CF_Plugin_Compatibility {
 			return $image_meta;
 		}
 
-		if ( false !== strpos( $image_src, $image_meta['file']  ) ) {
+		if ( false !== strpos( $image_src, $image_meta['file'] ) ) {
 			// Path matches URL, no need to change
 			return $image_meta;
 		}
@@ -923,8 +727,18 @@ class AS3CF_Plugin_Compatibility {
 		}
 
 		// Strip the meta file prefix so the just the filename will always match
-		// the S3 URL regardless of different prefixes for the offloaded file
-		$image_meta['file'] = $image_basename;
+		// the S3 URL regardless of different prefixes for the offloaded file.
+		// Also ensure filename is encoded the same way as URL.
+		$image_meta['file'] = rawurlencode( $image_basename );
+
+		// Ensure each size filename is encoded the same way as URL.
+		if ( ! empty( $image_meta['sizes'] ) ) {
+			$image_meta['sizes'] = array_map( function ( $size ) {
+				$size['file'] = rawurlencode( $size['file'] );
+
+				return $size;
+			}, $image_meta['sizes'] );
+		}
 
 		return $image_meta;
 	}
@@ -952,11 +766,12 @@ class AS3CF_Plugin_Compatibility {
 		}
 
 		foreach ( $sources as $width => $source ) {
-			$filename = basename( $source['url'] );
+			$filename = wp_basename( $source['url'] );
 			$size     = $this->find_image_size_from_width( $image_meta['sizes'], $width, $filename );
 			$s3_url   = $this->as3cf->get_attachment_s3_url( $attachment_id, $s3object, null, $size, $image_meta );
 
 			if ( false === $s3_url || is_wp_error( $s3_url ) ) {
+				// Skip URLs not offloaded to S3
 				continue;
 			}
 
@@ -983,5 +798,69 @@ class AS3CF_Plugin_Compatibility {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Filters the result when generating a unique file name for a customizer crop.
+	 *
+	 * @param string $filename Unique file name.
+	 * @param string $ext      File extension, eg. ".png".
+	 * @param string $dir      Directory path.
+	 *
+	 * @return string
+	 */
+	public function customizer_crop_unique_filename( $filename, $ext, $dir ) {
+		if ( false === $this->is_customizer_crop_action() ) {
+			return $filename;
+		}
+
+		// Get parent Post ID for cropped image.
+		$post_id = filter_input( INPUT_POST, 'id', FILTER_VALIDATE_INT );
+
+		$filename = $this->as3cf->filter_unique_filename( $filename, $post_id );
+
+		return $filename;
+	}
+
+	/**
+	 * Display an admin message if PHP version is soon to be unsupported by plugin.
+	 *
+	 * NOTE: This is not added to AWS SDK compatibility checks as it is remaining compatible with earlier PHP versions.
+	 * This function should be removed or reworked once PHP 5.5 is required.
+	 */
+	public function maybe_warn_about_php_version() {
+		$key_base = 'php-version-55';
+
+		if ( version_compare( PHP_VERSION, '5.5', '<' ) ) {
+			$message = sprintf(
+				__( '<strong>Warning:</strong> This site is using PHP %1$s, in a future update WP Offload S3 will require PHP %2$s or later. %3$s', 'amazon-s3-and-cloudfront' ),
+				PHP_MAJOR_VERSION . '.' . PHP_MINOR_VERSION,
+				'5.5',
+				$this->as3cf->more_info_link( '/wp-offload-s3/doc/php-version-requirements/', 'upgrade-php-version' )
+			);
+
+			// Show notice to user if not already dismissed.
+			$args = array(
+				'custom_id'         => $key_base . '-site',
+				'type'              => 'notice-warning',
+				'flash'             => false,
+				'only_show_to_user' => false,
+			);
+
+			if ( ! in_array( $args['custom_id'], $this->as3cf->notices->get_dismissed_notices() ) ) {
+				$this->as3cf->notices->add_notice( $message, $args );
+			} else {
+				// If user has dismissed site-wide notice but we're in settings pages, show notice.
+				$args['custom_id']             = $key_base . '-settings';
+				$args['dismissible']           = false;
+				$args['only_show_in_settings'] = true;
+
+				$this->as3cf->notices->add_notice( $message, $args );
+			}
+		} else {
+			// If PHP version (now) OK, make sure notices not shown.
+			$this->as3cf->notices->remove_notice_by_id( $key_base . '-site' );
+			$this->as3cf->notices->remove_notice_by_id( $key_base . '-settings' );
+		}
 	}
 }
