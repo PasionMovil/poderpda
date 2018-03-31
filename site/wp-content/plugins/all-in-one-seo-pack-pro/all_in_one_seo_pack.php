@@ -1,9 +1,10 @@
 <?php
+
 /*
 Plugin Name: All In One SEO Pack Pro
 Plugin URI: http://semperfiwebdesign.com
 Description: Out-of-the-box SEO for your WordPress blog. Features like XML Sitemaps, SEO for custom post types, SEO for blogs or business sites, SEO for ecommerce sites, and much more. Over 30 million downloads since 2007.
-Version: 2.5.3
+Version: 2.6
 Author: Michael Torbert
 Author URI: https://michaeltorbert.com
 Text Domain: all-in-one-seo-pack
@@ -29,11 +30,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
  * @package All-in-One-SEO-Pack
- * @version 2.5.3
+ * @version 2.6
  */
 
 if(!defined('AIOSEOPPRO')) define('AIOSEOPPRO', true);
-if ( ! defined( 'AIOSEOP_VERSION' ) ) define( 'AIOSEOP_VERSION', '2.5.3' );
+if ( ! defined( 'AIOSEOP_VERSION' ) ) define( 'AIOSEOP_VERSION', '2.6' );
 
 global $aioseop_plugin_name;
 $aioseop_plugin_name = 'All in One SEO Pack Pro';
@@ -75,14 +76,12 @@ if ( ! defined( 'AIOSEOP_PLUGIN_NAME' ) ) {
 if ( ! defined( 'AIOSEOP_PLUGIN_DIR' ) ) {
 	define( 'AIOSEOP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 } elseif ( AIOSEOP_PLUGIN_DIR !== plugin_dir_path( __FILE__ ) ) {
-
 	/*
 	 This is not a great message.
 		add_action( 'admin_notices', create_function( '', 'echo "' . "<div class='error'>" . sprintf(
 					__( "%s detected a conflict; please deactivate the plugin located in %s.", 'all-in-one-seo-pack' ),
 					$aioseop_plugin_name, AIOSEOP_PLUGIN_DIR ) . "</div>" . '";' ) );
 	*/
-
 	return;
 }
 
@@ -126,7 +125,9 @@ if ( AIOSEOPPRO ) {
 
 $aioseop_options = get_option( 'aioseop_options' );
 
+// @codingStandardsIgnoreStart
 $aioseop_mem_limit = @ini_get( 'memory_limit' );
+// @codingStandardsIgnoreEnd
 
 if ( ! function_exists( 'aioseop_convert_bytestring' ) ) {
 	/**
@@ -142,14 +143,19 @@ if ( ! function_exists( 'aioseop_convert_bytestring' ) ) {
 			switch ( strtoupper( $matches[2] ) ) {
 				case 'E':
 					$num *= 1024;
+					// fall through.
 				case 'P':
 					$num *= 1024;
+					// fall through.
 				case 'T':
 					$num *= 1024;
+					// fall through.
 				case 'G':
 					$num *= 1024;
+					// fall through.
 				case 'M':
 					$num *= 1024;
+					// fall through.
 				case 'K':
 					$num *= 1024;
 			}
@@ -165,8 +171,10 @@ if ( is_array( $aioseop_options ) && isset( $aioseop_options['modules'] ) && iss
 		$aioseop_mem_limit = $perf_opts['aiosp_performance_memory_limit'];
 	}
 	if ( isset( $perf_opts['aiosp_performance_execution_time'] ) && ( '' !== $perf_opts['aiosp_performance_execution_time'] ) ) {
+		// @codingStandardsIgnoreStart
 		@ini_set( 'max_execution_time', (int) $perf_opts['aiosp_performance_execution_time'] );
 		@set_time_limit( (int) $perf_opts['aiosp_performance_execution_time'] );
+		// @codingStandardsIgnoreEnd
 	}
 } else {
 	$aioseop_mem_limit = aioseop_convert_bytestring( $aioseop_mem_limit );
@@ -180,7 +188,9 @@ if ( ! empty( $aioseop_mem_limit ) ) {
 		$aioseop_mem_limit = aioseop_convert_bytestring( $aioseop_mem_limit );
 	}
 	if ( ( $aioseop_mem_limit > 0 ) && ( $aioseop_mem_limit <= AIOSEOP_BASELINE_MEM_LIMIT ) ) {
+		// @codingStandardsIgnoreStart
 		@ini_set( 'memory_limit', $aioseop_mem_limit );
+		// @codingStandardsIgnoreEnd
 	}
 }
 
@@ -200,9 +210,15 @@ if ( AIOSEOPPRO ) {
 }
 
 if ( class_exists( 'All_in_One_SEO_Pack' ) ) {
-	add_action( 'admin_notices', create_function( '', 'echo "<div class=\'error\'>The All In One SEO Pack class is already defined";'
-	                                                  . "if ( class_exists( 'ReflectionClass' ) ) { \$r = new ReflectionClass( 'All_in_One_SEO_Pack' ); echo ' in ' . \$r->getFileName(); } "
-	                                                  . ' echo ", preventing All In One SEO Pack from loading.</div>";' ) );
+	add_action( 'admin_notices', 'admin_notices_already_defined' );
+	function admin_notices_already_defined() {
+		echo "<div class=\'error\'>The All In One SEO Pack class is already defined";
+		if ( class_exists( 'ReflectionClass' ) ) {
+			$_r = new ReflectionClass( 'All_in_One_SEO_Pack' );
+			echo ' in ' . $_r->getFileName();
+		}
+		echo ', preventing All In One SEO Pack from loading.</div>';
+	}
 
 	return;
 }
@@ -211,7 +227,7 @@ if ( AIOSEOPPRO ) {
 
 	require( AIOSEOP_PLUGIN_DIR . 'pro/sfwd_update_checker.php' );
 	$aiosp_update_url = 'https://semperplugins.com/upgrade_plugins.php';
-	if( defined( 'AIOSEOP_UPDATE_URL' ) ) {
+	if ( defined( 'AIOSEOP_UPDATE_URL' ) ) {
 		$aiosp_update_url = AIOSEOP_UPDATE_URL;
 	}
 	$aioseop_update_checker = new SFWD_Update_Checker(
@@ -227,7 +243,7 @@ if ( AIOSEOPPRO ) {
 	} else {
 		$aioseop_update_checker->license_key = '';
 	}
-	$aioseop_update_checker->options_page = AIOSEOP_PLUGIN_DIRNAME . "/aioseop_class.php";
+	$aioseop_update_checker->options_page = AIOSEOP_PLUGIN_DIRNAME . '/aioseop_class.php';
 	$aioseop_update_checker->renewal_page = 'https://semperplugins.com/all-in-one-seo-pack-pro-version/';
 
 	$aioseop_update_checker->addQueryArgFilter( array( $aioseop_update_checker, 'add_secret_key' ) );
@@ -238,7 +254,7 @@ if ( ! function_exists( 'aioseop_activate' ) ) {
 
 	function aioseop_activate() {
 
-		//Check if we just got activated.
+		// Check if we just got activated.
 		global $aiosp_activation;
 		if ( AIOSEOPPRO ) {
 			global $aioseop_update_checker;
@@ -246,9 +262,9 @@ if ( ! function_exists( 'aioseop_activate' ) ) {
 		$aiosp_activation = true;
 
 		// These checks might be duplicated in the function being called.
-		if( ! is_network_admin() || !isset( $_GET['activate-multi'] ) ) {
+		if ( ! is_network_admin() || ! isset( $_GET['activate-multi'] ) ) {
 			set_transient( '_aioseop_activation_redirect', true, 30 ); // Sets 30 second transient for welcome screen redirect on activation.
-			}
+		}
 
 		delete_user_meta( get_current_user_id(), 'aioseop_yst_detected_notice_dismissed' );
 
@@ -272,16 +288,14 @@ if ( ! function_exists( 'aiosp_plugin_row_meta' ) ) {
 	 */
 	function aiosp_plugin_row_meta( $actions, $plugin_file ) {
 
-
 			$action_links = array(
 
 				'settings' => array(
 					'label' => __( 'Feature Request/Bug Report', 'all-in-one-seo-pack' ),
-					'url'   => 'https://github.com/semperfiwebdesign/all-in-one-seo-pack/issues/new' )
+					'url'   => 'https://github.com/semperfiwebdesign/all-in-one-seo-pack/issues/new',
+				),
 
 			);
-
-
 
 		return aiosp_action_links( $actions, $plugin_file, $action_links, 'after' );
 	}
@@ -381,14 +395,13 @@ if ( ! function_exists( 'aioseop_init_class' ) ) {
 		require_once( AIOSEOP_PLUGIN_DIR . 'aioseop_class.php' );
 		require_once( AIOSEOP_PLUGIN_DIR . 'inc/aioseop_updates_class.php' );
 		require_once( AIOSEOP_PLUGIN_DIR . 'inc/commonstrings.php' );
-		require_once( AIOSEOP_PLUGIN_DIR . 'admin/display/postedit.php' );
 		require_once( AIOSEOP_PLUGIN_DIR . 'admin/display/general-metaboxes.php' );
 		require_once( AIOSEOP_PLUGIN_DIR . 'inc/aiosp_common.php' );
 		require_once( AIOSEOP_PLUGIN_DIR . 'admin/meta_import.php' );
 		require_once( AIOSEOP_PLUGIN_DIR . 'inc/translations.php' );
 		require_once( AIOSEOP_PLUGIN_DIR . 'public/opengraph.php' );
-		require_once( AIOSEOP_PLUGIN_DIR . 'inc/compatability/abstract/aiosep_compatible.php');
-		require_once( AIOSEOP_PLUGIN_DIR . 'inc/compatability/compat-init.php');
+		require_once( AIOSEOP_PLUGIN_DIR . 'inc/compatability/abstract/aiosep_compatible.php' );
+		require_once( AIOSEOP_PLUGIN_DIR . 'inc/compatability/compat-init.php' );
 		require_once( AIOSEOP_PLUGIN_DIR . 'public/front.php' );
 		require_once( AIOSEOP_PLUGIN_DIR . 'public/google-analytics.php' );
 		require_once( AIOSEOP_PLUGIN_DIR . 'admin/display/welcome.php' );
@@ -435,21 +448,20 @@ if ( ! function_exists( 'aioseop_init_class' ) ) {
 
 
 
-if ( ! function_exists( 'aioseop_welcome' ) ){
-	function aioseop_welcome(){
-		if( get_transient( '_aioseop_activation_redirect') ){
+if ( ! function_exists( 'aioseop_welcome' ) ) {
+	function aioseop_welcome() {
+		if ( get_transient( '_aioseop_activation_redirect' ) ) {
 			$aioseop_welcome = new aioseop_welcome();
 			delete_transient( '_aioseop_activation_redirect' );
-			$aioseop_welcome->init( TRUE );
+			$aioseop_welcome->init( true );
 		}
 
 	}
 }
 
 add_action( 'init', 'aioseop_load_modules', 1 );
-//add_action( 'after_setup_theme', 'aioseop_load_modules' );
-
-if ( is_admin() ) {
+// add_action( 'after_setup_theme', 'aioseop_load_modules' );
+if ( is_admin() || defined( 'AIOSEOP_UNIT_TESTING' ) ) {
 	add_action( 'wp_ajax_aioseop_ajax_save_meta', 'aioseop_ajax_save_meta' );
 	add_action( 'wp_ajax_aioseop_ajax_save_url', 'aioseop_ajax_save_url' );
 	add_action( 'wp_ajax_aioseop_ajax_delete_url', 'aioseop_ajax_delete_url' );

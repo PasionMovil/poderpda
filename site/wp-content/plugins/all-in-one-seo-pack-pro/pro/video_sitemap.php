@@ -191,11 +191,15 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
 				$post_id = $post->ID;
 				$opts = get_post_meta( $post_id, '_aioseop_oembed_info', true );
 				if ( !empty( $opts ) ) {
+					if ( ! array_key_exists( 'id', $opts ) ) {
+						$opts['id'] = $post_id;
+					}
 					$pr_info["video:video"] = Array();
                     $videos     = array();
 					foreach( $opts as $o ) {
 						$videos[] = $this->parse_video_opts( $o );
                     }
+
                     if ( $videos ) {
 						// weed out duplicate videos e.g. embedding daily motion causes it to insert 2 videos
 						$urls	= array();
@@ -241,19 +245,54 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
 			}
 			return $counts;
 		}
+
+        /** run supported shortcodes in the content **/
+		private function run_shortcodes( $content ) {
+			// let's see which all shortcodes to support.
+			$supported	= apply_filters( 'aioseop_video_shortcodes', array( 'video' ) );
+			if ( empty( $supported ) || ! is_array( $supported ) ) {
+				return $content;
+			}
+
+			// let's collect all the shortcodes that exist in the content.
+			$pattern	= get_shortcode_regex();
+			$shortcodes	= array();
+			if ( preg_match_all( '/'. $pattern .'/s', $content , $matches ) && array_key_exists( 2, $matches ) ) {
+				$shortcodes	= array_unique( $matches[2] );
+			}
+
+			if ( empty( $shortcodes ) || ! is_array( $shortcodes ) ) {
+				return $content;
+			}
+
+			// remove the shortcodes that are not supported.
+			$not_supported	= array_diff( $shortcodes, $supported );
+			if ( $not_supported ) {
+				foreach ( $not_supported as $code ) {
+					remove_shortcode( $code );
+				}
+			}
+
+			// run the shortcodes that are supported.
+			return do_shortcode( $content );
+		}
+
 		function parse_video_opts( $data, $return_single = false ) {
             $opts   = array();
 			$fields = array(
 				'thumbnail_url' => 'video:thumbnail_loc',
 				'title' => 'video:title',
 				'description' => 'video:description',
+				'html' => 'video:player_loc',
 				'duration' => 'video:duration',
 				'author_name' => 'video:uploader',
-				'html' => 'video:player_loc'
 			);
 
             $links      = array();
 			if ( !empty( $data ) ) {
+				// this array will store the links that are not embeddable e.g. videos produced through the [video] shortcode.
+				$non_embed_links	= array();
+
 				$data = (array) $data;
 				if ( !empty( $data['html'] ) ) {
                     $dom_document = new DOMDocument();
@@ -263,6 +302,8 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
                     $embeds = $dom_xpath->query( "//embed" );
                     $anchors = $dom_xpath->query( "//a" );
                     $scripts = $dom_xpath->query( "//script" );
+                    $videos = $dom_xpath->query( "//video/a" );
+
 				    if (!is_null( $iframes ) && $iframes->length ) {
 				        foreach ( $iframes as $iframe ) {
 				            if ( $iframe->hasAttributes() ) {
@@ -320,16 +361,30 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
                              }
                         }
                     }
+
+                    if (!is_null( $videos ) && $videos->length ) {
+                        foreach ( $videos as $video ) {
+                            if ( $video->hasAttributes() ) {
+                                $attributes = $video->attributes;
+                                if ( !is_null( $attributes ) ){
+                                    foreach ( $attributes as $index=>$attr ){
+                                        if ( $attr->name == 'href' ) {
+                                            $links[]        = $attr->value;
+											                      $non_embed_links[] = aiosp_common::absolutize_url( $attr->value );
+                                        }
+                                    }
+                                }
+                             }
+                        }
+                    }
 				}
+
+				$video_descriptions = $this->get_video_descriptions( $non_embed_links );
 
                 $this->scrub_video_links( $links );
 
 				if ( $links ) {
                     foreach ( $links as $index => $link ) {
-                        if ( ! filter_var( $link, FILTER_VALIDATE_URL ) ) {
-							continue;
-						}
-
 					    $parse_url = parse_url( str_replace( ':////', '://', esc_url_raw( $link ) ) );
                         if ( empty( $parse_url['scheme'] ) ) {
                             $parse_url['scheme']    = 'http';
@@ -367,6 +422,25 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
                             $this->get_additional_data( $opt );
                         }
 
+						if ( in_array( $link, array_keys( $video_descriptions ) ) ) {
+							// videos that are uploaded do not have thumbnails. So we use a custom field, if its value has been provided by the user.
+							if ( empty( $opt['video:thumbnail_loc'] ) && ! empty( $data['id'] ) ) {
+								$thumbnail = get_post_meta( $data['id'], 'aioseop_video_thumbnail', true );
+								$opt['video:thumbnail_loc'] = apply_filters( $this->prefix . 'thumbnail', $thumbnail, $data['id'], $opt );
+							}
+
+							if ( ! empty( $video_descriptions[ $link ] ) ) {
+								$opt = array_merge( $opt, $video_descriptions[ $link ] );
+							}
+
+							if ( empty( $opt['video:title'] ) ) {
+								$opt['video:title'] = $opt['video:description'];
+							}
+
+							$opt['custom']	= array( 'custom' => $this->order_sitemap_fields( $opt, $fields ) );
+						}
+
+						$opt = $this->order_sitemap_fields( $opt, $fields );
 
                         if ( $return_single ) {
                             $opts   = $opt;
@@ -374,15 +448,96 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
                             $opts[] = $opt;
                         }
                     }
-                }
+				} else if ( isset( $data['custom'] ) && ! empty( $data['custom'] ) ) {
+					$opts[]	= $data['custom'];
+				}
 			}
 
             return $opts;
 		}
 
+		/**
+		 * Tries to get the description of locally uploaded videos and, if they are not local, just assumes it to be blank.
+		 * NOTE: We are going to use parse_url and not wp_parse_url because we are going to correct these URLs if they are malformed.
+		 *
+		 * @param array $non_embed_links Array of video URLs.
+		 *
+		 * @return array URL => array of video sitemap fields with their values.
+		 */
+		private function get_video_descriptions( $non_embed_links ) {
+			$non_embed_links = array_unique( array_filter( $non_embed_links ) );
+			$map = array();
+			$wp_host    = parse_url( home_url(), PHP_URL_HOST );
+			foreach ( $non_embed_links as $url ) {
+				$url = aiosp_common::absolutize_url( $url );
+				$desc = '';
+				$host = parse_url( $url, PHP_URL_HOST );
+				if ( $host === $wp_host ) {
+					// this is a local video.
+					$desc = $this->get_local_video_description( $url );
+				}
+				$map[ $url ] = $desc;
+			}
+			return $map;
+		}
+
+		/**
+		 * Gets the description of locally uploaded videos.
+		 *
+		 * @param string $url The URL of the video.
+		 *
+		 * @return array Array of video sitemap fields with their values.
+		 */
+		private function get_local_video_description( $url ) {
+			global $wpdb;
+			$row = $wpdb->get_row( $wpdb->prepare( "SELECT post_title, post_content FROM $wpdb->posts WHERE guid = %s and post_type = %s", $url, 'attachment' ), ARRAY_A );
+
+			$attributes = array();
+
+			if ( $row ) {
+				$title = $row['post_title'];
+				$desc = $row['post_content'];
+
+				if ( ! empty( $title ) ) {
+					$attributes['video:title'] = $title;
+					$attributes['video:description'] = $title;
+				}
+				if ( ! empty( $desc ) ) {
+					$attributes['video:description'] = $desc;
+					if ( empty( $attributes['video:title'] ) ) {
+						$attributes['video:title'] = $desc;
+					}
+				}
+			}
+			return $attributes;
+		}
+
+		/**
+		 * Correctly order the sitemap fields so that it conforms to the schema.
+		 *
+		 * @param array $opt The array of values.
+		 * @param array $fields The 2D array containing the fields of the sitemap.
+		 *
+		 * @return array
+		 */
+		private function order_sitemap_fields( $opt, $fields ) {
+			$order = array_values( $fields );
+			$ordered = array();
+			foreach ( $order as $field ) {
+				if ( isset( $opt[ $field ] ) ) {
+					$ordered[ $field ] = $opt[ $field ];
+				}
+			}
+
+			if ( isset( $opt['custom'] ) ) {
+				$ordered['custom'] = $opt['custom'];
+			}
+
+			return $ordered;
+		}
 
         /** scrub the links that supposedly contain the video and remove the ones that are tainted or do not obviously contain a video **/
-        function scrub_video_links ( &$links ) {
+        function scrub_video_links( &$links ) {
             foreach ( $links as &$link ) {
                 $link           = urldecode( $link );
                 if ( strpos( $link, 'facebook.com' ) !== false ) {
@@ -414,6 +569,12 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
 					if ( strpos( $link, 'http' ) !== 0 && strpos( $link, '//' ) === 0) {
 						$link	= 'http:' . $link;
 					}
+
+					$link = aiosp_common::absolutize_url( $link );
+				}
+
+				if ( ! filter_var( $link, FILTER_VALIDATE_URL ) ) {
+					$link = null;
 				}
 
 				// ignore js files: some vidoes, e.g. wordpress.tv embed the iframe as well as the script so the video is detected twice
@@ -425,7 +586,7 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
 					}
 				}
             }
-            $links  = array_filter( $links );
+            $links  = array_unique( array_filter( $links ) );
         }
 
         /** if certain attributes (such as thumnbnail) have not been provided, try a service-specific method to fetch them **/
@@ -448,7 +609,9 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
             }
         }
 
-		function oembed_discover_url( $url ) {
+		function oembed_discover_url( $url, $id ) {
+			// only enable this if requests time-out on development instance.
+			//set_time_limit(0);
 			$data = array();
 			if ( !empty( $url ) ) {
                 $url        = $this->massage_oembed_url( $url );
@@ -483,9 +646,9 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
                     // if its a wordpress.tv url, it will resolve into a videopress.com video
                     // but the oEmbed does not give a thumnbnail so we have to manipulate this to get it to parse as a videopress video instead
                     if ( $data && strpos( $url, 'wordpress.tv' ) !== false && strpos( $data->html, 'videopress.com' ) !== false ) {
-                        $data   = $this->parse_video_opts( array( 'html' => $data->html ) );
+                        $data   = $this->parse_video_opts( array( 'id' => $id, 'html' => $data->html ) );
                         if ( is_array( $data ) && isset( $data[0]['video:player_loc'] ) && strpos( $data[0]['video:player_loc'], 'videopress.com' ) !== false ) {
-                            $data   = $this->oembed_discover_url( $data[0]['video:player_loc'] );
+                            $data   = $this->oembed_discover_url( $data[0]['video:player_loc'], $id );
                         }
                     }
                 }
@@ -527,7 +690,7 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
 
             // if we have custom parsed the HTML and determined all attributes ourselves, don't let ombed do it
             if ( is_null( $data ) || ! isset( $data['custom'] ) ) {
-    			$info = $this->oembed_discover_url( $url );
+    			$info = $this->oembed_discover_url( $url, $id );
             } else {
                 $info   = (object) $data['custom'];
             }
@@ -581,7 +744,7 @@ if ( class_exists( 'All_in_One_SEO_Pack_Sitemap' ) && ( !class_exists( 'All_in_O
                     }
                 }
             }
-            return $content;
+            return $this->run_shortcodes( $content );
         }
 
 	}
